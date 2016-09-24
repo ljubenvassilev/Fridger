@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.facebook.CallbackManager;
@@ -19,11 +22,17 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Scanner;
 
 public class WelcomeActivity extends AppCompatActivity {
     private TextView info;
+    private Button apiTestInfoButton;
     LoginButton loginButton;
     private CallbackManager callbackManager;
 
@@ -72,11 +81,55 @@ public class WelcomeActivity extends AppCompatActivity {
                 info.setText("Login attempt failed.");
             }
         });
+        //Testing button
+        apiTestInfoButton = (Button) findViewById(R.id.welcomeActivity_mealInfoButton);
+        apiTestInfoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Request for Soup atm you can try with different stuff
+                new RequestTask().execute("http://api.yummly.com/v1/api/recipes?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd&q=onion+soup");
+            }
+        });
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
+    class RequestTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            String address = params[0];
+            String json = "";
+            try {
+                URL url = new URL(address);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("GET");
+                connection.connect();
+                Scanner sc = new Scanner(connection.getInputStream());
+                while(sc.hasNextLine()){
+                    json+=(sc.nextLine());
+                }
+
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return json;
+        }
+
+        @Override
+        protected void onPostExecute(String json) {
+            Intent intent = new Intent(WelcomeActivity.this, ShowMealActivity.class);
+            intent.putExtra("json", json);
+            startActivity(intent);
+
+            //Log.i("JSON",json);
+        }
+    }
+
 
 }
