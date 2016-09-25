@@ -36,12 +36,7 @@ import java.util.Scanner;
 public class WelcomeActivity extends AppCompatActivity {
     private TextView info;
     ImageView logo;
-    private Button apiTestInfoButton;
-    CheckBox cbIngrButter;
-    CheckBox cbIngrCarrot;
-    CheckBox cbIngrGarlic;
-    CheckBox cbIngrCheese;
-    EditText etMeal;
+
     //EditText etSpecialIngr;
 
     LoginButton loginButton;
@@ -100,79 +95,12 @@ public class WelcomeActivity extends AppCompatActivity {
             }
         });
         //Testing Stuff
-        cbIngrButter = (CheckBox) findViewById(R.id.welcomeActivity_checkBoxButter);
-        cbIngrCarrot = (CheckBox) findViewById(R.id.welcomeActivity_checkBoxCarrots);
-        cbIngrCheese = (CheckBox) findViewById(R.id.welcomeActivity_checkBoxCheese);
-        cbIngrGarlic = (CheckBox) findViewById(R.id.welcomeActivity_checkBoxGarlic);
-        etMeal = (EditText) findViewById(R.id.welcomeActivity_etMeal);
-        //etSpecialIngr = (EditText) findViewById(R.id.welcomeActivity_etSpecialIngredient);
-        //final String specialIngr = "&allowedIngredient[]=" + etSpecialIngr.getText().toString().trim();
-        //Testing button
-        apiTestInfoButton = (Button) findViewById(R.id.welcomeActivity_mealInfoButton);
-        apiTestInfoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Request for Soup atm you can try with different stuff
-                String whatToSearch = etMeal.getText().toString().trim();
-                String ingridients = "";
-                if(cbIngrButter.isChecked()){
-                    ingridients += "&allowedIngredient[]=butter";
-                }
-                if(cbIngrCarrot.isChecked()){
-                    ingridients += "&allowedIngredient[]=carrot";
-                }
-                if(cbIngrCheese.isChecked()){
-                    ingridients += "&allowedIngredient[]=cheese";
-                }
-                if(cbIngrGarlic.isChecked()){
-                    ingridients += "&allowedIngredient[]=garlic";
-                }
-                Log.i("ingredients",ingridients+"");
 
-                    new RequestTask().execute("http://api.yummly.com/v1/api/recipes?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd&q=" +whatToSearch + ingridients + "&maxResult=65&start=10");
-
-            }
-        });
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
-    class RequestTask extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... params) {
-            String address = params[0];
-            String json = "";
-            try {
-                URL url = new URL(address);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod("GET");
-                connection.connect();
-                Scanner sc = new Scanner(connection.getInputStream());
-                while(sc.hasNextLine()){
-                    json+=(sc.nextLine());
-                }
-
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return json;
-        }
-
-        @Override
-        protected void onPostExecute(String json) {
-            Intent intent = new Intent(WelcomeActivity.this, ShowMealActivity.class);
-            intent.putExtra("json", json);
-            startActivity(intent);
-
-            Log.i("JSON",json);
-        }
-    }
-
 
 }
