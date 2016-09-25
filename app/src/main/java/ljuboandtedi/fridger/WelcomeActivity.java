@@ -71,6 +71,11 @@ public class WelcomeActivity extends AppCompatActivity {
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+
+                Intent intent = new Intent(WelcomeActivity.this,MainActivity.class);
+                intent.putExtra("userID",loginResult.getAccessToken().getUserId());
+                startActivity(intent);
+                finish();
                 info.setText(
                         "User ID: "
                                 + loginResult.getAccessToken().getUserId()

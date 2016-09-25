@@ -2,9 +2,10 @@ package ljuboandtedi.fridger;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import com.facebook.FacebookSdk;
 
 public class BasicActivity extends AppCompatActivity {
+
+    String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

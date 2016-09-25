@@ -1,7 +1,7 @@
 package ljuboandtedi.fridger.model;
 
 /**
- * Created by Nicole Todorova on 9/25/2016.
+ * Created by Ljuben Vassilev on 9/25/2016.
  */
 
 public class Ingredient {
