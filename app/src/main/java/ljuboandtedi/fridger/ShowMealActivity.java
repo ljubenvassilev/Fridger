@@ -112,10 +112,10 @@ public class ShowMealActivity extends AppCompatActivity {
                 //Pic url.
                 if(!attributesInJson.isNull("imageUrlsBySize")) {
                     JSONObject aboutPicture = attributesInJson.getJSONObject("imageUrlsBySize");
-                    // picUrl = aboutPicture.getString("90");
+                    picUrl = aboutPicture.getString("90");
                 }
 
-                Meal meal = new Meal(ingredientsString,flavorsString,ratingInt + "",sourceOfInfo,recipeName);
+                Meal meal = new Meal(ingredientsString,flavorsString,ratingInt + "",sourceOfInfo,recipeName,picUrl);
                 //new RequestTask(meal).execute(picUrl);
 
                 meals.add(meal);
@@ -135,47 +135,6 @@ public class ShowMealActivity extends AppCompatActivity {
         listOfMeals.setLayoutManager(new LinearLayoutManager(this));
         listOfMeals.setAdapter(new MealRecyclerAdapter(this, meals));
     }
-//This will be used later when we understand how to create properly objects with images in them
-
-
-//    class RequestTask extends AsyncTask<String, Void, Bitmap> {
-//        Meal meal;
-//        public RequestTask(Meal meal) {
-//            this.meal = meal;
-//        }
-//
-//        @Override
-//        protected void onPreExecute() {
-//
-//        }
-//
-//        @Override
-//        protected Bitmap doInBackground(String... params) {
-//            String address = params[0];
-//            Bitmap bitmap = null;
-//            try {
-//                URL url = new URL(address);
-//                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-//                connection.setRequestMethod("GET");
-//                connection.connect();
-//                InputStream is = connection.getInputStream();
-//                bitmap = BitmapFactory.decodeStream(is);
-//
-//
-//            } catch (MalformedURLException e) {
-//                e.printStackTrace();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//
-//            return bitmap;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Bitmap image) {
-//            meal.getRealImage().setImageBitmap(image);
-//    }
-//}
 
 }
 

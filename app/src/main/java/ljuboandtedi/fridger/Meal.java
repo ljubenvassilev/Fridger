@@ -17,13 +17,15 @@ public class Meal {
     private String rating;
     private String source;
     private String id;
-    //    private ImageView realImage;
-    public Meal(String ingredients, String flavors, String rating, String source, String id) {
+    private String url;
+
+    public Meal(String ingredients, String flavors, String rating, String source, String id,String url) {
         this.ingredients = ingredients;
         this.flavors = flavors;
         this.rating = rating;
         this.source = source;
         this.id = id;
+        this.url = url;
 
     }
 
@@ -34,10 +36,6 @@ public class Meal {
     public String getFlavors() {
         return flavors;
     }
-
-//    public ImageView getRealImage() {
-//        return realImage;
-//    }
 
     public String getRating() {
         return rating;
@@ -51,4 +49,7 @@ public class Meal {
         return id;
     }
 
+    public String getUrl() {
+        return url;
+    }
 }

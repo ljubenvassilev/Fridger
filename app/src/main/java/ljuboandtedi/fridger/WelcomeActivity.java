@@ -129,7 +129,7 @@ public class WelcomeActivity extends AppCompatActivity {
                 }
                 Log.i("ingredients",ingridients+"");
 
-                    new RequestTask().execute("http://api.yummly.com/v1/api/recipes?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd&q=" +whatToSearch + ingridients);
+                    new RequestTask().execute("http://api.yummly.com/v1/api/recipes?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd&q=" +whatToSearch + ingridients + "&maxResult=65&start=10");
 
             }
         });
