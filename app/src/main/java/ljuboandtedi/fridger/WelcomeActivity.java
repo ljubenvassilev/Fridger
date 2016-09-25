@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.CallbackManager;
@@ -34,6 +35,7 @@ import java.util.Scanner;
 
 public class WelcomeActivity extends AppCompatActivity {
     private TextView info;
+    ImageView logo;
     private Button apiTestInfoButton;
     CheckBox cbIngrButter;
     CheckBox cbIngrCarrot;
@@ -52,6 +54,8 @@ public class WelcomeActivity extends AppCompatActivity {
         AppEventsLogger.activateApp(this);
         callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_welcome);
+        logo= (ImageView) findViewById(R.id.logo);
+        logo.setImageResource(R.drawable.logo);
         try {
             PackageInfo info = getPackageManager().getPackageInfo(
                     "ljuboandtedi.fridger",
