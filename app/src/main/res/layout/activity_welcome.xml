@@ -24,12 +24,50 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="30dp"
         android:layout_marginBottom="30dp" />
+    <EditText
+        android:id="@+id/welcomeActivity_etMeal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:inputType="textAutoComplete"
+        android:hint="What meal do you need?"/>
+    <CheckBox
+        android:id="@+id/welcomeActivity_checkBoxGarlic"
+        android:checked="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Do you want some garlic in it?"/>
+    <CheckBox
+        android:id="@+id/welcomeActivity_checkBoxButter"
 
+        android:checked="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Do you want some butter in it?"/>
+    <CheckBox
+        android:id="@+id/welcomeActivity_checkBoxCarrots"
+        android:checked="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Do you want some carrots in it?"/>
+    <CheckBox
+        android:id="@+id/welcomeActivity_checkBoxCheese"
+        android:checked="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Do you want some cheese in it?"/>
+    <!--<EditText-->
+        <!--android:id="@+id/welcomeActivity_etSpecialIngredient"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:hint="Any other special Ingerdient you want in?"/>-->
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Meal Info"
         android:id="@+id/welcomeActivity_mealInfoButton"/>
+
+
 
 </LinearLayout>

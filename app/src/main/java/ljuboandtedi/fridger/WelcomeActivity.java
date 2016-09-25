@@ -11,6 +11,8 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.facebook.CallbackManager;
@@ -33,6 +35,13 @@ import java.util.Scanner;
 public class WelcomeActivity extends AppCompatActivity {
     private TextView info;
     private Button apiTestInfoButton;
+    CheckBox cbIngrButter;
+    CheckBox cbIngrCarrot;
+    CheckBox cbIngrGarlic;
+    CheckBox cbIngrCheese;
+    EditText etMeal;
+    //EditText etSpecialIngr;
+
     LoginButton loginButton;
     private CallbackManager callbackManager;
 
@@ -81,13 +90,38 @@ public class WelcomeActivity extends AppCompatActivity {
                 info.setText("Login attempt failed.");
             }
         });
+        //Testing Stuff
+        cbIngrButter = (CheckBox) findViewById(R.id.welcomeActivity_checkBoxButter);
+        cbIngrCarrot = (CheckBox) findViewById(R.id.welcomeActivity_checkBoxCarrots);
+        cbIngrCheese = (CheckBox) findViewById(R.id.welcomeActivity_checkBoxCheese);
+        cbIngrGarlic = (CheckBox) findViewById(R.id.welcomeActivity_checkBoxGarlic);
+        etMeal = (EditText) findViewById(R.id.welcomeActivity_etMeal);
+        //etSpecialIngr = (EditText) findViewById(R.id.welcomeActivity_etSpecialIngredient);
+        //final String specialIngr = "&allowedIngredient[]=" + etSpecialIngr.getText().toString().trim();
         //Testing button
         apiTestInfoButton = (Button) findViewById(R.id.welcomeActivity_mealInfoButton);
         apiTestInfoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Request for Soup atm you can try with different stuff
-                new RequestTask().execute("http://api.yummly.com/v1/api/recipes?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd&q=onion+soup");
+                String whatToSearch = etMeal.getText().toString().trim();
+                String ingridients = "";
+                if(cbIngrButter.isChecked()){
+                    ingridients += "&allowedIngredient[]=butter";
+                }
+                if(cbIngrCarrot.isChecked()){
+                    ingridients += "&allowedIngredient[]=carrot";
+                }
+                if(cbIngrCheese.isChecked()){
+                    ingridients += "&allowedIngredient[]=cheese";
+                }
+                if(cbIngrGarlic.isChecked()){
+                    ingridients += "&allowedIngredient[]=garlic";
+                }
+                Log.i("ingredients",ingridients+"");
+
+                    new RequestTask().execute("http://api.yummly.com/v1/api/recipes?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd&q=" +whatToSearch + ingridients);
+
             }
         });
     }
@@ -127,7 +161,7 @@ public class WelcomeActivity extends AppCompatActivity {
             intent.putExtra("json", json);
             startActivity(intent);
 
-            //Log.i("JSON",json);
+            Log.i("JSON",json);
         }
     }
 
