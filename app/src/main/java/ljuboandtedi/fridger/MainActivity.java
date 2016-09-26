@@ -48,7 +48,7 @@ public class MainActivity extends BasicActivity {
         //etSpecialIngr = (EditText) findViewById(R.id.welcomeActivity_etSpecialIngredient);
         //final String specialIngr = "&allowedIngredient[]=" + etSpecialIngr.getText().toString().trim();
         //Testing button
-        apiTestInfoButton = (Button) findViewById(R.id.welcomeActivity_mealInfoButton);
+        apiTestInfoButton = (Button) findViewById(R.id.main_mealInfoButton);
         apiTestInfoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
