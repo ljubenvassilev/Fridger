@@ -22,15 +22,15 @@ import ljuboandtedi.fridger.model.User;
 
 public class MainActivity extends BasicActivity {
 
-    User user = User.getInstance();
+    User user;
     DatabaseHelper db;
-    TextView likeMeat;
     private Button apiTestInfoButton;
     CheckBox cbIngrButter;
     CheckBox cbIngrCarrot;
     CheckBox cbIngrGarlic;
     CheckBox cbIngrCheese;
     EditText etMeal;
+    Button profileButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +38,14 @@ public class MainActivity extends BasicActivity {
         setContentView(R.layout.activity_main);
         userID=getIntent().getStringExtra("userID");
         initUser(userID);
-        likeMeat = (TextView) findViewById(R.id.likeMeat);
-        likeMeat.setText("Likes meat: ".concat(user.isLikeMeaty()?"Yes":"No"));
+        user = User.getInstance();
+        profileButton = (Button) findViewById(R.id.main_profile_button);
+        profileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this,ProfileActivity.class).putExtra("userID", userID));
+            }
+        });
         cbIngrButter = (CheckBox) findViewById(R.id.main_checkBoxButter);
         cbIngrCarrot = (CheckBox) findViewById(R.id.main_checkBoxCarrots);
         cbIngrCheese = (CheckBox) findViewById(R.id.main_checkBoxCheese);
@@ -81,16 +87,14 @@ public class MainActivity extends BasicActivity {
         if(db.userExists(userID)) {
             Cursor rs = db.getUser(userID);
             rs.moveToFirst();
-            user.setFacebookID(rs.getString(0));
-            user.setLikeSalty(rs.getString(1).equalsIgnoreCase("YES"));
-            user.setLikeMeaty(rs.getString(2).equalsIgnoreCase("YES"));
-            user.setLikePiquant(rs.getString(3).equalsIgnoreCase("YES"));
-            user.setLikeBitter(rs.getString(4).equalsIgnoreCase("YES"));
-            user.setLikeSour(rs.getString(5).equalsIgnoreCase("YES"));
-            user.setLikeSweet(rs.getString(6).equalsIgnoreCase("YES"));
+            user.getInstance().setFacebookID(rs.getString(0));
+            user.getInstance().setPreferences(db.getUserPreferences(userID));
             if (!rs.isClosed()) {
                 rs.close();
             }
+        }
+        else{
+            db.addUser(userID);
         }
     }
     class RequestTask extends AsyncTask<String, Void, String> {
@@ -108,10 +112,6 @@ public class MainActivity extends BasicActivity {
                 while(sc.hasNextLine()){
                     json+=(sc.nextLine());
                 }
-
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }

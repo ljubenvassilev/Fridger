@@ -8,85 +8,33 @@ import java.util.Collections;
  */
 public class User {
 
-    private String facebookID;
-
-    ArrayList<Ingredient> fridge;
-
-    boolean likeSalty;
-
-    boolean likeMeaty;
-
-    boolean likePiquant;
-
-    boolean likeBitter;
-
-    boolean likeSour;
-
-    boolean likeSweet;
-
-    private static User ourInstance = new User();
+    private static User ourInstance=null;
 
     public static User getInstance() {
+        if(ourInstance==null) {
+            ourInstance = new User();
+        }
         return ourInstance;
     }
 
     private User() {
         fridge = new ArrayList<>();
+        preferences = "";
     }
 
-    public void setFacebookID(String facebookID) {
-        this.facebookID = facebookID;
-    }
+    private String facebookID;
+    private String preferences;
+    private ArrayList <Ingredient> fridge;
 
-    public void setLikeSalty(boolean likeSalty) {
-        this.likeSalty = likeSalty;
-    }
+    public void setFacebookID(String facebookID) { this.facebookID = facebookID;   }
 
-    public void setLikeMeaty(boolean likeMeaty) {
-        this.likeMeaty = likeMeaty;
-    }
+    public String getFacebookID() { return facebookID; }
 
-    public void setLikePiquant(boolean likePiquant) {
-        this.likePiquant = likePiquant;
-    }
+    public void setPreferences(String preferences){ this.preferences = preferences; }
 
-    public void setLikeBitter(boolean likeBitter) {
-        this.likeBitter = likeBitter;
-    }
-
-    public void setLikeSour(boolean likeSour) {
-        this.likeSour = likeSour;
-    }
-
-    public void setLikeSweet(boolean likeSweet) {
-        this.likeSweet = likeSweet;
-    }
+    public String getPreferences(){return this.preferences;}
 
     public ArrayList<Ingredient> getFridge() {
         return (ArrayList<Ingredient>) Collections.unmodifiableList(fridge);
-    }
-
-    public boolean isLikeSalty() {
-        return likeSalty;
-    }
-
-    public boolean isLikeMeaty() {
-        return likeMeaty;
-    }
-
-    public boolean isLikePiquant() {
-        return likePiquant;
-    }
-
-    public boolean isLikeSour() {
-        return likeSour;
-    }
-
-    public boolean isLikeBitter() {
-        return likeBitter;
-    }
-
-    public boolean isLikeSweet() {
-        return likeSweet;
     }
 }
