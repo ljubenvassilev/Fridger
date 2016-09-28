@@ -38,8 +38,7 @@ public class MainActivity extends BasicActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         userID=getIntent().getStringExtra("userID");
-       //
-        // initUser(userID);
+        initUser(userID);
         user = User.getInstance();
         profileButton = (Button) findViewById(R.id.main_profile_button);
         profileButton.setOnClickListener(new View.OnClickListener() {
