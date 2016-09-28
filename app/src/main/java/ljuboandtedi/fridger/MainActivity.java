@@ -18,6 +18,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
+import ljuboandtedi.fridger.model.SearchesForTesting;
 import ljuboandtedi.fridger.model.User;
 
 public class MainActivity extends BasicActivity {
@@ -37,7 +38,8 @@ public class MainActivity extends BasicActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         userID=getIntent().getStringExtra("userID");
-        initUser(userID);
+       //
+        // initUser(userID);
         user = User.getInstance();
         profileButton = (Button) findViewById(R.id.main_profile_button);
         profileButton.setOnClickListener(new View.OnClickListener() {
@@ -74,7 +76,7 @@ public class MainActivity extends BasicActivity {
                     ingridients += "&allowedIngredient[]=garlic";
                 }
                 Log.i("ingredients",ingridients+"");
-
+                SearchesForTesting.searches.add("http://api.yummly.com/v1/api/recipes?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd&q=" +whatToSearch + ingridients + "&maxResult=40&start=10");
                 new MainActivity.RequestTask().execute("http://api.yummly.com/v1/api/recipes?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd&q=" +whatToSearch + ingridients + "&maxResult=40&start=10");
 
             }

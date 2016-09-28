@@ -41,7 +41,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".ShowMealActivity" />
-        <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".RecipeInfoActivity" />
+        <activity android:name=".BuyingIngredientsActivity" />
+        <activity android:name=".ShowMealActivity" />
+        <activity android:name=".ProfileActivity" />
+        <activity android:name=".YourIngredientsActivity"></activity>
     </application>
 
 </manifest>

@@ -8,7 +8,25 @@ import java.util.Collections;
  */
 public class User {
 
-    private static User ourInstance=null;
+    //private String facebookID;
+
+    //ArrayList<Ingredient> fridge;
+    ArrayList<Meal> favouriteMeals;
+
+    boolean likeSalty;
+
+    boolean likeMeaty;
+
+    boolean likePiquant;
+
+    boolean likeBitter;
+
+    boolean likeSour;
+
+    boolean likeSweet;
+
+    private static User ourInstance = new User();
+    //private static User ourInstance=null;
 
     public static User getInstance() {
         if(ourInstance==null) {
