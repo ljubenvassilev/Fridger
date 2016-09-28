@@ -1,30 +1,26 @@
 package ljuboandtedi.fridger;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
+import ljuboandtedi.fridger.model.DatabaseHelper;
 import ljuboandtedi.fridger.model.SearchesForTesting;
 import ljuboandtedi.fridger.model.User;
 
 public class MainActivity extends BasicActivity {
 
     User user;
-    DatabaseHelper db;
     private Button apiTestInfoButton;
     CheckBox cbIngrButter;
     CheckBox cbIngrCarrot;
@@ -37,14 +33,12 @@ public class MainActivity extends BasicActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        userID=getIntent().getStringExtra("userID");
-        initUser(userID);
-        user = User.getInstance();
+        user = DatabaseHelper.getInstance(MainActivity.this).getCurrentUser();
         profileButton = (Button) findViewById(R.id.main_profile_button);
         profileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,ProfileActivity.class).putExtra("userID", userID));
+                startActivity(new Intent(MainActivity.this,ProfileActivity.class));
             }
         });
         cbIngrButter = (CheckBox) findViewById(R.id.main_checkBoxButter);
@@ -83,21 +77,7 @@ public class MainActivity extends BasicActivity {
     }
 
 
-    void initUser (String userID){
-        db = new DatabaseHelper(MainActivity.this);
-        if(db.userExists(userID)) {
-            Cursor rs = db.getUser(userID);
-            rs.moveToFirst();
-            user.getInstance().setFacebookID(rs.getString(0));
-            user.getInstance().setPreferences(db.getUserPreferences(userID));
-            if (!rs.isClosed()) {
-                rs.close();
-            }
-        }
-        else{
-            db.addUser(userID);
-        }
-    }
+
     class RequestTask extends AsyncTask<String, Void, String> {
 
         @Override

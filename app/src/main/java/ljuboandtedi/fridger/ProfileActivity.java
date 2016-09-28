@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 
+import ljuboandtedi.fridger.model.DatabaseHelper;
 import ljuboandtedi.fridger.model.User;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -24,7 +25,7 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-
+        db = DatabaseHelper.getInstance(ProfileActivity.this);
         vegan = (CheckBox) findViewById(R.id.profile_checkBox_vegan);
         vegetarian = (CheckBox) findViewById(R.id.profile_checkBox_vegetarian);
         pescetarian = (CheckBox) findViewById(R.id.profile_checkBox_pescetarian);
@@ -68,9 +69,7 @@ public class ProfileActivity extends AppCompatActivity {
         portugese = (CheckBox) findViewById(R.id.profile_checkBox_portugese);
 
         confirm = (Button) findViewById(R.id.profile_confirm_button);
-        db = new DatabaseHelper(ProfileActivity.this);
-        initUser(getIntent().getStringExtra("userID"));
-        user = User.getInstance();
+        user = db.getCurrentUser();
         Cursor res = db.getUser(user.getFacebookID());
         res.moveToFirst();
         if (res.getString(1).equalsIgnoreCase("YES")) vegan.setChecked(true);
@@ -135,20 +134,5 @@ public class ProfileActivity extends AppCompatActivity {
                 finish();
             }
         });
-    }
-    void initUser (String userID){
-        db = new DatabaseHelper(ProfileActivity.this);
-        if(db.userExists(userID)) {
-            Cursor rs = db.getUser(userID);
-            rs.moveToFirst();
-            user.getInstance().setFacebookID(rs.getString(0));
-            user.getInstance().setPreferences(db.getUserPreferences(userID));
-            if (!rs.isClosed()) {
-                rs.close();
-            }
-        }
-        else{
-            db.addUser(userID);
-        }
     }
 }

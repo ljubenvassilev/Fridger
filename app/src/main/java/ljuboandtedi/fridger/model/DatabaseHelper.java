@@ -1,4 +1,4 @@
-package ljuboandtedi.fridger;
+package ljuboandtedi.fridger.model;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,17 +6,33 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.HashMap;
+
+import ljuboandtedi.fridger.MainActivity;
+
 /**
  * Created by Ljuben Vassilev on 9/25/2016.
  */
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    public static final String DATABASE_NAME = "Fridger.db";
-    public static final String USERS_TABLE = "users_table";
+    private HashMap<String, User> users;
+    private User currentUser;
+    private static final String DATABASE_NAME = "Fridger.db";
+    private static final String USERS_TABLE = "users_table";
 
-    public DatabaseHelper(Context context) {
+    private static DatabaseHelper ourInstance;
+
+    private DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
+        users = new HashMap<>();
+    }
+
+    public static DatabaseHelper  getInstance(Context context){
+        if (ourInstance==null){
+            ourInstance=new DatabaseHelper(context);
+        }
+        return ourInstance;
     }
 
     @Override
@@ -73,6 +89,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     }
 
+    public void initUsers (){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM "+USERS_TABLE,null);
+        if(cursor.moveToFirst()){
+            do{
+                String username = cursor.getString(0);
+                users.put(username,new User(username, getUserPreferences(username)));
+            }while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+    }
+
     public void addUser(String userId){
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("create table USER" + userId +" (ID INTEGER PRIMARY KEY AUTOINCREMENT, NAME TEXT, LINK TEXT)");
@@ -122,6 +151,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put("HUNGARIAN", "NO");
         contentValues.put("PORTUGESE", "NO");
         db.insert(USERS_TABLE, null, contentValues);
+        users.put(userId, new User(userId,""));
     }
 
     public void editUser(String userId, boolean vegan, boolean vegetarian, boolean pescetarian,
@@ -185,6 +215,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put("PORTUGESE", yesOrNo(portugese));
 
         db.update(USERS_TABLE, contentValues, "ID = ? ", new String[] { userId } );
+        users.put(userId, new User(userId,getUserPreferences(userId)));
     }
 
     public boolean userExists(String userID) {
@@ -205,7 +236,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return res;
     }
 
-    public String getUserPreferences (String userID) {
+    public void setCurrentUser(String username){
+        if(!userExists(username)){
+            addUser(username);
+        }
+        currentUser = users.get(username);
+    }
+
+    public User getCurrentUser() {
+        return currentUser;
+    }
+
+    private String getUserPreferences (String userID) {
         String prefs="";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery( "SELECT * FROM " + USERS_TABLE + " WHERE ID=?", new String[] { userID } );

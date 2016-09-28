@@ -8,38 +8,13 @@ import java.util.Collections;
  */
 public class User {
 
-    //private String facebookID;
-
-    //ArrayList<Ingredient> fridge;
-    ArrayList<Meal> favouriteMeals;
-
-    boolean likeSalty;
-
-    boolean likeMeaty;
-
-    boolean likePiquant;
-
-    boolean likeBitter;
-
-    boolean likeSour;
-
-    boolean likeSweet;
-
-    private static User ourInstance = new User();
-    //private static User ourInstance=null;
-
-    public static User getInstance() {
-        if(ourInstance==null) {
-            ourInstance = new User();
-        }
-        return ourInstance;
-    }
-
-    private User() {
+    User(String facebookID, String preferences) {
         fridge = new ArrayList<>();
-        preferences = "";
+        this.facebookID = facebookID;
+        this.preferences = preferences;
     }
 
+    private ArrayList <Meal> favouriteMeals;
     private String facebookID;
     private String preferences;
     private ArrayList <Ingredient> fridge;

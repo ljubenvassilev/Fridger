@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
@@ -22,6 +23,8 @@ import com.facebook.login.widget.LoginButton;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
+import ljuboandtedi.fridger.model.DatabaseHelper;
 
 public class WelcomeActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
@@ -47,11 +50,19 @@ public class WelcomeActivity extends AppCompatActivity {
         final LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
-            public void onSuccess(LoginResult loginResult) {
+            public void onSuccess(final LoginResult loginResult) {
                 loginButton.setVisibility(View.INVISIBLE);
-                Intent intent = new Intent(WelcomeActivity.this,MainActivity.class);
-                intent.putExtra("userID",loginResult.getAccessToken().getUserId());
-                startActivity(intent);
+                new AsyncTask<Void, Void, Void>() {
+                    @Override
+                    protected Void doInBackground(Void... params) {
+                        final LoginResult result = loginResult;
+                        DatabaseHelper db = DatabaseHelper.getInstance(WelcomeActivity.this);
+                        db.initUsers();
+                        db.setCurrentUser(result.getAccessToken().getUserId());
+                        return null;
+                    }
+                }.execute();
+                startActivity(new Intent(WelcomeActivity.this,MainActivity.class));
                 finish();
             }
             @Override

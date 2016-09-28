@@ -5,8 +5,6 @@ import android.os.Bundle;
 
 public class BasicActivity extends AppCompatActivity {
 
-    String userID;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
