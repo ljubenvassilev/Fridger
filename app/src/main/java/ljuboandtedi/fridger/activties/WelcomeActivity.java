@@ -1,4 +1,4 @@
-package ljuboandtedi.fridger;
+package ljuboandtedi.fridger.activties;
 
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -24,6 +24,7 @@ import com.facebook.login.widget.LoginButton;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import ljuboandtedi.fridger.R;
 import ljuboandtedi.fridger.model.DatabaseHelper;
 
 public class WelcomeActivity extends AppCompatActivity {

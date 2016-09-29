@@ -1,4 +1,4 @@
-package ljuboandtedi.fridger;
+package ljuboandtedi.fridger.activties;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -14,6 +14,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
 
+import ljuboandtedi.fridger.R;
 import ljuboandtedi.fridger.model.DatabaseHelper;
 import ljuboandtedi.fridger.model.SearchesForTesting;
 import ljuboandtedi.fridger.model.User;

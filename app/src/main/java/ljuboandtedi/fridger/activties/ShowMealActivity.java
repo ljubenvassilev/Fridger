@@ -1,4 +1,4 @@
-package ljuboandtedi.fridger;
+package ljuboandtedi.fridger.activties;
 import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +13,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import ljuboandtedi.fridger.R;
+import ljuboandtedi.fridger.adapters.MealRecyclerAdapter;
 import ljuboandtedi.fridger.model.Meal;
 import ljuboandtedi.fridger.model.MealManager;
 
@@ -118,7 +120,7 @@ public class ShowMealActivity extends AppCompatActivity {
 
 
                 meals.add(meal);
-                MealManager.getInstance().meals.put(meal.getId(),meal);
+                MealManager.meals.put(meal.getId(),meal);
 
             }
             Log.i("meals", meals.toString());

@@ -21,7 +21,6 @@ public class Meal {
     private String id;
     private String url;
     private Recipe recipe;
-    private boolean isFavourite;
 
     public Meal(String ingredients, String flavors, String rating, String recipeName, String id,String url) {
         this.ingredients = ingredients;

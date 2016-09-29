@@ -1,4 +1,4 @@
-package ljuboandtedi.fridger;
+package ljuboandtedi.fridger.activties;
 
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 
+import ljuboandtedi.fridger.R;
 import ljuboandtedi.fridger.model.DatabaseHelper;
 import ljuboandtedi.fridger.model.User;
 

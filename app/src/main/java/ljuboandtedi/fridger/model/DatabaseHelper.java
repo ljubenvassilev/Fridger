@@ -8,8 +8,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.HashMap;
 
-import ljuboandtedi.fridger.MainActivity;
-
 /**
  * Created by Ljuben Vassilev on 9/25/2016.
  */

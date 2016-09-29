@@ -1,4 +1,4 @@
-package ljuboandtedi.fridger;
+package ljuboandtedi.fridger.adapters;
 
 /**
  * Created by NoLight on 25.9.2016 г..
@@ -31,6 +31,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
+import ljuboandtedi.fridger.R;
+import ljuboandtedi.fridger.activties.RecipeInfoActivity;
 import ljuboandtedi.fridger.model.Meal;
 import ljuboandtedi.fridger.model.Recipe;
 
@@ -210,8 +212,6 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
                         bitmap = BitmapFactory.decodeStream(is);
 
 
-                    } catch (MalformedURLException e) {
-                        e.printStackTrace();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

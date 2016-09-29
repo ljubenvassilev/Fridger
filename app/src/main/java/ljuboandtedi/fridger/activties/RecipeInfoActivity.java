@@ -1,4 +1,4 @@
-package ljuboandtedi.fridger;
+package ljuboandtedi.fridger.activties;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -20,9 +19,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import ljuboandtedi.fridger.R;
 import ljuboandtedi.fridger.model.Meal;
 import ljuboandtedi.fridger.model.MealManager;
-import ljuboandtedi.fridger.model.Recipe;
 
 public class RecipeInfoActivity extends AppCompatActivity {
     ImageView iv;

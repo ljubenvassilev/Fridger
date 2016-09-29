@@ -1,4 +1,4 @@
-package ljuboandtedi.fridger;
+package ljuboandtedi.fridger.activties;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import ljuboandtedi.fridger.R;
+import ljuboandtedi.fridger.adapters.IngredientsRecyclerAdapter;
 import ljuboandtedi.fridger.model.Meal;
 import ljuboandtedi.fridger.model.MealManager;
 import ljuboandtedi.fridger.model.SearchesForTesting;

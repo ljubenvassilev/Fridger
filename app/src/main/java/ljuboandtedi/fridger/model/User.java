@@ -14,10 +14,11 @@ public class User {
         this.preferences = preferences;
     }
 
-    private ArrayList <Meal> favouriteMeals;
+    private ArrayList <String> favouriteMeals;
     private String facebookID;
     private String preferences;
-    private ArrayList <Ingredient> fridge;
+    private ArrayList <String> fridge;
+    private ArrayList<String> shoppingList;
 
     public void setFacebookID(String facebookID) { this.facebookID = facebookID;   }
 
@@ -27,7 +28,7 @@ public class User {
 
     public String getPreferences(){return this.preferences;}
 
-    public ArrayList<Ingredient> getFridge() {
-        return (ArrayList<Ingredient>) Collections.unmodifiableList(fridge);
+    public ArrayList<String> getFridge() {
+        return (ArrayList<String>) Collections.unmodifiableList(fridge);
     }
 }

@@ -10,7 +10,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context="ljuboandtedi.fridger.MainActivity"
+    tools:context="ljuboandtedi.fridger.activties.MainActivity"
     android:background="@drawable/background_pale">
 
     <TextView

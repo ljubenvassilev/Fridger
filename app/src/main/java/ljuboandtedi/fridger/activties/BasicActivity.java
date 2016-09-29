@@ -1,7 +1,9 @@
-package ljuboandtedi.fridger;
+package ljuboandtedi.fridger.activties;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import ljuboandtedi.fridger.R;
 
 public class BasicActivity extends AppCompatActivity {
 
