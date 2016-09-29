@@ -1,5 +1,7 @@
 package ljuboandtedi.fridger.model;
 
+import android.app.Activity;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -8,17 +10,22 @@ import java.util.Collections;
  */
 public class User {
 
-    User(String facebookID, String preferences) {
-        fridge = new ArrayList<>();
+    User(String facebookID, String preferences, ArrayList<String> fridge, ArrayList<String> shoppingList, ArrayList<String> favouriteMeals){
+        this.fridge = new ArrayList<>();
+        this.fridge.addAll(fridge);
+        this.shoppingList = new ArrayList<>();
+        this.shoppingList.addAll(shoppingList);
+        this.favouriteMeals = new ArrayList<>();
+        this.favouriteMeals.addAll(favouriteMeals);
         this.facebookID = facebookID;
         this.preferences = preferences;
     }
 
-    private ArrayList <String> favouriteMeals;
     private String facebookID;
     private String preferences;
     private ArrayList <String> fridge;
-    private ArrayList<String> shoppingList;
+    private ArrayList <String> shoppingList;
+    private ArrayList <String> favouriteMeals;
 
     public void setFacebookID(String facebookID) { this.facebookID = facebookID;   }
 
@@ -30,5 +37,25 @@ public class User {
 
     public ArrayList<String> getFridge() {
         return (ArrayList<String>) Collections.unmodifiableList(fridge);
+    }
+
+    public ArrayList<String> getShoppingList() {
+        return (ArrayList<String>) Collections.unmodifiableList(shoppingList);
+    }
+
+    public ArrayList<String> getFavouriteMeals() {
+        return (ArrayList<String>) Collections.unmodifiableList(favouriteMeals);
+    }
+
+    public void setFridge(ArrayList<String> fridge) {
+        this.fridge = fridge;
+    }
+
+    public void setShoppingList(ArrayList<String> shoppingList) {
+        this.shoppingList = shoppingList;
+    }
+
+    public void setFavouriteMeals(ArrayList<String> favouriteMeals) {
+        this.favouriteMeals = favouriteMeals;
     }
 }

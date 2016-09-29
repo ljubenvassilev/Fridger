@@ -118,7 +118,7 @@ public class ProfileActivity extends AppCompatActivity {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                db.editUser(user.getFacebookID(), vegan.isChecked(), vegetarian.isChecked(),
+                db.editUserPrefs(user.getFacebookID(), vegan.isChecked(), vegetarian.isChecked(),
                         pescetarian.isChecked(), ovovegetarian.isChecked(),
                         lactovegetarian.isChecked(), paleo.isChecked(), dairy.isChecked(),
                         egg.isChecked(), gluten.isChecked(), peanut.isChecked(), seafood.isChecked(),

@@ -21,7 +21,7 @@ import ljuboandtedi.fridger.model.User;
 
 public class MainActivity extends BasicActivity {
 
-    User user;
+//    User user;
     private Button apiTestInfoButton;
     CheckBox cbIngrButter;
     CheckBox cbIngrCarrot;
@@ -34,7 +34,7 @@ public class MainActivity extends BasicActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        user = DatabaseHelper.getInstance(MainActivity.this).getCurrentUser();
+//        user = DatabaseHelper.getInstance(MainActivity.this).getCurrentUser();
         profileButton = (Button) findViewById(R.id.main_profile_button);
         profileButton.setOnClickListener(new View.OnClickListener() {
             @Override

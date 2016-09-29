@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -79,7 +80,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "HAWAIIAN TEXT, " +
                 "SWEDISH TEXT, " +
                 "HUNGARIAN TEXT, " +
-                "PORTUGESE TEXT )" );
+                "PORTUGUESE TEXT )" );
 
     }
 
@@ -93,16 +94,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if(cursor.moveToFirst()){
             do{
                 String username = cursor.getString(0);
-                users.put(username,new User(username, getUserPreferences(username)));
+                users.put(username,new User(username, getUserPreferences(username),
+                        getUserFridge(username), getUserShoppingList(username),
+                        getUserFavoriteMeals(username)));
             }while (cursor.moveToNext());
         }
         cursor.close();
         db.close();
     }
 
-    public void addUser(String userId){
+    private void addUser(String userId){
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("create table USER" + userId +" (ID INTEGER PRIMARY KEY AUTOINCREMENT, NAME TEXT, LINK TEXT)");
+        db.execSQL("CREATE TABLE fridge" + userId +" (ID INTEGER PRIMARY KEY AUTOINCREMENT, LINK TEXT)");
+        db.execSQL("CREATE TABLE shopinglist" + userId +" (ID INTEGER PRIMARY KEY AUTOINCREMENT, LINK TEXT)");
+        db.execSQL("CREATE TABLE favoritemeals" + userId +" (ID INTEGER PRIMARY KEY AUTOINCREMENT, LINK TEXT)");
+
         ContentValues contentValues = new ContentValues();
         contentValues.put("ID", userId);
         contentValues.put("VEGAN", "NO");
@@ -147,23 +153,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put("HAWAIIAN", "NO");
         contentValues.put("SWEDISH", "NO");
         contentValues.put("HUNGARIAN", "NO");
-        contentValues.put("PORTUGESE", "NO");
+        contentValues.put("PORTUGUESE", "NO");
         db.insert(USERS_TABLE, null, contentValues);
-        users.put(userId, new User(userId,""));
+        users.put(userId, new User(userId,"", new ArrayList<String>(), new ArrayList<String>(),
+                new ArrayList<String>()));
     }
 
-    public void editUser(String userId, boolean vegan, boolean vegetarian, boolean pescetarian,
-                         boolean ovovegetarian, boolean lactovegetarian, boolean paleo,
-                         boolean dairy, boolean egg, boolean gluten, boolean peanut,
-                         boolean seafood, boolean sesame, boolean soy, boolean sulfite,
-                         boolean treenut, boolean wheat, boolean american, boolean italian,
-                         boolean asian, boolean mexican, boolean southernAndSoulFood,
-                         boolean french, boolean southwestern, boolean barbecue, boolean indian,
-                         boolean chinese, boolean cajunAndCreole, boolean english,
-                         boolean mediterranean, boolean greek, boolean spanish, boolean german,
-                         boolean thai, boolean moroccan, boolean irish, boolean japanese,
-                         boolean cuban, boolean hawaiian, boolean swedish, boolean hungarian,
-                         boolean portugese){
+    public void editUserPrefs(String userId, boolean vegan, boolean vegetarian, boolean pescetarian,
+                              boolean ovovegetarian, boolean lactovegetarian, boolean paleo,
+                              boolean dairy, boolean egg, boolean gluten, boolean peanut,
+                              boolean seafood, boolean sesame, boolean soy, boolean sulfite,
+                              boolean treenut, boolean wheat, boolean american, boolean italian,
+                              boolean asian, boolean mexican, boolean southernAndSoulFood,
+                              boolean french, boolean southwestern, boolean barbecue,
+                              boolean indian, boolean chinese, boolean cajunAndCreole,
+                              boolean english, boolean mediterranean, boolean greek,
+                              boolean spanish, boolean german, boolean thai, boolean moroccan,
+                              boolean irish, boolean japanese, boolean cuban, boolean hawaiian,
+                              boolean swedish, boolean hungarian, boolean portuguese){
 
         SQLiteDatabase db = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -210,16 +217,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put("HAWAIIAN", yesOrNo(hawaiian));
         contentValues.put("SWEDISH", yesOrNo(swedish));
         contentValues.put("HUNGARIAN", yesOrNo(hungarian));
-        contentValues.put("PORTUGESE", yesOrNo(portugese));
+        contentValues.put("PORTUGUESE", yesOrNo(portuguese));
 
         db.update(USERS_TABLE, contentValues, "ID = ? ", new String[] { userId } );
-        users.put(userId, new User(userId,getUserPreferences(userId)));
+        User tempUser = new User(userId,getUserPreferences(userId),getUserFridge(userId),
+                getUserShoppingList(userId),getUserFavoriteMeals(userId));
+        users.remove(userId);
+        users.put(userId, tempUser);
     }
 
-    public boolean userExists(String userID) {
+    private boolean userExists(String userID) {
         SQLiteDatabase db = getWritableDatabase();
-        String Query = "Select * from " + USERS_TABLE + " where ID = " + userID;
-        Cursor cursor = db.rawQuery(Query, null);
+        String query = "Select * from " + USERS_TABLE + " where ID = " + userID;
+        Cursor cursor = db.rawQuery(query, null);
         if(cursor.getCount() <= 0){
             cursor.close();
             return false;
@@ -229,15 +239,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public Cursor getUser(String userID) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery( "SELECT * FROM " + USERS_TABLE + " WHERE ID=?", new String[] { userID } );
-        return res;
+        return this.getReadableDatabase().rawQuery( "SELECT * FROM " + USERS_TABLE + " WHERE ID=?",
+                new String[] { userID } );
     }
 
     public void setCurrentUser(String username){
-        if(!userExists(username)){
-            addUser(username);
-        }
+        if(!userExists(username)){ addUser(username); }
         currentUser = users.get(username);
     }
 
@@ -247,8 +254,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private String getUserPreferences (String userID) {
         String prefs="";
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery( "SELECT * FROM " + USERS_TABLE + " WHERE ID=?", new String[] { userID } );
+        Cursor res = this.getReadableDatabase().rawQuery( "SELECT * FROM " +
+                USERS_TABLE + " WHERE ID=?", new String[] { userID } );
         if (res != null)
             res.moveToFirst();
         if(res.getString(1).equalsIgnoreCase("YES")) prefs+="&allowedDiet[]=386^Vegan";
@@ -298,5 +305,101 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private String yesOrNo (boolean attrib){
         return attrib?"YES":"NO";
+    }
+
+    public void addToFridge (String ingredient) {
+        User temp = getCurrentUser();
+        String username = temp.getFacebookID();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("LINK",ingredient);
+        getWritableDatabase().insert("fridge".concat(username), null, contentValues);
+        temp.setFridge(getUserFridge(username));
+        currentUser=temp;
+        users.remove(username);
+        users.put(username,temp);
+    }
+
+    public void addToShoppingList (String ingredient) {
+        User temp = getCurrentUser();
+        String username = temp.getFacebookID();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("LINK",ingredient);
+        getWritableDatabase().insert("shopinglist".concat(username), null, contentValues);
+        temp.setShoppingList(getUserShoppingList(username));
+        currentUser=temp;
+        users.remove(username);
+        users.put(username,temp);
+    }
+
+    public void addToFavoriteMeals (String meal) {
+        User temp = getCurrentUser();
+        String username = temp.getFacebookID();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("LINK",meal);
+        getWritableDatabase().insert("favoritemeals".concat(username), null, contentValues);
+        temp.setFavouriteMeals(getUserFavoriteMeals(username));
+        currentUser=temp;
+        users.remove(username);
+        users.put(username,temp);
+    }
+
+    public void removeFromFridge (String ingredient) {
+        User temp = getCurrentUser();
+        String username = temp.getFacebookID();
+        getWritableDatabase().delete("fridge".concat(username),"LINK=?",new String[]{ingredient});
+        temp.setFridge(getUserFridge(username));
+        currentUser=temp;
+        users.remove(username);
+        users.put(username,temp);
+    }
+
+    public void removeFromShoppingList (String ingredient) {
+        User temp = getCurrentUser();
+        String username = temp.getFacebookID();
+        getWritableDatabase().delete("shopinglist".concat(username),"LINK=?",new String[]{ingredient});
+        temp.setShoppingList(getUserShoppingList(username));
+        currentUser=temp;
+        users.remove(username);
+        users.put(username,temp);
+    }
+
+    public void removeFromFavoriteMeals (String meal) {
+        User temp = getCurrentUser();
+        String username = temp.getFacebookID();
+        getWritableDatabase().delete("favoritemeals".concat(username),"LINK=?",new String[]{meal});
+        temp.setFavouriteMeals(getUserFavoriteMeals(username));
+        currentUser=temp;
+        users.remove(username);
+        users.put(username,temp);
+    }
+
+    private ArrayList<String> getUserFridge (String username){
+        ArrayList<String> newFridge = new ArrayList<>();
+        Cursor res = this.getReadableDatabase().rawQuery( "SELECT * FROM fridge".concat(username),null);
+        if (res.moveToFirst()){
+           do{newFridge.add(res.getString(1)); }while (res.moveToNext());
+        }
+        res.close();
+        return newFridge;
+    }
+
+    private ArrayList<String> getUserShoppingList (String username){
+        ArrayList<String> newShoppingList = new ArrayList<>();
+        Cursor res = this.getReadableDatabase().rawQuery( "SELECT * FROM shopinglist".concat(username),null);
+        if (res.moveToFirst()){
+            do{newShoppingList.add(res.getString(1)); }while (res.moveToNext());
+        }
+        res.close();
+        return newShoppingList;
+    }
+
+    private ArrayList<String> getUserFavoriteMeals (String username){
+        ArrayList<String> newFavoriteMeals = new ArrayList<>();
+        Cursor res = this.getReadableDatabase().rawQuery( "SELECT * FROM favoritemeals".concat(username),null);
+        if (res.moveToFirst()){
+            do{newFavoriteMeals.add(res.getString(1)); }while (res.moveToNext());
+        }
+        res.close();
+        return newFavoriteMeals;
     }
 }
