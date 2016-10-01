@@ -45,7 +45,7 @@ public class WelcomeActivity extends AppCompatActivity {
                                 md.update(signature.toByteArray());
                                 Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
                             }
-        } catch (PackageManager.NameNotFoundException | NoSuchAlgorithmException e) {}
+        } catch (PackageManager.NameNotFoundException | NoSuchAlgorithmException ignored) {}
         ImageView logo = (ImageView) findViewById(R.id.logo);
         logo.setImageResource(R.drawable.logo);
         final LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
@@ -58,8 +58,8 @@ public class WelcomeActivity extends AppCompatActivity {
                     protected Void doInBackground(Void... params) {
                         final LoginResult result = loginResult;
                         DatabaseHelper db = DatabaseHelper.getInstance(WelcomeActivity.this);
-                        db.initUsers();
                         db.setCurrentUser(result.getAccessToken().getUserId());
+                        db.initUsers();
                         return null;
                     }
                 }.execute();

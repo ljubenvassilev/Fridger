@@ -15,13 +15,10 @@ import java.net.URL;
 import java.util.Scanner;
 
 import ljuboandtedi.fridger.R;
-import ljuboandtedi.fridger.model.DatabaseHelper;
 import ljuboandtedi.fridger.model.SearchesForTesting;
-import ljuboandtedi.fridger.model.User;
 
-public class MainActivity extends BasicActivity {
+public class MainActivity extends DrawerActivity {
 
-//    User user;
     private Button apiTestInfoButton;
     CheckBox cbIngrButter;
     CheckBox cbIngrCarrot;
@@ -34,7 +31,6 @@ public class MainActivity extends BasicActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        user = DatabaseHelper.getInstance(MainActivity.this).getCurrentUser();
         profileButton = (Button) findViewById(R.id.main_profile_button);
         profileButton.setOnClickListener(new View.OnClickListener() {
             @Override

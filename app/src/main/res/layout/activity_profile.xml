@@ -57,10 +57,10 @@
 
             <CheckBox
                 android:textColorHint="@android:color/black"
-                android:id="@+id/profile_checkBox_pescetarian"
+                android:id="@+id/profile_checkBox_pascetarian"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Pescetarian"
+                android:hint="Pascetarian"
                 android:textSize="30sp"/>
 
             <CheckBox

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.AsyncTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -227,9 +228,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     private boolean userExists(String userID) {
-        SQLiteDatabase db = getWritableDatabase();
-        String query = "Select * from " + USERS_TABLE + " where ID = " + userID;
-        Cursor cursor = db.rawQuery(query, null);
+        Cursor cursor = getWritableDatabase().rawQuery("Select * from " + USERS_TABLE +
+                " where ID = " + userID, null);
         if(cursor.getCount() <= 0){
             cursor.close();
             return false;
@@ -243,9 +243,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 new String[] { userID } );
     }
 
-    public void setCurrentUser(String username){
-        if(!userExists(username)){ addUser(username); }
-        currentUser = users.get(username);
+    public void setCurrentUser(final String username){
+        new AsyncTask<Void,Void,Void> (){
+            @Override
+            protected Void doInBackground(Void... params) {
+                if (!userExists(username)) {
+                    addUser(username);
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                currentUser = users.get(username);
+            }
+        }.execute();
     }
 
     public User getCurrentUser() {

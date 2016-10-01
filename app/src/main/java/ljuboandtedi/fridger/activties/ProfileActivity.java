@@ -1,7 +1,6 @@
 package ljuboandtedi.fridger.activties;
 
 import android.database.Cursor;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,17 +8,15 @@ import android.widget.CheckBox;
 
 import ljuboandtedi.fridger.R;
 import ljuboandtedi.fridger.model.DatabaseHelper;
-import ljuboandtedi.fridger.model.User;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends DrawerActivity {
 
-    CheckBox vegan, vegetarian, pescetarian, ovovegetarian, lactovegetarian, paleo, dairy, egg,
+    CheckBox vegan, vegetarian, pascetarian, ovovegetarian, lactovegetarian, paleo, dairy, egg,
             gluten, peanut, seafood, sesame, soy, sulfite, treenut, wheat, american, italian, asian,
             mexican, southernAndSoulFood, french, southwestern, barbecue, indian, chinese,
             cajunAndCreole, english, mediterranean, greek, spanish, german, thai, moroccan, irish,
-            japanese, cuban, hawaiian, swedish, hungarian, portugese;
+            japanese, cuban, hawaiian, swedish, hungarian, portuguese;
     Button confirm;
-    User user;
     DatabaseHelper db;
 
     @Override
@@ -29,7 +26,7 @@ public class ProfileActivity extends AppCompatActivity {
         db = DatabaseHelper.getInstance(ProfileActivity.this);
         vegan = (CheckBox) findViewById(R.id.profile_checkBox_vegan);
         vegetarian = (CheckBox) findViewById(R.id.profile_checkBox_vegetarian);
-        pescetarian = (CheckBox) findViewById(R.id.profile_checkBox_pescetarian);
+        pascetarian = (CheckBox) findViewById(R.id.profile_checkBox_pascetarian);
         ovovegetarian = (CheckBox) findViewById(R.id.profile_checkBox_ovoVegetarian);
         lactovegetarian = (CheckBox) findViewById(R.id.profile_checkBox_lactoVegetarian);
         paleo = (CheckBox) findViewById(R.id.profile_checkBox_paleo);
@@ -67,15 +64,14 @@ public class ProfileActivity extends AppCompatActivity {
         hawaiian = (CheckBox) findViewById(R.id.profile_checkBox_hawaiian);
         swedish = (CheckBox) findViewById(R.id.profile_checkBox_swedish);
         hungarian = (CheckBox) findViewById(R.id.profile_checkBox_hungarian);
-        portugese = (CheckBox) findViewById(R.id.profile_checkBox_portugese);
+        portuguese = (CheckBox) findViewById(R.id.profile_checkBox_portugese);
 
         confirm = (Button) findViewById(R.id.profile_confirm_button);
-        user = db.getCurrentUser();
         Cursor res = db.getUser(user.getFacebookID());
         res.moveToFirst();
         if (res.getString(1).equalsIgnoreCase("YES")) vegan.setChecked(true);
         if (res.getString(2).equalsIgnoreCase("YES")) vegetarian.setChecked(true);
-        if (res.getString(3).equalsIgnoreCase("YES")) pescetarian.setChecked(true);
+        if (res.getString(3).equalsIgnoreCase("YES")) pascetarian.setChecked(true);
         if (res.getString(4).equalsIgnoreCase("YES")) ovovegetarian.setChecked(true);
         if (res.getString(5).equalsIgnoreCase("YES")) lactovegetarian.setChecked(true);
         if (res.getString(6).equalsIgnoreCase("YES")) paleo.setChecked(true);
@@ -113,13 +109,13 @@ public class ProfileActivity extends AppCompatActivity {
         if (res.getString(38).equalsIgnoreCase("YES")) hawaiian.setChecked(true);
         if (res.getString(39).equalsIgnoreCase("YES")) swedish.setChecked(true);
         if (res.getString(40).equalsIgnoreCase("YES")) hungarian.setChecked(true);
-        if (res.getString(41).equalsIgnoreCase("YES")) portugese.setChecked(true);
+        if (res.getString(41).equalsIgnoreCase("YES")) portuguese.setChecked(true);
         res.close();
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 db.editUserPrefs(user.getFacebookID(), vegan.isChecked(), vegetarian.isChecked(),
-                        pescetarian.isChecked(), ovovegetarian.isChecked(),
+                        pascetarian.isChecked(), ovovegetarian.isChecked(),
                         lactovegetarian.isChecked(), paleo.isChecked(), dairy.isChecked(),
                         egg.isChecked(), gluten.isChecked(), peanut.isChecked(), seafood.isChecked(),
                         sesame.isChecked(), soy.isChecked(), sulfite.isChecked(), treenut.isChecked(),
@@ -131,7 +127,7 @@ public class ProfileActivity extends AppCompatActivity {
                         spanish.isChecked(), german.isChecked(), thai.isChecked(),
                         moroccan.isChecked(), irish.isChecked(), japanese.isChecked(),
                         cuban.isChecked(), hawaiian.isChecked(), swedish.isChecked(),
-                        hungarian.isChecked(), portugese.isChecked());
+                        hungarian.isChecked(), portuguese.isChecked());
                 finish();
             }
         });

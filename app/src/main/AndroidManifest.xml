@@ -14,11 +14,10 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity android:name=".activties.BasicActivity" />
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/app_name"/>
+            android:label="@string/app_name" />
         <activity android:name=".activties.MainActivity" />
         <activity android:name=".activties.WelcomeActivity">
             <intent-filter>
@@ -43,7 +42,8 @@
         <activity android:name=".activties.RecipeInfoActivity" />
         <activity android:name=".activties.BuyingIngredientsActivity" />
         <activity android:name=".activties.ProfileActivity" />
-        <activity android:name=".activties.YourIngredientsActivity"/>
+        <activity android:name=".activties.YourIngredientsActivity" />
+        <activity android:name=".activties.DrawerActivity"></activity>
     </application>
 
 </manifest>
