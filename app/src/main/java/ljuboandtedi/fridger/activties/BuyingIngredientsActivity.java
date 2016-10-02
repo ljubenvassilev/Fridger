@@ -13,13 +13,12 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import ljuboandtedi.fridger.R;
-import ljuboandtedi.fridger.adapters.IngredientsRecyclerAdapter;
-import ljuboandtedi.fridger.model.Meal;
-import ljuboandtedi.fridger.model.MealManager;
-import ljuboandtedi.fridger.model.SearchesForTesting;
+import ljuboandtedi.fridger.Adapters.IngredientsRecyclerAdapter;
+import ljuboandtedi.fridger.model.Recipe;
+import ljuboandtedi.fridger.model.RecipeManager;
 
 public class BuyingIngredientsActivity extends AppCompatActivity {
-    Meal meal;
+    Recipe recipe;
     private RecyclerView listOfIngredients;
     TextView tv;
     Button addButton;
@@ -32,10 +31,10 @@ public class BuyingIngredientsActivity extends AppCompatActivity {
         tv = (TextView) findViewById(R.id.buyingingredients_tv);
         addButton = (Button) findViewById(R.id.buyingingredients_DoneButton);
         shopListButton = (Button) findViewById(R.id.buyingingredients_ListButton);
-        meal = MealManager.meals.get(getIntent().getStringExtra("meal"));
+        recipe = RecipeManager.recipes.get(getIntent().getStringExtra("recipe"));
 
         ArrayList<String> ingredients = new ArrayList<>();
-        ingredients = meal.getRecipe().getIngredientLines();
+        ingredients = recipe.getIngredientLines();
 
         listOfIngredients.setLayoutManager(new LinearLayoutManager(this));
         listOfIngredients.setAdapter(new IngredientsRecyclerAdapter(this, ingredients));
@@ -43,16 +42,14 @@ public class BuyingIngredientsActivity extends AppCompatActivity {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(BuyingIngredientsActivity.this,MainActivity.class);
                 Toast.makeText(BuyingIngredientsActivity.this, "Added to shopping list", Toast.LENGTH_SHORT).show();
-                intent.putExtra("json", SearchesForTesting.searches.get(SearchesForTesting.searches.size()-1));
-                startActivity(intent);
+                finish();
             }
         });
         shopListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(BuyingIngredientsActivity.this,YourIngredientsActivity.class);
+                Intent intent = new Intent(BuyingIngredientsActivity.this,ShoppingListActivity.class);
                 startActivity(intent);
             }
         });

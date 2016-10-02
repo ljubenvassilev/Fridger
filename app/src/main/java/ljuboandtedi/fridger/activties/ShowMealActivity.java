@@ -1,7 +1,7 @@
 package ljuboandtedi.fridger.activties;
 import android.graphics.Bitmap;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ljuboandtedi.fridger.R;
-import ljuboandtedi.fridger.adapters.MealRecyclerAdapter;
 import ljuboandtedi.fridger.model.Meal;
 import ljuboandtedi.fridger.model.MealManager;
 
@@ -30,16 +29,7 @@ public class ShowMealActivity extends AppCompatActivity {
 
         listOfMeals = (RecyclerView) findViewById(R.id.recycleList);
 
-        List<Meal> meals = new ArrayList<>();
-//        TextView sourceDisplayName = (TextView) findViewById(R.id.showMeals_sourceDisplayName);
-//        TextView recipeNameTV = (TextView) findViewById(R.id.showMeals_recipeName);
-//        TextView rating = (TextView) findViewById(R.id.showMeals_rating);
-
-        /// TextView ingredientsAndFlavorsTest = (TextView) findViewById(R.id.showMeals_testingIngredients);
-
-        // mealPic = (ImageView) findViewById(R.id.showMeals_meal_picture);
-
-
+        List<String> recipes = new ArrayList<>();
         String info = getIntent().getStringExtra("json");
 
         try {
@@ -115,112 +105,19 @@ public class ShowMealActivity extends AppCompatActivity {
 
                     Log.e("ID", id);
                 }
-                // new RequestTaskForRecipe().execute("http://api.yummly.com/v1/api/recipe/" + id + "?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd");
-                Meal meal = new Meal(ingredientsString, flavorsString, ratingInt + "", recipeName, id, "");
 
-
-                meals.add(meal);
-                MealManager.meals.put(meal.getId(),meal);
-
+                recipes.add(id);
             }
-            Log.i("meals", meals.toString());
+
 
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-//        recipeNameTV.setText(recipeName);
-//        sourceDisplayName.setText(sourceOfInfo);
-//        rating.setText("Rating by yummly: " +ratingInt);
-//        ingredientsAndFlavorsTest.setText("Flavors:\n"+flavorsString + "\n\n Ingredients: \n"  + ingredientsString);
-//
-
         listOfMeals.setLayoutManager(new LinearLayoutManager(this));
-        listOfMeals.setAdapter(new MealRecyclerAdapter(this, meals));
+        listOfMeals.setAdapter(new ljuboandtedi.fridger.Adapters.FavouriteMealsAdapter(this, recipes));
     }
-//    class RequestTaskForRecipe extends AsyncTask<String, Void, String> {
-//        @Override
-//        protected String doInBackground(String... params) {
-//            String address = params[0];
-//            String json = "";
-//            try {
-//                URL url = new URL(address);
-//                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-//                connection.setRequestMethod("GET");
-//                connection.connect();
-//                Scanner sc = new Scanner(connection.getInputStream());
-//                while(sc.hasNextLine()){
-//                    json+=(sc.nextLine());
-//                }
-//
-//
-//            } catch (MalformedURLException e) {
-//                e.printStackTrace();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            Log.e("link",address);
-//            return json;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(String json) {
-//            try {
-//                JSONObject object = new JSONObject(json);
-//                JSONArray ingredientLines = object.getJSONArray("ingredientLines");
-//                ArrayList<String> ingredientLinesArr = new ArrayList<>();
-//
-//                for(int i = 0; i<ingredientLines.length();i++){
-//                    ingredientLinesArr.add(ingredientLines.getString(i));
-//                }
-//
-//                if(!object.isNull("flavors")) {
-//                    JSONObject flavors = object.getJSONObject("flavors");
-//                    HashMap<String, Double> flavorsMap = new HashMap<>();
-//                    if(!flavors.isNull("Salty")) {
-//                        flavorsMap.put("Salty", flavors.getDouble("Salty"));
-//                    }
-//                    if(!flavors.isNull("Meaty")) {
-//                        flavorsMap.put("Meaty", flavors.getDouble("Meaty"));
-//                    }
-//                    if(!flavors.isNull("Piquant")) {
-//                        flavorsMap.put("Piquant", flavors.getDouble("Piquant"));
-//                    }
-//                    if(!flavors.isNull("Bitter")) {
-//                        flavorsMap.put("Bitter", flavors.getDouble("Bitter"));
-//                    }
-//                    if(!flavors.isNull("Sour")) {
-//                        flavorsMap.put("Sour", flavors.getDouble("Sour"));
-//                    }
-//                    if(!flavors.isNull("Sweet")) {
-//                        flavorsMap.put("Sweet", flavors.getDouble("Sweet"));
-//                    }
-//                }
-//                JSONArray nutritions = object.getJSONArray("nutritionEstimates");
-//                HashMap<String,Double> nutritionsMap = new HashMap<>();
-//                for (int i = 0; i<nutritions.length(); i++) {
-//                    JSONObject nutrition = nutritions.getJSONObject(i);
-//                    nutritionsMap.put(nutrition.getString("description"),nutrition.getDouble("value"));
-//                }
-//
-//                String nameOfRecipe = object.getString("name");
-//                String servings = object.getString("yield");
-//                String totalTime = object.getString("totalTime");
-//                Double rating  = object.getDouble("rating");
-//
-//                JSONArray images = object.getJSONArray("images");
-//                String bigPicUrl = images.getJSONObject(0).getString("hostedLargeUrl");
-//
-//                Log.i("big pic url", bigPicUrl);
-//
-//                ShowMealActivity.bigPicUrl = bigPicUrl;
-//                Log.i("TOVA E", ShowMealActivity.bigPicUrl);
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//
-//        }
-//}}
+
 }
 

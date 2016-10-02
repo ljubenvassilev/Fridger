@@ -83,7 +83,24 @@
                 android:layout_gravity="center"
                 android:text="Meal Info"
                 android:id="@+id/main_mealInfoButton"/>
-
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Fav meals"
+                android:id="@+id/main_favMealsButton"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Shopping List"
+                android:id="@+id/main_shopListButton"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="FridgeProducts"
+                android:id="@+id/main_fridgeButton"/>
         </LinearLayout>
     </FrameLayout>
 </RelativeLayout>

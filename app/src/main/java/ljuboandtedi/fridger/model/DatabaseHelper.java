@@ -370,7 +370,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         users.put(username,temp);
     }
 
-    private ArrayList<String> getUserFridge (String username){
+    public ArrayList<String> getUserFridge (String username){
         ArrayList<String> newFridge = new ArrayList<>();
         Cursor res = this.getReadableDatabase().rawQuery( "SELECT * FROM fridge"+username,null);
         if (res.moveToFirst()){
@@ -380,7 +380,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return newFridge;
     }
 
-    private ArrayList<String> getUserShoppingList (String username){
+    public ArrayList<String> getUserShoppingList (String username){
         ArrayList<String> newShoppingList = new ArrayList<>();
         Cursor res = this.getReadableDatabase().rawQuery( "SELECT * FROM shopinglist".concat(username),null);
         if (res.moveToFirst()){
@@ -390,7 +390,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return newShoppingList;
     }
 
-    private ArrayList<String> getUserFavoriteMeals (String username){
+    public ArrayList<String> getUserFavoriteMeals (String username){
         ArrayList<String> newFavoriteMeals = new ArrayList<>();
         Cursor res = this.getReadableDatabase().rawQuery( "SELECT * FROM favoritemeals".concat(username),null);
         if (res.moveToFirst()){

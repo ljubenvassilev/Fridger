@@ -4,6 +4,7 @@
     android:id="@+id/cardView"
     android:layout_width="fill_parent"
     android:layout_height="250dp"
+
     app:cardBackgroundColor="#43005eff">
 
     <RelativeLayout
@@ -13,11 +14,12 @@
 
         <TextView
             android:id="@+id/searchpic_NameOfTheRecipe"
+            android:text="BLALBA"
+            android:textColor="@color/md_white_1000"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:layout_marginTop="20dp"
-            android:layout_alignParentEnd="true" />
+            />
 
         <ImageView
             android:id="@+id/searchpic_Image"

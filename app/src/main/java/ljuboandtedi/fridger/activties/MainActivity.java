@@ -3,6 +3,7 @@ package ljuboandtedi.fridger.activties;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,8 +15,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
 
+import ljuboandtedi.fridger.Adapters.MyFridgeMealsAdapter;
 import ljuboandtedi.fridger.R;
 import ljuboandtedi.fridger.model.SearchesForTesting;
+import ljuboandtedi.fridger.model.ShoppingListForTestings;
 
 public class MainActivity extends DrawerActivity {
 
@@ -24,16 +27,25 @@ public class MainActivity extends DrawerActivity {
     CheckBox cbIngrCarrot;
     CheckBox cbIngrGarlic;
     CheckBox cbIngrCheese;
+    Button favMealsButton;
+    Button shoppingListButton;
+    Button myFridgeButton;
     EditText etMeal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //setContentView(R.layout.activity_main);
         super.replaceContentLayout(R.layout.activity_main, super.CONTENT_LAYOUT_ID);
         cbIngrButter = (CheckBox) findViewById(R.id.main_checkBoxButter);
         cbIngrCarrot = (CheckBox) findViewById(R.id.main_checkBoxCarrots);
         cbIngrCheese = (CheckBox) findViewById(R.id.main_checkBoxCheese);
         cbIngrGarlic = (CheckBox) findViewById(R.id.main_checkBoxGarlic);
+        favMealsButton = (Button) findViewById(R.id.main_favMealsButton);
+        shoppingListButton = (Button) findViewById(R.id.main_shopListButton);
+        myFridgeButton = (Button) findViewById(R.id.main_fridgeButton);
+
+
         etMeal = (EditText) findViewById(R.id.main_etMeal);
         //etSpecialIngr = (EditText) findViewById(R.id.welcomeActivity_etSpecialIngredient);
         //final String specialIngr = "&allowedIngredient[]=" + etSpecialIngr.getText().toString().trim();
@@ -57,10 +69,30 @@ public class MainActivity extends DrawerActivity {
                 if(cbIngrGarlic.isChecked()){
                     ingridients += "&allowedIngredient[]=garlic";
                 }
-                Log.i("ingredients",ingridients+"");
-                SearchesForTesting.searches.add("http://api.yummly.com/v1/api/recipes?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd&q=" +whatToSearch + ingridients + "&maxResult=40&start=10");
-                new MainActivity.RequestTask().execute("http://api.yummly.com/v1/api/recipes?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd&q=" +whatToSearch + ingridients + "&maxResult=40&start=10");
+                //SearchesForTesting.searches.add("http://api.yummly.com/v1/api/recipes?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd&q=" +whatToSearch + ingridients + "&maxResult=40&start=10");
+                new MainActivity.RequestTask().execute("http://api.yummly.com/v1/api/recipes?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd&q=" +whatToSearch + "&maxResult=40&start=10");
 
+            }
+        });
+        favMealsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,FavouriteMealsActivity.class);
+                startActivity(intent);
+            }
+        });
+        myFridgeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, YourFridgeActivity.class);
+                startActivity(intent);
+            }
+        });
+        shoppingListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ShoppingListActivity.class);
+                startActivity(intent);
             }
         });
     }

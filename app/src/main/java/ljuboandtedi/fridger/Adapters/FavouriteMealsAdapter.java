@@ -1,9 +1,5 @@
 package ljuboandtedi.fridger.Adapters;
 
-/**
- * Created by NoLight on 25.9.2016 г..
- */
-
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -37,39 +33,38 @@ import ljuboandtedi.fridger.model.Meal;
 import ljuboandtedi.fridger.model.Recipe;
 import ljuboandtedi.fridger.model.RecipeManager;
 
-
 /**
- * Created by NoLight on 25.9.2016 г..
+ * Created by NoLight on 2.10.2016 г..
  */
 
-public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdapter.MyMealViewHolder> {
-
+public class FavouriteMealsAdapter extends RecyclerView.Adapter<FavouriteMealsAdapter.MyFavouriteMealHolder> {
 
     private List<String> recipes;
     private Activity activity;
     public String info;
 
-    public MealRecyclerAdapter(Activity activity, List recipes) {
+    public FavouriteMealsAdapter(Activity activity, List recipes) {
         this.recipes = recipes;
         this.activity = activity;
     }
 
 
     @Override
-    public MealRecyclerAdapter.MyMealViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public FavouriteMealsAdapter.MyFavouriteMealHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = activity.getLayoutInflater();
         View row = inflater.inflate(R.layout.activity_searchpic, parent, false);
-        MyMealViewHolder vh = new MyMealViewHolder(row);
+        FavouriteMealsAdapter.MyFavouriteMealHolder vh = new FavouriteMealsAdapter.MyFavouriteMealHolder(row);
         return vh;
     }
 
+
+
     @Override
-    public void onBindViewHolder(MealRecyclerAdapter.MyMealViewHolder holder, int position) {
-        final String recipe = recipes.get(position);
+    public void onBindViewHolder(MyFavouriteMealHolder holder, int position) {
+        final String recipeId = recipes.get(position);
 
-        new RequestTaskForRecipe(holder).execute("http://api.yummly.com/v1/api/recipe/" +recipe+ "?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd" );
-        holder.recipeNameTV.setText(recipe);
-
+        new FavouriteMealsAdapter.RequestTaskForRecipe(holder).execute("http://api.yummly.com/v1/api/recipe/" +recipeId+ "?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd" );
+        holder.recipeNameTV.setText(recipeId);
 
     }
 
@@ -77,19 +72,20 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
     public int getItemCount() {
         return recipes.size();
     }
-    class MyMealViewHolder extends RecyclerView.ViewHolder {
+    class MyFavouriteMealHolder extends RecyclerView.ViewHolder {
         TextView recipeNameTV;
         ImageView mealPic;
 
-        MyMealViewHolder(View row){
+        MyFavouriteMealHolder(View row){
             super(row);
             recipeNameTV = (TextView) row.findViewById(R.id.searchpic_NameOfTheRecipe);
             mealPic = (ImageView) row.findViewById(R.id.searchpic_Image);
         }
     }
     class RequestTaskForRecipe extends AsyncTask<String, Void, String> {
-        MyMealViewHolder holder;
-        RequestTaskForRecipe(MealRecyclerAdapter.MyMealViewHolder holder){
+
+        MyFavouriteMealHolder holder;
+        RequestTaskForRecipe(MyFavouriteMealHolder holder){
             this.holder = holder;
         }
 
@@ -164,17 +160,16 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
                 String id = object.getString("id");
                 Recipe recipe = new Recipe(ingredientLinesArr, flavorsMap, nutritionsMap, nameOfRecipe, servings, totalTime, rating,bigPicUrl,id);
 
-                new MealRecyclerAdapter.RequestTaskForRecipe.RequestTask(holder, recipe).execute(bigPicUrl);
-
+                new FavouriteMealsAdapter.RequestTaskForRecipe.RequestTask(holder, recipe).execute(bigPicUrl);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
         class RequestTask extends AsyncTask<String, Void, Bitmap> {
 
-            MyMealViewHolder holder;
+            MyFavouriteMealHolder holder;
             Recipe recipe;
-            RequestTask(MealRecyclerAdapter.MyMealViewHolder holder, Recipe recipe){
+            RequestTask(MyFavouriteMealHolder holder, Recipe recipe){
                 this.holder = holder;
                 this.recipe = recipe;
             }
@@ -207,6 +202,8 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
             protected void onPostExecute(Bitmap image) {
                 RecipeManager.recipes.put(recipe.getName(),recipe);
                 holder.mealPic.setImageBitmap(image);
+                holder.mealPic.setHorizontalFadingEdgeEnabled(true);
+                holder.mealPic.setFadingEdgeLength(40);
                 holder.mealPic.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -220,6 +217,4 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
         }
     }
 
-
 }
-

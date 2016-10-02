@@ -20,8 +20,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import ljuboandtedi.fridger.R;
+import ljuboandtedi.fridger.model.DatabaseHelper;
 import ljuboandtedi.fridger.model.Meal;
 import ljuboandtedi.fridger.model.MealManager;
+import ljuboandtedi.fridger.model.Recipe;
+import ljuboandtedi.fridger.model.RecipeManager;
 
 public class RecipeInfoActivity extends AppCompatActivity {
     ImageView iv;
@@ -31,6 +34,7 @@ public class RecipeInfoActivity extends AppCompatActivity {
     CheckBox cbFavourite;
     Button addToShoppingListButton;
     Meal meal;
+    Recipe recipe;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,39 +46,54 @@ public class RecipeInfoActivity extends AppCompatActivity {
         cbFavourite = (CheckBox) findViewById(R.id.recipe_info_FavouriteButton);
         addToShoppingListButton = (Button) findViewById(R.id.recipe_info_addToShopList);
 
-
-        meal = MealManager.meals.get(getIntent().getStringExtra("meal"));
-        new RequestTask().execute(meal.getUrl());
-        if(meal.getRecipe().getNutritions().get("FAT") == null){
+        if(MealManager.meals.get(getIntent().getStringExtra("meal")) != null){
+            meal = MealManager.meals.get(getIntent().getStringExtra("meal"));
+            recipe = meal.getRecipe();
+        }
+        else
+            recipe = RecipeManager.recipes.get(getIntent().getStringExtra("recipe"));
+        new RequestTask().execute(recipe.getBigPicUrl());
+        if(recipe.getNutritions().get("FAT") == null){
             caloriesTV.setText("Calories: "+0);
         }
         else{
-            caloriesTV.setText("Calories: "+meal.getRecipe().getNutritions().get("FAT"));
+            caloriesTV.setText("Calories: "+recipe.getNutritions().get("FAT"));
         }
-        if(meal.getRecipe().getServings() == null){
+        if(recipe.getServings() == null || recipe.getServings().equals("null")){
             servingsTV.setText("Servings: " + 1);
         }
         else{
-            servingsTV.setText("Servings: " + meal.getRecipe().getServings());
+            servingsTV.setText("Servings: " + recipe.getServings());
         }
-        ingredients.setText(meal.getRecipe().getIngredientLines().size() + " Ingredients");
+        ingredients.setText(recipe.getIngredientLines().size() + " Ingredients");
+        if(DatabaseHelper.getInstance(this).getUserFavoriteMeals(DatabaseHelper.getInstance(this).getCurrentUser().getFacebookID()).contains(recipe.getId())){
+            cbFavourite.setChecked(true);
+        }
         cbFavourite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
                 if(isChecked){
-                    //put meal in user favourites.
+                    DatabaseHelper.getInstance(RecipeInfoActivity.this).addToFavoriteMeals(recipe.getId());
+                    RecipeManager.test.add(recipe.getId());
                 }
-                else{
-                    //remove meal from user favourites.
-                }
+                else
+                    if(DatabaseHelper.getInstance(RecipeInfoActivity.this).getUserFavoriteMeals(DatabaseHelper.getInstance(RecipeInfoActivity.this).getCurrentUser().getFacebookID()).contains(recipe.getId())){
+                        DatabaseHelper.getInstance(RecipeInfoActivity.this).removeFromFavoriteMeals(recipe.getId());
+                    }
+//                if(RecipeManager.test.contains(recipe.getId())){
+//                    RecipeManager.test.remove(recipe.getId());
+//                }
+
             }
         });
         addToShoppingListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(RecipeInfoActivity.this,BuyingIngredientsActivity.class);
-                intent.putExtra("meal",meal.getId());
+                intent.putExtra("recipe",recipe.getName());
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -99,8 +118,6 @@ public class RecipeInfoActivity extends AppCompatActivity {
                 bitmap = BitmapFactory.decodeStream(is);
 
 
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -110,7 +127,7 @@ public class RecipeInfoActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Bitmap image) {
-            iv.setImageBitmap(image);
+             iv.setImageBitmap(image);
         }
     }
 }

@@ -20,16 +20,19 @@ import ljuboandtedi.fridger.model.ShoppingListForTestings;
  * Created by NoLight on 28.9.2016 г..
  */
 
-public class IngredientsRecyclerAdapter extends  RecyclerView.Adapter<IngredientsRecyclerAdapter.MyIngredientViewHolder>{
+public class MyFridgeMealsAdapter extends  RecyclerView.Adapter<MyFridgeMealsAdapter.MyIngredientViewHolder>{
 
     private List<String> ingredients;
-
+    //private List<Boolean[]> checked;
     private Activity activity;
 
-    public IngredientsRecyclerAdapter(Activity activity, List<String> ingredients){
+    public MyFridgeMealsAdapter(Activity activity, List<String> ingredients){
         this.ingredients = ingredients;
         this.activity = activity;
-
+//        checked = new ArrayList<>();
+//        for(int i = 0; i < ingredients.size(); i++){
+//            checked.add(new Boolean[1]);
+//        }
     }
 
     @Override
@@ -52,24 +55,26 @@ public class IngredientsRecyclerAdapter extends  RecyclerView.Adapter<Ingredient
     public void onBindViewHolder(MyIngredientViewHolder holder, int position) {
         //get obj on position
         final String ingredient = ingredients.get(position);
-
+       // final Boolean[] isSelected = checked.get(position);
         //fill data of the VH with the data of the object
-
+       // holder.cb.setOnCheckedChangeListener(null);
+        //holder.cb.setChecked(isSelected[0]);
         holder.cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-
-                    DatabaseHelper.getInstance(activity).addToShoppingList(ingredient);
+                    //isSelected[0] = true;
+                    DatabaseHelper.getInstance(activity).removeFromFridge(ingredient);
                 }
-               if(!isChecked){
-                       if(DatabaseHelper.getInstance(activity).getUserShoppingList(DatabaseHelper.getInstance(activity).getCurrentUser().getFacebookID()).contains(ingredient)){
-                           DatabaseHelper.getInstance(activity).removeFromShoppingList(ingredient);
-
-                       }
-                   }
+                if(!isChecked){
+                    if(DatabaseHelper.getInstance(activity).getUserFridge(DatabaseHelper.getInstance(activity).getCurrentUser().getFacebookID()).contains(ingredient)){
+                        DatabaseHelper.getInstance(activity).addToFridge(ingredient);
+                        //isSelected[0] = false;
+                    }
+                }
 
             }
+
         });
         holder.ingredient.setText(ingredient);
 
