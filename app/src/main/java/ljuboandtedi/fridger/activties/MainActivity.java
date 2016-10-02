@@ -25,19 +25,11 @@ public class MainActivity extends DrawerActivity {
     CheckBox cbIngrGarlic;
     CheckBox cbIngrCheese;
     EditText etMeal;
-    Button profileButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        profileButton = (Button) findViewById(R.id.main_profile_button);
-        profileButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,ProfileActivity.class));
-            }
-        });
+        super.replaceContentLayout(R.layout.activity_main, super.CONTENT_LAYOUT_ID);
         cbIngrButter = (CheckBox) findViewById(R.id.main_checkBoxButter);
         cbIngrCarrot = (CheckBox) findViewById(R.id.main_checkBoxCarrots);
         cbIngrCheese = (CheckBox) findViewById(R.id.main_checkBoxCheese);

@@ -2,4 +2,6 @@
     <string name="app_name">Fridger</string>
     <string name="facebook_app_id">299864610395117</string>
     <string name="fb_login_protocol_scheme">fb299864610395117</string>
+    <string name="drawer_item_home">Home</string>
+    <string name="drawer_item_profile">Profile</string>
 </resources>

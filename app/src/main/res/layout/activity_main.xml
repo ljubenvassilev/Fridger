@@ -1,79 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:gravity="center"
-    android:orientation="vertical"
-    tools:context="ljuboandtedi.fridger.activties.MainActivity"
-    android:background="@drawable/background_pale">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <TextView
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/likeMeat"/>
-    <EditText
-        android:textColor="@android:color/black"
-        android:id="@+id/main_etMeal"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"/>
+
+    <FrameLayout
+        android:layout_below="@id/toolbar"
+        android:id="@+id/frame_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
+        android:layout_height="match_parent">
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/activity_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:gravity="center"
+            android:orientation="vertical"
+            tools:context="ljuboandtedi.fridger.activties.MainActivity"
+            android:background="@drawable/background_pale">
 
-        android:inputType="textAutoComplete"
-        android:hint="What meal do you need?"/>
-    <CheckBox
-        android:textColor="@android:color/holo_green_dark"
-        android:id="@+id/main_checkBoxGarlic"
-        android:checked="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Do you want some garlic in it?"/>
-    <CheckBox
-        android:id="@+id/main_checkBoxButter"
-        android:textColor="@android:color/holo_green_dark"
-        android:checked="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Do you want some butter in it?"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/likeMeat"/>
+            <EditText
+                android:textColor="@android:color/black"
+                android:id="@+id/main_etMeal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
 
-    <CheckBox
-        android:id="@+id/main_checkBoxCarrots"
-        android:checked="true"
-        android:textColor="@android:color/holo_green_dark"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Do you want some carrots in it?"/>
+                android:inputType="textAutoComplete"
+                android:hint="What meal do you need?"/>
+            <CheckBox
+                android:textColor="@android:color/holo_green_dark"
+                android:id="@+id/main_checkBoxGarlic"
+                android:checked="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Do you want some garlic in it?"/>
+            <CheckBox
+                android:id="@+id/main_checkBoxButter"
+                android:textColor="@android:color/holo_green_dark"
+                android:checked="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Do you want some butter in it?"/>
 
-    <CheckBox
-        android:textColor="@android:color/holo_green_dark"
-        android:id="@+id/main_checkBoxCheese"
-        android:checked="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Do you want some cheese in it?"/>
-    <!--<EditText-->
-    <!--android:id="@+id/welcomeActivity_etSpecialIngredient"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:hint="Any other special Ingerdient you want in?"/>-->
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Meal Info"
-        android:id="@+id/main_mealInfoButton"/>
+            <CheckBox
+                android:id="@+id/main_checkBoxCarrots"
+                android:checked="true"
+                android:textColor="@android:color/holo_green_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Do you want some carrots in it?"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Profile"
-        android:id="@+id/main_profile_button"/>
+            <CheckBox
+                android:textColor="@android:color/holo_green_dark"
+                android:id="@+id/main_checkBoxCheese"
+                android:checked="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Do you want some cheese in it?"/>
+            <!--<EditText-->
+            <!--android:id="@+id/welcomeActivity_etSpecialIngredient"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:hint="Any other special Ingerdient you want in?"/>-->
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Meal Info"
+                android:id="@+id/main_mealInfoButton"/>
 
-
-</LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+</RelativeLayout>

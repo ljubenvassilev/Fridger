@@ -1,5 +1,6 @@
 package ljuboandtedi.fridger.activties;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
@@ -22,7 +23,7 @@ public class ProfileActivity extends DrawerActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        super.replaceContentLayout(R.layout.activity_profile, super.CONTENT_LAYOUT_ID);
         db = DatabaseHelper.getInstance(ProfileActivity.this);
         vegan = (CheckBox) findViewById(R.id.profile_checkBox_vegan);
         vegetarian = (CheckBox) findViewById(R.id.profile_checkBox_vegetarian);
@@ -128,6 +129,7 @@ public class ProfileActivity extends DrawerActivity {
                         moroccan.isChecked(), irish.isChecked(), japanese.isChecked(),
                         cuban.isChecked(), hawaiian.isChecked(), swedish.isChecked(),
                         hungarian.isChecked(), portuguese.isChecked());
+                startActivity(new Intent(ProfileActivity.this, MainActivity.class));
                 finish();
             }
         });
