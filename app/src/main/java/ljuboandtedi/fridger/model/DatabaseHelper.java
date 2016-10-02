@@ -89,7 +89,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     }
 
-    public void initUsers (){
+    public void initUsers (final String userID){
+        if (!userExists(userID)) {addUser(userID);}
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM "+USERS_TABLE,null);
         if(cursor.moveToFirst()){
@@ -102,11 +103,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         cursor.close();
         db.close();
+        currentUser = users.get(userID);
     }
 
     private void addUser(String userId){
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("CREATE TABLE fridge" + userId +" (ID INTEGER PRIMARY KEY AUTOINCREMENT, LINK TEXT)");
+        db.execSQL("CREATE TABLE fridge"+userId+" (ID INTEGER PRIMARY KEY AUTOINCREMENT, LINK TEXT)");
         db.execSQL("CREATE TABLE shopinglist" + userId +" (ID INTEGER PRIMARY KEY AUTOINCREMENT, LINK TEXT)");
         db.execSQL("CREATE TABLE favoritemeals" + userId +" (ID INTEGER PRIMARY KEY AUTOINCREMENT, LINK TEXT)");
 
@@ -243,24 +245,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 new String[] { userID } );
     }
 
-    public void setCurrentUser(final String username){
-        new AsyncTask<Void,Void,Void> (){
-            @Override
-            protected Void doInBackground(Void... params) {
-                if (!userExists(username)) {
-                    addUser(username);
-                }
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-                currentUser = users.get(username);
-            }
-        }.execute();
-    }
-
     public User getCurrentUser() {
         return currentUser;
     }
@@ -388,7 +372,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private ArrayList<String> getUserFridge (String username){
         ArrayList<String> newFridge = new ArrayList<>();
-        Cursor res = this.getReadableDatabase().rawQuery( "SELECT * FROM fridge".concat(username),null);
+        Cursor res = this.getReadableDatabase().rawQuery( "SELECT * FROM fridge"+username,null);
         if (res.moveToFirst()){
            do{newFridge.add(res.getString(1)); }while (res.moveToNext());
         }

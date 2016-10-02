@@ -4,12 +4,16 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.mikepenz.materialdrawer.AccountHeader;
+import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import ljuboandtedi.fridger.R;
@@ -20,21 +24,40 @@ public class DrawerActivity extends AppCompatActivity {
 
     User user;
     Toolbar toolbar;
+    Drawer result;
     public final int CONTENT_LAYOUT_ID = R.id.frame_container;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
-        user = DatabaseHelper.getInstance(this).getCurrentUser();
+        DatabaseHelper db = DatabaseHelper.getInstance(DrawerActivity.this);
+        user = db.getCurrentUser();
+        String userID = user.getFacebookID();
+        Log.e("USER",userID);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Drawer result = new DrawerBuilder()
+        AccountHeader headerResult = new AccountHeaderBuilder()
+                .withActivity(this)
+                .withHeaderBackground(R.drawable.drawer_header)
+                .addProfiles(
+                        new ProfileDrawerItem().withName("Ljuben Vassilev")
+                                .withEmail(user.getFacebookID())
+                                .withIcon(getResources().getDrawable(R.drawable.profile))
+                )
+                .withSelectionListEnabledForSingleProfile(false)
+                .build();
+        result = new DrawerBuilder()
                 .withActivity(this)
                 .withToolbar(toolbar)
-                .withDrawerWidthDp(300)
+                .withDrawerWidthDp(240)
                 .withTranslucentStatusBar(false)
                 .withActionBarDrawerToggle(false)
+                .withActionBarDrawerToggleAnimated(true)
+                .withDisplayBelowStatusBar(true)
+                .withCloseOnClick(true)
+                .withAccountHeader(headerResult)
+                .withSliderBackgroundColorRes(R.color.md_black_1000)
                 .addDrawerItems(
                         new PrimaryDrawerItem().withIdentifier(1).withName(R.string.
                                 drawer_item_home).withOnDrawerItemClickListener
@@ -47,7 +70,8 @@ public class DrawerActivity extends AppCompatActivity {
                                         return false;
 
                                     }
-                                }),
+                                })
+                                .withTextColorRes(R.color.md_white_1000),
                         new PrimaryDrawerItem().withIdentifier(2).withName(R.string.
                                 drawer_item_profile).withOnDrawerItemClickListener
                                 (new Drawer.OnDrawerItemClickListener() {
@@ -59,10 +83,9 @@ public class DrawerActivity extends AppCompatActivity {
                                         return false;
                                     }
                                 })
+                                .withTextColorRes(R.color.md_white_1000)
                 )
                 .build();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        result.getActionBarDrawerToggle().setDrawerIndicatorEnabled(true);
     }
 
     @Override
@@ -80,5 +103,14 @@ public class DrawerActivity extends AppCompatActivity {
         parent.removeView(contentLayout);
         contentLayout = getLayoutInflater().inflate(sourceId, parent, false);
         parent.addView(contentLayout, index);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(result.isDrawerOpen()){
+            result.closeDrawer();
+        }else{
+            result.openDrawer();
+        }
     }
 }

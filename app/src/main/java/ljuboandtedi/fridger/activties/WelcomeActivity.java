@@ -54,17 +54,21 @@ public class WelcomeActivity extends AppCompatActivity {
             public void onSuccess(final LoginResult loginResult) {
                 loginButton.setVisibility(View.INVISIBLE);
                 new AsyncTask<Void, Void, Void>() {
+                    String userID=loginResult.getAccessToken().getUserId();
                     @Override
                     protected Void doInBackground(Void... params) {
                         final LoginResult result = loginResult;
                         DatabaseHelper db = DatabaseHelper.getInstance(WelcomeActivity.this);
-                        db.setCurrentUser(result.getAccessToken().getUserId());
-                        db.initUsers();
+                        db.initUsers(userID);
                         return null;
                     }
+
+                    @Override
+                    protected void onPostExecute(Void aVoid) {
+                        startActivity(new Intent(WelcomeActivity.this,MainActivity.class));
+                        finish();
+                    }
                 }.execute();
-                startActivity(new Intent(WelcomeActivity.this,MainActivity.class));
-                finish();
             }
             @Override
             public void onCancel() {
