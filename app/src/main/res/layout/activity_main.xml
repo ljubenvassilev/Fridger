@@ -28,61 +28,21 @@
             android:orientation="vertical"
             tools:context="ljuboandtedi.fridger.activties.MainActivity"
             android:background="@drawable/background_pale">
-
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/main_SearchMenuButton"
+                android:text="Search"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/likeMeat"/>
-            <EditText
-                android:textColor="@android:color/black"
-                android:id="@+id/main_etMeal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
 
-                android:inputType="textAutoComplete"
-                android:hint="What meal do you need?"/>
-            <CheckBox
-                android:textColor="@android:color/holo_green_dark"
-                android:id="@+id/main_checkBoxGarlic"
-                android:checked="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="Do you want some garlic in it?"/>
-            <CheckBox
-                android:id="@+id/main_checkBoxButter"
-                android:textColor="@android:color/holo_green_dark"
-                android:checked="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="Do you want some butter in it?"/>
-
-            <CheckBox
-                android:id="@+id/main_checkBoxCarrots"
-                android:checked="true"
-                android:textColor="@android:color/holo_green_dark"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="Do you want some carrots in it?"/>
-
-            <CheckBox
-                android:textColor="@android:color/holo_green_dark"
-                android:id="@+id/main_checkBoxCheese"
-                android:checked="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="Do you want some cheese in it?"/>
             <!--<EditText-->
             <!--android:id="@+id/welcomeActivity_etSpecialIngredient"-->
             <!--android:layout_width="match_parent"-->
             <!--android:layout_height="wrap_content"-->
             <!--android:hint="Any other special Ingerdient you want in?"/>-->
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Meal Info"
-                android:id="@+id/main_mealInfoButton"/>
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

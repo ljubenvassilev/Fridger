@@ -30,6 +30,7 @@ public class MainActivity extends DrawerActivity {
     Button favMealsButton;
     Button shoppingListButton;
     Button myFridgeButton;
+    Button searchMenuButton;
     EditText etMeal;
 
     @Override
@@ -37,43 +38,11 @@ public class MainActivity extends DrawerActivity {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_main);
         super.replaceContentLayout(R.layout.activity_main, super.CONTENT_LAYOUT_ID);
-        cbIngrButter = (CheckBox) findViewById(R.id.main_checkBoxButter);
-        cbIngrCarrot = (CheckBox) findViewById(R.id.main_checkBoxCarrots);
-        cbIngrCheese = (CheckBox) findViewById(R.id.main_checkBoxCheese);
-        cbIngrGarlic = (CheckBox) findViewById(R.id.main_checkBoxGarlic);
         favMealsButton = (Button) findViewById(R.id.main_favMealsButton);
         shoppingListButton = (Button) findViewById(R.id.main_shopListButton);
         myFridgeButton = (Button) findViewById(R.id.main_fridgeButton);
+        searchMenuButton = (Button) findViewById(R.id.main_SearchMenuButton);
 
-
-        etMeal = (EditText) findViewById(R.id.main_etMeal);
-        //etSpecialIngr = (EditText) findViewById(R.id.welcomeActivity_etSpecialIngredient);
-        //final String specialIngr = "&allowedIngredient[]=" + etSpecialIngr.getText().toString().trim();
-        //Testing button
-        apiTestInfoButton = (Button) findViewById(R.id.main_mealInfoButton);
-        apiTestInfoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Request for Soup atm you can try with different stuff
-                String whatToSearch = etMeal.getText().toString().trim();
-                String ingridients = "";
-                if(cbIngrButter.isChecked()){
-                    ingridients += "&allowedIngredient[]=butter";
-                }
-                if(cbIngrCarrot.isChecked()){
-                    ingridients += "&allowedIngredient[]=carrot";
-                }
-                if(cbIngrCheese.isChecked()){
-                    ingridients += "&allowedIngredient[]=cheese";
-                }
-                if(cbIngrGarlic.isChecked()){
-                    ingridients += "&allowedIngredient[]=garlic";
-                }
-                //SearchesForTesting.searches.add("http://api.yummly.com/v1/api/recipes?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd&q=" +whatToSearch + ingridients + "&maxResult=40&start=10");
-                new MainActivity.RequestTask().execute("http://api.yummly.com/v1/api/recipes?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd&q=" +whatToSearch + "&maxResult=40&start=10");
-
-            }
-        });
         favMealsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,40 +64,15 @@ public class MainActivity extends DrawerActivity {
                 startActivity(intent);
             }
         });
-    }
-
-
-
-    class RequestTask extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... params) {
-            String address = params[0];
-            String json = "";
-            try {
-                URL url = new URL(address);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod("GET");
-                connection.connect();
-                Scanner sc = new Scanner(connection.getInputStream());
-                while(sc.hasNextLine()){
-                    json+=(sc.nextLine());
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+        searchMenuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,SearchMealsActivity.class);
+                startActivity(intent);
             }
-            return json;
-        }
-
-        @Override
-        protected void onPostExecute(String json) {
-            Intent intent = new Intent(MainActivity.this, ShowMealActivity.class);
-            intent.putExtra("json", json);
-            startActivity(intent);
-
-            Log.i("JSON",json);
-        }
+        });
     }
+
 
 
 }
