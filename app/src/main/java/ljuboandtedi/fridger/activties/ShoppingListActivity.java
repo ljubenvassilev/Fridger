@@ -8,19 +8,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import ljuboandtedi.fridger.Adapters.IngredientsInShoppingListAdapter;
+import ljuboandtedi.fridger.adapters.IngredientsInShoppingListAdapter;
 import ljuboandtedi.fridger.R;
-import ljuboandtedi.fridger.Adapters.IngredientsRecyclerAdapter;
 import ljuboandtedi.fridger.model.DatabaseHelper;
-import ljuboandtedi.fridger.model.ShoppingListForTestings;
 
-public class ShoppingListActivity extends AppCompatActivity {
+public class ShoppingListActivity extends DrawerActivity {
     private RecyclerView listOfIngredients;
     Button addToFridgeButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_your_ingredients);
+        super.replaceContentLayout(R.layout.activity_your_ingredients, super.CONTENT_LAYOUT_ID);
         listOfIngredients = (RecyclerView) findViewById(R.id.recycleListForIngredients);
         addToFridgeButton = (Button) findViewById(R.id.yourIngredients_addToFridgeButton);
 

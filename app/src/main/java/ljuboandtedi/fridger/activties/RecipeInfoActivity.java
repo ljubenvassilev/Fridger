@@ -26,7 +26,7 @@ import ljuboandtedi.fridger.model.MealManager;
 import ljuboandtedi.fridger.model.Recipe;
 import ljuboandtedi.fridger.model.RecipeManager;
 
-public class RecipeInfoActivity extends AppCompatActivity {
+public class RecipeInfoActivity extends DrawerActivity {
     ImageView iv;
     TextView caloriesTV;
     TextView servingsTV;
@@ -38,7 +38,7 @@ public class RecipeInfoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recipe_info);
+        super.replaceContentLayout(R.layout.activity_recipe_info, super.CONTENT_LAYOUT_ID);
         iv = (ImageView) findViewById(R.id.recipe_info_Image);
         caloriesTV = (TextView) findViewById(R.id.recipe_info_Calories);
         servingsTV = (TextView) findViewById(R.id.recipe_info_Servings);

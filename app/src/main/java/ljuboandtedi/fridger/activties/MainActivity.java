@@ -1,24 +1,13 @@
 package ljuboandtedi.fridger.activties;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.Scanner;
-
-import ljuboandtedi.fridger.Adapters.MyFridgeMealsAdapter;
 import ljuboandtedi.fridger.R;
-import ljuboandtedi.fridger.model.SearchesForTesting;
-import ljuboandtedi.fridger.model.ShoppingListForTestings;
 
 public class MainActivity extends DrawerActivity {
 
@@ -36,7 +25,6 @@ public class MainActivity extends DrawerActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_main);
         super.replaceContentLayout(R.layout.activity_main, super.CONTENT_LAYOUT_ID);
         favMealsButton = (Button) findViewById(R.id.main_favMealsButton);
         shoppingListButton = (Button) findViewById(R.id.main_shopListButton);

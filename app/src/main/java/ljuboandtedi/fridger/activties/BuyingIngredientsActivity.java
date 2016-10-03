@@ -13,11 +13,11 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import ljuboandtedi.fridger.R;
-import ljuboandtedi.fridger.Adapters.IngredientsRecyclerAdapter;
+import ljuboandtedi.fridger.adapters.IngredientsRecyclerAdapter;
 import ljuboandtedi.fridger.model.Recipe;
 import ljuboandtedi.fridger.model.RecipeManager;
 
-public class BuyingIngredientsActivity extends AppCompatActivity {
+public class BuyingIngredientsActivity extends DrawerActivity {
     Recipe recipe;
     private RecyclerView listOfIngredients;
     TextView tv;
@@ -26,7 +26,7 @@ public class BuyingIngredientsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_buying_ingredients);
+        super.replaceContentLayout(R.layout.activity_buying_ingredients, super.CONTENT_LAYOUT_ID);
         listOfIngredients = (RecyclerView) findViewById(R.id.recycleListForIngredients);
         tv = (TextView) findViewById(R.id.buyingingredients_tv);
         addButton = (Button) findViewById(R.id.buyingingredients_DoneButton);

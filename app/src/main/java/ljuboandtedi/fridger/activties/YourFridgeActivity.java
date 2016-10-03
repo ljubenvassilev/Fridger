@@ -8,19 +8,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import ljuboandtedi.fridger.Adapters.IngredientsInShoppingListAdapter;
-import ljuboandtedi.fridger.Adapters.MyFridgeMealsAdapter;
+import ljuboandtedi.fridger.adapters.MyFridgeMealsAdapter;
 import ljuboandtedi.fridger.R;
 import ljuboandtedi.fridger.model.DatabaseHelper;
-import ljuboandtedi.fridger.model.ShoppingListForTestings;
 
-public class YourFridgeActivity extends AppCompatActivity {
+public class YourFridgeActivity extends DrawerActivity {
     private RecyclerView listOfIngredients;
     Button removeSelectedFromFridgeButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_your_fridge);
+        super.replaceContentLayout(R.layout.activity_your_fridge, super.CONTENT_LAYOUT_ID);
         listOfIngredients = (RecyclerView) findViewById(R.id.recycleListForIngredients);
         removeSelectedFromFridgeButton = (Button) findViewById(R.id.fridge_removeButton);
         final int sizeOfFridgeIngrediants = DatabaseHelper.getInstance(this).getUserFridge(DatabaseHelper.getInstance(this).getCurrentUser().getFacebookID()).size();

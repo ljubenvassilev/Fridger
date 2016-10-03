@@ -46,7 +46,7 @@
         <activity android:name=".activties.DrawerActivity" />
         <activity android:name=".activties.FavouriteMealsActivity" />
         <activity android:name=".activties.YourFridgeActivity" />
-        <activity android:name=".activties.SearchMealsActivity"></activity>
+        <activity android:name=".activties.SearchMealsActivity"/>
     </application>
 
 </manifest>

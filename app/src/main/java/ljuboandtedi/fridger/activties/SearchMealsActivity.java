@@ -23,7 +23,7 @@ import java.util.Scanner;
 
 import ljuboandtedi.fridger.R;
 
-public class SearchMealsActivity extends AppCompatActivity {
+public class SearchMealsActivity extends DrawerActivity {
     Spinner courseSpinner;
     Spinner holidaySpinner;
     SeekBar sweet;
@@ -32,7 +32,7 @@ public class SearchMealsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_meals);
+        super.replaceContentLayout(R.layout.activity_search_meals, super.CONTENT_LAYOUT_ID);
         courseSpinner = (Spinner) findViewById(R.id.courseSpinner);
         holidaySpinner = (Spinner) findViewById(R.id.holidaySpinner);
         searchButton = (Button) findViewById(R.id.searchMeal_SearchButton);

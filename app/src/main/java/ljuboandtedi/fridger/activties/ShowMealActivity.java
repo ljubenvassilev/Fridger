@@ -14,10 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ljuboandtedi.fridger.R;
-import ljuboandtedi.fridger.model.Meal;
-import ljuboandtedi.fridger.model.MealManager;
 
-public class ShowMealActivity extends AppCompatActivity {
+public class ShowMealActivity extends DrawerActivity {
     private Bitmap mealPic;
     private RecyclerView listOfMeals;
     private static String bigPicUrl = "";
@@ -25,7 +23,7 @@ public class ShowMealActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recyclelist);
+        super.replaceContentLayout(R.layout.activity_recyclelist, super.CONTENT_LAYOUT_ID);
 
         listOfMeals = (RecyclerView) findViewById(R.id.recycleList);
 
@@ -116,7 +114,7 @@ public class ShowMealActivity extends AppCompatActivity {
         }
 
         listOfMeals.setLayoutManager(new LinearLayoutManager(this));
-        listOfMeals.setAdapter(new ljuboandtedi.fridger.Adapters.FavouriteMealsAdapter(this, recipes));
+        listOfMeals.setAdapter(new ljuboandtedi.fridger.adapters.FavouriteMealsAdapter(this, recipes));
     }
 
 }

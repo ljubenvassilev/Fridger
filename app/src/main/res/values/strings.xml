@@ -4,4 +4,9 @@
     <string name="fb_login_protocol_scheme">fb299864610395117</string>
     <string name="drawer_item_home">Home</string>
     <string name="drawer_item_profile">Profile</string>
+    <string name="drawer_item_search">Search</string>
+    <string name="drawer_item_fridge">MyFridge</string>
+    <string name="drawer_item_favorite">Favorite</string>
+    <string name="drawer_item_list">Shopping List</string>
+    <string name="drawer_item_logout">Logout</string>
 </resources>

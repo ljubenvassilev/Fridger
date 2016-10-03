@@ -1,59 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
-    <ImageView
-        android:id="@+id/recipe_info_Image"
-        android:layout_height="fill_parent"
-        android:layout_width="fill_parent"
-        android:scaleType="fitXY">
-    </ImageView>
-    <LinearLayout
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_gravity="bottom"
-        android:layout_height="50dp">
-        <TextView
-            android:textColor="@android:color/white"
-            android:gravity="center"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:id="@+id/recipe_info_Calories"/>
-        <TextView
-            android:textColor="@android:color/white"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"/>
 
-            android:gravity="center"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:id="@+id/recipe_info_Servings"/>
-        <TextView
-            android:textColor="@android:color/white"
+    <FrameLayout
+        android:layout_below="@id/toolbar"
+        android:id="@+id/frame_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <FrameLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+            <ImageView
+                android:id="@+id/recipe_info_Image"
+                android:layout_height="fill_parent"
+                android:layout_width="fill_parent"
+                android:scaleType="fitXY">
+            </ImageView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_gravity="bottom"
+                android:layout_height="50dp">
+                <TextView
+                    android:textColor="@android:color/white"
+                    android:gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:id="@+id/recipe_info_Calories"/>
+                <TextView
+                    android:textColor="@android:color/white"
 
-            android:gravity="center"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:id="@+id/recipe_info_Ingredients"/>
+                    android:gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:id="@+id/recipe_info_Servings"/>
+                <TextView
+                    android:textColor="@android:color/white"
 
-    </LinearLayout>
+                    android:gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:id="@+id/recipe_info_Ingredients"/>
 
-    <CheckBox
-        android:textColor="@android:color/white"
-        android:text="Favourite"
-        android:textSize="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/recipe_info_FavouriteButton" />
+            </LinearLayout>
 
-    <Button
-        android:text="Add to ShoppingList"
-        android:layout_gravity="right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/recipe_info_addToShopList"
-         />
+            <CheckBox
+                android:textColor="@android:color/white"
+                android:text="Favourite"
+                android:textSize="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/recipe_info_FavouriteButton" />
 
-</FrameLayout>
+            <Button
+                android:text="Add to ShoppingList"
+                android:layout_gravity="right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/recipe_info_addToShopList"
+                 />
+
+        </FrameLayout>
+
+    </FrameLayout>
+</RelativeLayout>

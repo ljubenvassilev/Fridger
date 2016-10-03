@@ -66,25 +66,80 @@ public class DrawerActivity extends AppCompatActivity {
                                     public boolean onItemClick(View view, int position,
                                                                IDrawerItem drawerItem) {
                                         startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                                        finish();
                                         return false;
 
                                     }
                                 })
                                 .withTextColorRes(R.color.md_white_1000),
                         new PrimaryDrawerItem().withIdentifier(2).withName(R.string.
+                                drawer_item_search).withOnDrawerItemClickListener
+                                (new Drawer.OnDrawerItemClickListener() {
+                                    @Override
+                                    public boolean onItemClick(View view, int position,
+                                                               IDrawerItem drawerItem) {
+                                        startActivity(new Intent(getApplicationContext(),SearchMealsActivity.class));
+                                        return false;
+                                    }
+                                })
+                                .withTextColorRes(R.color.md_white_1000),
+                        new PrimaryDrawerItem().withIdentifier(3).withName(R.string.
+                                drawer_item_fridge).withOnDrawerItemClickListener
+                                (new Drawer.OnDrawerItemClickListener() {
+                                    @Override
+                                    public boolean onItemClick(View view, int position,
+                                                               IDrawerItem drawerItem) {
+                                        startActivity(new Intent(getApplicationContext(),YourFridgeActivity.class));
+                                        return false;
+
+                                    }
+                                })
+                                .withTextColorRes(R.color.md_white_1000),
+                        new PrimaryDrawerItem().withIdentifier(4).withName(R.string.
+                                drawer_item_list).withOnDrawerItemClickListener
+                                (new Drawer.OnDrawerItemClickListener() {
+                                    @Override
+                                    public boolean onItemClick(View view, int position,
+                                                               IDrawerItem drawerItem) {
+                                        startActivity(new Intent(getApplicationContext(),ShoppingListActivity.class));
+                                        return false;
+                                    }
+                                })
+                                .withTextColorRes(R.color.md_white_1000),
+
+                        new PrimaryDrawerItem().withIdentifier(5).withName(R.string.
+                                drawer_item_favorite).withOnDrawerItemClickListener
+                                (new Drawer.OnDrawerItemClickListener() {
+                                    @Override
+                                    public boolean onItemClick(View view, int position,
+                                                               IDrawerItem drawerItem) {
+                                        startActivity(new Intent(getApplicationContext(),FavouriteMealsActivity.class));
+                                        return false;
+                                    }
+                                })
+                                .withTextColorRes(R.color.md_white_1000),
+                        new PrimaryDrawerItem().withIdentifier(6).withName(R.string.
                                 drawer_item_profile).withOnDrawerItemClickListener
                                 (new Drawer.OnDrawerItemClickListener() {
                                     @Override
                                     public boolean onItemClick(View view, int position,
                                                                IDrawerItem drawerItem) {
                                         startActivity(new Intent(getApplicationContext(),ProfileActivity.class));
-                                        finish();
+                                        return false;
+                                    }
+                                })
+                                .withTextColorRes(R.color.md_white_1000),
+                        new PrimaryDrawerItem().withIdentifier(7).withName(R.string.
+                                drawer_item_logout).withOnDrawerItemClickListener
+                                (new Drawer.OnDrawerItemClickListener() {
+                                    @Override
+                                    public boolean onItemClick(View view, int position,
+                                                               IDrawerItem drawerItem) {
+                                        startActivity(new Intent(getApplicationContext(),WelcomeActivity.class));
                                         return false;
                                     }
                                 })
                                 .withTextColorRes(R.color.md_white_1000)
-                )
+                        )
                 .build();
     }
 
