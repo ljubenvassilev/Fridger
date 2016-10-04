@@ -114,7 +114,7 @@ public class ShowMealActivity extends DrawerActivity {
         }
 
         listOfMeals.setLayoutManager(new LinearLayoutManager(this));
-        listOfMeals.setAdapter(new ljuboandtedi.fridger.adapters.FavouriteMealsAdapter(this, recipes));
+        listOfMeals.setAdapter(new ljuboandtedi.fridger.adapters.MealRecyclerAdapter(this, recipes));
     }
 
 }

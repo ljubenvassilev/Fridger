@@ -52,7 +52,6 @@ public class IngredientsRecyclerAdapter extends  RecyclerView.Adapter<Ingredient
         final String ingredient = ingredients.get(position);
 
         //fill data of the VH with the data of the object
-
         holder.cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -63,7 +62,6 @@ public class IngredientsRecyclerAdapter extends  RecyclerView.Adapter<Ingredient
                if(!isChecked){
                        if(DatabaseHelper.getInstance(activity).getUserShoppingList(DatabaseHelper.getInstance(activity).getCurrentUser().getFacebookID()).contains(ingredient)){
                            DatabaseHelper.getInstance(activity).removeFromShoppingList(ingredient);
-
                        }
                    }
 

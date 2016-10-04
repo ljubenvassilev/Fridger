@@ -63,9 +63,12 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
     @Override
     public void onBindViewHolder(MealRecyclerAdapter.MyMealViewHolder holder, int position) {
         final String recipe = recipes.get(position);
+        holder.mealPic.setImageDrawable(null);
+        holder.mealPic.setImageResource(R.drawable.loading_image_background);
 
         new RequestTaskForRecipe(holder).execute("http://api.yummly.com/v1/api/recipe/" +recipe+ "?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd" );
         holder.recipeNameTV.setText(recipe);
+        holder.recipeNameTV.getBackground().setAlpha(34);
 
 
     }
@@ -167,7 +170,7 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
                 e.printStackTrace();
             }
         }
-        class RequestTask extends AsyncTask<String, Void, Bitmap> {
+        private class RequestTask extends AsyncTask<String, Void, Bitmap> {
 
             MyMealViewHolder holder;
             Recipe recipe;
@@ -204,6 +207,7 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
             protected void onPostExecute(Bitmap image) {
                 RecipeManager.recipes.put(recipe.getName(),recipe);
                 holder.mealPic.setImageBitmap(image);
+
                 holder.mealPic.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

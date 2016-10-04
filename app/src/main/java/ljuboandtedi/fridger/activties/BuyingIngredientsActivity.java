@@ -13,7 +13,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import ljuboandtedi.fridger.R;
-import ljuboandtedi.fridger.adapters.IngredientsRecyclerAdapter;
+import ljuboandtedi.fridger.adapters.*;
 import ljuboandtedi.fridger.model.Recipe;
 import ljuboandtedi.fridger.model.RecipeManager;
 

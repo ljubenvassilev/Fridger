@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:rsb="http://schemas.android.com/apk/res-auto"
     android:gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -58,19 +59,24 @@
                     android:layout_weight="1"
                     android:orientation="horizontal"
                     android:layout_height="0dp">
+
                     <TextView
                         android:layout_width="0dp"
                         android:text="Sweet"
                         android:textSize="15sp"
                         android:gravity="center"
                         android:layout_weight="1"
-                        android:layout_height="match_parent" />
-
-                    <SeekBar
-                        android:max="100"
+                        android:layout_height="match_parent"
+                        android:id="@+id/textView" />
+                    <com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar
+                        android:id="@+id/rangeSeekbarSweet"
                         android:layout_width="0dp"
+                        android:layout_height="match_parent"
                         android:layout_weight="3"
-                        android:layout_height="match_parent" />
+
+                        rsb:absoluteMaxValue="1"
+                        rsb:absoluteMinValue="0" />
+
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -79,17 +85,20 @@
                     android:layout_height="0dp">
                     <TextView
                         android:layout_width="0dp"
-                        android:text="Sweet"
+                        android:text="Meaty"
                         android:textSize="15sp"
                         android:gravity="center"
                         android:layout_weight="1"
                         android:layout_height="match_parent" />
 
-                    <SeekBar
-                        android:max="100"
+                    <com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar
+                        android:id="@+id/rangeSeekbarMeaty"
                         android:layout_width="0dp"
+                        android:layout_height="match_parent"
                         android:layout_weight="3"
-                        android:layout_height="match_parent" />
+
+                        rsb:absoluteMaxValue="1"
+                        rsb:absoluteMinValue="0" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -98,17 +107,20 @@
                     android:layout_height="0dp">
                     <TextView
                         android:layout_width="0dp"
-                        android:text="Sweet"
+                        android:text="Sour"
                         android:textSize="15sp"
                         android:gravity="center"
                         android:layout_weight="1"
                         android:layout_height="match_parent" />
 
-                    <SeekBar
-                        android:max="100"
+                    <com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar
+                        android:id="@+id/rangeSeekbarSour"
                         android:layout_width="0dp"
+                        android:layout_height="match_parent"
                         android:layout_weight="3"
-                        android:layout_height="match_parent" />
+
+                        rsb:absoluteMaxValue="1"
+                        rsb:absoluteMinValue="0" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -117,17 +129,20 @@
                     android:layout_height="0dp">
                     <TextView
                         android:layout_width="0dp"
-                        android:text="Sweet"
+                        android:text="Bitter"
                         android:textSize="15sp"
                         android:gravity="center"
                         android:layout_weight="1"
                         android:layout_height="match_parent" />
 
-                    <SeekBar
-                        android:max="100"
+                    <com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar
+                        android:id="@+id/rangeSeekbarBitter"
                         android:layout_width="0dp"
+                        android:layout_height="match_parent"
                         android:layout_weight="3"
-                        android:layout_height="match_parent" />
+
+                        rsb:absoluteMaxValue="1"
+                        rsb:absoluteMinValue="0" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -136,17 +151,20 @@
                     android:layout_height="0dp">
                     <TextView
                         android:layout_width="0dp"
-                        android:text="Sweet"
+                        android:text="Piquant"
                         android:textSize="15sp"
                         android:gravity="center"
                         android:layout_weight="1"
                         android:layout_height="match_parent" />
 
-                    <SeekBar
-                        android:max="100"
+                    <com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar
+                        android:id="@+id/rangeSeekbarPiquant"
                         android:layout_width="0dp"
+                        android:layout_height="match_parent"
                         android:layout_weight="3"
-                        android:layout_height="match_parent" />
+
+                        rsb:absoluteMaxValue="1"
+                        rsb:absoluteMinValue="0" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"

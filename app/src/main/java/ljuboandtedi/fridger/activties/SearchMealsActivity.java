@@ -12,6 +12,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Spinner;
+import android.widget.Toast;
+
+import com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
@@ -29,6 +32,11 @@ public class SearchMealsActivity extends DrawerActivity {
     SeekBar sweet;
     Button searchButton;
     EditText mealET;
+    RangeSeekBar<Float> seekBarSweet;
+    RangeSeekBar<Float> seekBarMeaty;
+    RangeSeekBar<Float> seekBarSour;
+    RangeSeekBar<Float> seekBarBitter;
+    RangeSeekBar<Float> seekBarPiquant;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +45,19 @@ public class SearchMealsActivity extends DrawerActivity {
         holidaySpinner = (Spinner) findViewById(R.id.holidaySpinner);
         searchButton = (Button) findViewById(R.id.searchMeal_SearchButton);
         mealET = (EditText) findViewById(R.id.seachMeals_mealToSearch);
+        seekBarSweet = (RangeSeekBar<Float>) findViewById(R.id.rangeSeekbarSweet);
+        seekBarMeaty = (RangeSeekBar<Float>) findViewById(R.id.rangeSeekbarMeaty);
+        seekBarPiquant = (RangeSeekBar<Float>) findViewById(R.id.rangeSeekbarPiquant);
+        seekBarSour = (RangeSeekBar<Float>) findViewById(R.id.rangeSeekbarSour);
+        seekBarBitter = (RangeSeekBar<Float>) findViewById(R.id.rangeSeekbarBitter);
+
+        seekBarSweet.setRangeValues(0.00f, 1.00f);
+        seekBarMeaty.setRangeValues(0.00f, 1.00f);
+        seekBarSour.setRangeValues(0.00f, 1.00f);
+        seekBarPiquant.setRangeValues(0.00f, 1.00f);
+        seekBarBitter.setRangeValues(0.00f, 1.00f);
+
+
 
         ArrayList<String> courses = new ArrayList<>();
         courses.add("Choose course");
@@ -104,6 +125,8 @@ public class SearchMealsActivity extends DrawerActivity {
                 else{
                     course = "&allowedCourse[]=course^course-"+course;
                 }
+                seekBarBitter.getSelectedMaxValue();
+                seekBarBitter.getSelectedMinValue();
                final String whatToSearch = mealET.getText().toString();
                 new SearchMealsActivity.RequestTask().execute("http://api.yummly.com/v1/api/recipes?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd&q=" + whatToSearch + course + holiday +"&maxResult=40&start=10");
 
