@@ -16,6 +16,7 @@ import java.util.List;
 import ljuboandtedi.fridger.R;
 
 public class ShowMealActivity extends DrawerActivity {
+
     private Bitmap mealPic;
     private RecyclerView listOfMeals;
     private static String bigPicUrl = "";

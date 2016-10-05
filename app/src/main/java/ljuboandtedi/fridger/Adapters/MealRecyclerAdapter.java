@@ -63,10 +63,11 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
     @Override
     public void onBindViewHolder(MealRecyclerAdapter.MyMealViewHolder holder, int position) {
         final String recipe = recipes.get(position);
-        holder.mealPic.setImageDrawable(null);
-        holder.mealPic.setImageResource(R.drawable.loading_image_background);
 
-        new RequestTaskForRecipe(holder).execute("http://api.yummly.com/v1/api/recipe/" +recipe+ "?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd" );
+        holder.mealPic.setImageDrawable(null);
+        holder.mealPic.setImageResource(R.drawable.rsz_black_background);
+
+        new RequestTaskForRecipe(holder).execute("http://api.yummly.com/v1/api/recipe/" +recipe+ "?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd");
         holder.recipeNameTV.setText(recipe);
         holder.recipeNameTV.getBackground().setAlpha(34);
 

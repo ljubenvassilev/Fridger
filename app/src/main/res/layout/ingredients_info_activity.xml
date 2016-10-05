@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
-        <CheckBox
+
+        <com.uniquestudio.library.CircleCheckBox
             android:id="@+id/buyingIngredientChecked"
-            android:gravity="center"
-            android:checked="false"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_weight="1.74"
+            android:layout_width="0dp"
+            android:layout_height="104dp"/>
+
         <TextView
             android:gravity="center"
+            android:layout_weight="8.3"
             android:id="@+id/buyingIngredient"
-            android:layout_width="match_parent"
-            android:textSize="15sp"
-            android:layout_height="75dp" />
+            android:layout_width="0dp"
+            android:textSize="35sp"
+            android:layout_height="match_parent" />
 
 </LinearLayout>

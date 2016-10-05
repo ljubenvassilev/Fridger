@@ -36,6 +36,7 @@ dependencies {
         transitive = true
     }
     compile 'com.yahoo.mobile.client.android.util.rangeseekbar:rangeseekbar-library:0.1.0'
+    compile 'com.uniquestudio:checkbox:1.0.1'
     testCompile 'junit:junit:4.12'
 }
 

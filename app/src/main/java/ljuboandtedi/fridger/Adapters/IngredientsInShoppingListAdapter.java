@@ -52,25 +52,25 @@ public class IngredientsInShoppingListAdapter extends  RecyclerView.Adapter<Ingr
         //fill data of the VH with the data of the object
 
 
-        holder.cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-
-                    DatabaseHelper.getInstance(activity).addToFridge(ingredient);
-                    DatabaseHelper.getInstance(activity).removeFromShoppingList(ingredient);
-                }
-                if(!isChecked){
-                    if(DatabaseHelper.getInstance(activity).getUserFridge(DatabaseHelper.getInstance(activity).getCurrentUser().getFacebookID()).contains(ingredient)){
-
-                        DatabaseHelper.getInstance(activity).removeFromFridge(ingredient);
-                        DatabaseHelper.getInstance(activity).addToShoppingList(ingredient);
-                }
-                }
-
-            }
-        });
-        holder.ingredient.setText(ingredient);
+//        holder.cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if(isChecked){
+//
+//                    DatabaseHelper.getInstance(activity).addToFridge(ingredient);
+//                    DatabaseHelper.getInstance(activity).removeFromShoppingList(ingredient);
+//                }
+//                if(!isChecked){
+//                    if(DatabaseHelper.getInstance(activity).getUserFridge(DatabaseHelper.getInstance(activity).getCurrentUser().getFacebookID()).contains(ingredient)){
+//
+//                        DatabaseHelper.getInstance(activity).removeFromFridge(ingredient);
+//                        DatabaseHelper.getInstance(activity).addToShoppingList(ingredient);
+//                }
+//                }
+//
+//            }
+//        });
+//        holder.ingredient.setText(ingredient);
 
     }
 

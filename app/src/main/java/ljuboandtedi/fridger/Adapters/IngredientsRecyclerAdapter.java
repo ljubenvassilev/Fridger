@@ -9,6 +9,9 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import com.uniquestudio.library.CircleCheckBox;
+
+
 import java.util.List;
 
 import ljuboandtedi.fridger.R;
@@ -52,9 +55,10 @@ public class IngredientsRecyclerAdapter extends  RecyclerView.Adapter<Ingredient
         final String ingredient = ingredients.get(position);
 
         //fill data of the VH with the data of the object
-        holder.cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+        holder.cb.setListener(new CircleCheckBox.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            public void onCheckedChanged(boolean isChecked) {
                 if(isChecked){
 
                     DatabaseHelper.getInstance(activity).addToShoppingList(ingredient);
@@ -73,10 +77,10 @@ public class IngredientsRecyclerAdapter extends  RecyclerView.Adapter<Ingredient
 
     class MyIngredientViewHolder extends RecyclerView.ViewHolder{
         TextView ingredient;
-        CheckBox cb;
+        CircleCheckBox cb;
         MyIngredientViewHolder(View row){
             super(row);
-            cb = (CheckBox) row.findViewById(R.id.buyingIngredientChecked);
+            cb = (CircleCheckBox) row.findViewById(R.id.buyingIngredientChecked);
             ingredient = (TextView)    row.findViewById(R.id.buyingIngredient);
 
         }
