@@ -13,10 +13,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.Profile;
+import com.facebook.ProfileTracker;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -29,12 +33,38 @@ import ljuboandtedi.fridger.model.DatabaseHelper;
 
 public class WelcomeActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
+    AccessTokenTracker accessTokenTracker;
+    ProfileTracker profileTracker;
+    DatabaseHelper db = DatabaseHelper.getInstance(WelcomeActivity.this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
-        AppEventsLogger.activateApp(this);
         callbackManager = CallbackManager.Factory.create();
+        accessTokenTracker = new AccessTokenTracker() {
+            @Override
+            protected void onCurrentAccessTokenChanged(
+                    AccessToken oldAccessToken,
+                    AccessToken currentAccessToken) {
+                // Set the access token using
+                // currentAccessToken when it's loaded or set.
+            }
+        };
+        // If the access token is available already assign it.
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        profileTracker = new ProfileTracker() {
+            @Override
+            protected void onCurrentProfileChanged(
+                    Profile oldProfile,
+                    Profile currentProfile) {
+                String userID = currentProfile.getId();
+                if(db.userExists(userID)){
+                    new LoginTask().execute(userID);
+                }
+
+            }
+
+        };
         setContentView(R.layout.activity_welcome);
         try {
             PackageInfo info = getPackageManager().getPackageInfo(
@@ -48,27 +78,14 @@ public class WelcomeActivity extends AppCompatActivity {
         } catch (PackageManager.NameNotFoundException | NoSuchAlgorithmException ignored) {}
         ImageView logo = (ImageView) findViewById(R.id.logo);
         logo.setImageResource(R.drawable.logo);
+
         final LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(final LoginResult loginResult) {
                 loginButton.setVisibility(View.INVISIBLE);
-                new AsyncTask<Void, Void, Void>() {
-                    String userID=loginResult.getAccessToken().getUserId();
-                    @Override
-                    protected Void doInBackground(Void... params) {
-                        final LoginResult result = loginResult;
-                        DatabaseHelper db = DatabaseHelper.getInstance(WelcomeActivity.this);
-                        db.initUsers(userID);
-                        return null;
-                    }
-
-                    @Override
-                    protected void onPostExecute(Void aVoid) {
-                        startActivity(new Intent(WelcomeActivity.this,MainActivity.class));
-                        finish();
-                    }
-                }.execute();
+                String userID=loginResult.getAccessToken().getUserId();
+                new LoginTask().execute(userID);
             }
             @Override
             public void onCancel() {
@@ -82,6 +99,29 @@ public class WelcomeActivity extends AppCompatActivity {
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        accessTokenTracker.stopTracking();
+        profileTracker.stopTracking();
+    }
+
+    class LoginTask extends AsyncTask<String,Void,Void>{
+
+        @Override
+        protected Void doInBackground(String... params) {
+            db.initUsers(params[0]);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            startActivity(new Intent(WelcomeActivity.this,MainActivity.class));
+            finish();
+        }
     }
 }
