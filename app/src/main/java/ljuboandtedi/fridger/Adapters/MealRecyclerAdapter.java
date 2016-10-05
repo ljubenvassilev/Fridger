@@ -66,10 +66,10 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
 
         holder.mealPic.setImageDrawable(null);
         holder.mealPic.setImageResource(R.drawable.rsz_black_background);
-
+        holder.mealPic.setAlpha(0.78f);
         new RequestTaskForRecipe(holder).execute("http://api.yummly.com/v1/api/recipe/" +recipe+ "?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd");
         holder.recipeNameTV.setText(recipe);
-        holder.recipeNameTV.getBackground().setAlpha(34);
+        //holder.recipeNameTV.getBackground().setAlpha(34);
 
 
     }
@@ -98,6 +98,7 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
         protected String doInBackground(String... params) {
             String address = params[0];
             String json = "";
+
             try {
                 URL url = new URL(address);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -188,6 +189,7 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
             protected Bitmap doInBackground(String... params) {
                 String address = params[0];
                 Bitmap bitmap = null;
+
                 try {
                     URL url = new URL(address);
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
