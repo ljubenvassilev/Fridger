@@ -13,15 +13,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.facebook.AccessToken;
-import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
-import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
@@ -33,7 +30,6 @@ import ljuboandtedi.fridger.model.DatabaseHelper;
 
 public class WelcomeActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
-    AccessTokenTracker accessTokenTracker;
     ProfileTracker profileTracker;
     DatabaseHelper db = DatabaseHelper.getInstance(WelcomeActivity.this);
     @Override
@@ -41,22 +37,11 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
-        accessTokenTracker = new AccessTokenTracker() {
-            @Override
-            protected void onCurrentAccessTokenChanged(
-                    AccessToken oldAccessToken,
-                    AccessToken currentAccessToken) {
-                // Set the access token using
-                // currentAccessToken when it's loaded or set.
-            }
-        };
-        // If the access token is available already assign it.
-        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+
         profileTracker = new ProfileTracker() {
             @Override
-            protected void onCurrentProfileChanged(
-                    Profile oldProfile,
-                    Profile currentProfile) {
+            protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
+                if(currentProfile==null)return;
                 String userID = currentProfile.getId();
                 if(db.userExists(userID)){
                     new LoginTask().execute(userID);
@@ -100,14 +85,14 @@ public class WelcomeActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.e("FB",String.valueOf(resultCode));
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
-        accessTokenTracker.stopTracking();
         profileTracker.stopTracking();
+        super.onDestroy();
     }
 
     class LoginTask extends AsyncTask<String,Void,Void>{
