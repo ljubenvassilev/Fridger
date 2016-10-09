@@ -5,18 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-        <com.uniquestudio.library.CircleCheckBox
+        <CheckBox
+            android:gravity="top"
+            android:layout_gravity="center"
             android:id="@+id/buyingIngredientChecked"
-            android:layout_weight="1.74"
+            android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="104dp"/>
+            android:layout_height="match_parent"/>
 
         <TextView
-            android:gravity="center"
+            android:gravity="left"
+            android:layout_gravity="center"
             android:layout_weight="8.3"
             android:id="@+id/buyingIngredient"
             android:layout_width="0dp"
-            android:textSize="35sp"
+            android:textSize="15sp"
+            android:lines="2"
+            android:textColor="@color/md_black_1000"
             android:layout_height="match_parent" />
 
 </LinearLayout>

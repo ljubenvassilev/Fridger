@@ -29,7 +29,7 @@ import ljuboandtedi.fridger.R;
 public class SearchMealsActivity extends DrawerActivity {
     Spinner courseSpinner;
     Spinner holidaySpinner;
-    SeekBar sweet;
+
     Button searchButton;
     EditText mealET;
     RangeSeekBar<Float> seekBarSweet;

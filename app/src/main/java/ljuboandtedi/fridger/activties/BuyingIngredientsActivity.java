@@ -37,7 +37,7 @@ public class BuyingIngredientsActivity extends DrawerActivity {
         ingredients = recipe.getIngredientLines();
 
         listOfIngredients.setLayoutManager(new LinearLayoutManager(this));
-        listOfIngredients.setAdapter(new IngredientsRecyclerAdapter(this, ingredients));
+        listOfIngredients.setAdapter(new IngredientsRecyclerAdapter(this ,ingredients));
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override

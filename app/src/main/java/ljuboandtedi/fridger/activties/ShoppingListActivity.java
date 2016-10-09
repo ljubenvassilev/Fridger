@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import ljuboandtedi.fridger.adapters.IngredientsInShoppingListAdapter;
 import ljuboandtedi.fridger.R;
+import ljuboandtedi.fridger.adapters.IngredientsRecyclerAdapter;
 import ljuboandtedi.fridger.model.DatabaseHelper;
 
 public class ShoppingListActivity extends DrawerActivity {
@@ -23,7 +24,7 @@ public class ShoppingListActivity extends DrawerActivity {
         addToFridgeButton = (Button) findViewById(R.id.yourIngredients_addToFridgeButton);
 
         listOfIngredients.setLayoutManager(new LinearLayoutManager(this));
-        listOfIngredients.setAdapter(new IngredientsInShoppingListAdapter(this, DatabaseHelper.getInstance(this).getUserShoppingList(DatabaseHelper.getInstance(this).getCurrentUser().getFacebookID())));
+        listOfIngredients.setAdapter(new IngredientsInShoppingListAdapter(this,DatabaseHelper.getInstance(this).getUserShoppingList(DatabaseHelper.getInstance(this).getCurrentUser().getFacebookID())));
 
         addToFridgeButton.setOnClickListener(new View.OnClickListener() {
             @Override

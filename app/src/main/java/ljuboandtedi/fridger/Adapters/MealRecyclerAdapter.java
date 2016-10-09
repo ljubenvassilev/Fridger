@@ -164,7 +164,8 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
                 JSONArray images = object.getJSONArray("images");
                 String bigPicUrl = images.getJSONObject(0).getString("hostedLargeUrl");
                 String id = object.getString("id");
-                Recipe recipe = new Recipe(ingredientLinesArr, flavorsMap, nutritionsMap, nameOfRecipe, servings, totalTime, rating,bigPicUrl,id);
+                String numberOfServings = object.getString("numberOfServings");
+                Recipe recipe = new Recipe(ingredientLinesArr, flavorsMap, nutritionsMap, nameOfRecipe, servings, totalTime, rating,bigPicUrl,id,numberOfServings);
 
                 new MealRecyclerAdapter.RequestTaskForRecipe.RequestTask(holder, recipe).execute(bigPicUrl);
 

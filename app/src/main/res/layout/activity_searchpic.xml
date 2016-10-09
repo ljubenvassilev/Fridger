@@ -26,8 +26,6 @@
             android:textSize="20sp"
             android:layout_gravity="bottom"
             android:layout_alignParentBottom="true"
-            android:text="Hello"
-
             android:lines="1"
             android:textColor="@color/md_white_1000" />
 

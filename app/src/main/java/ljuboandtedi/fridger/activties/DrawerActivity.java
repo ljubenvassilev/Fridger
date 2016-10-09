@@ -160,12 +160,4 @@ public class DrawerActivity extends AppCompatActivity {
         parent.addView(contentLayout, index);
     }
 
-    @Override
-    public void onBackPressed() {
-        if(result.isDrawerOpen()){
-            result.closeDrawer();
-        }else{
-            result.openDrawer();
-        }
-    }
 }
