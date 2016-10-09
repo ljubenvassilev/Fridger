@@ -198,6 +198,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"/>
         <Button
+            android:id="@+id/recipe_info_viewDirections"
             android:text="View Directions"
             android:layout_width="0dp"
             android:layout_height="match_parent"

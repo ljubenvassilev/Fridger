@@ -168,6 +168,8 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
                 String id = object.getString("id");
                 String numberOfServings = object.getString("numberOfServings");
                 ArrayList<String> coursesForTheRecipe = new ArrayList<>();
+                JSONObject sources = object.getJSONObject("source");
+                String source = sources.getString("sourceRecipeUrl");
 
                 JSONObject course = object.getJSONObject("attributes");
                 if(!course.isNull("course")) {
@@ -177,7 +179,7 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
                     }
                 }
                 Log.e("ccourses",coursesForTheRecipe.toString());
-                Recipe recipe = new Recipe(ingredientLinesArr, flavorsMap, nutritionsMap, nameOfRecipe, servings, totalTime, rating,bigPicUrl,id,numberOfServings,coursesForTheRecipe);
+                Recipe recipe = new Recipe(ingredientLinesArr, flavorsMap, nutritionsMap, nameOfRecipe, servings, totalTime, rating,bigPicUrl,id,numberOfServings,coursesForTheRecipe,source);
                 holder.recipeNameTV.setText(recipe.getName());
                 new MealRecyclerAdapter.RequestTaskForRecipe.RequestTask(holder, recipe).execute(bigPicUrl);
 

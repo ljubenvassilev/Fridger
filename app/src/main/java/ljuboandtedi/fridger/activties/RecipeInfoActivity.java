@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -50,6 +52,7 @@ public class RecipeInfoActivity extends DrawerActivity {
     TextView course3TV;
     CheckBox cbFavourite;
     Button buyALlButton;
+    Button viewDirections;
     RecyclerView ingredientsList;
     Meal meal;
     Recipe recipe;
@@ -72,6 +75,8 @@ public class RecipeInfoActivity extends DrawerActivity {
         itb = (TextView) findViewById(R.id.recipe_info_itemsToBeBought);
 
         buyALlButton = (Button) findViewById(R.id.recipe_info_buyALlButton);
+        viewDirections = (Button) findViewById(R.id.recipe_info_viewDirections);
+
         if (MealManager.meals.get(getIntent().getStringExtra("meal")) != null) {
             meal = MealManager.meals.get(getIntent().getStringExtra("meal"));
             recipe = meal.getRecipe();
@@ -90,6 +95,18 @@ public class RecipeInfoActivity extends DrawerActivity {
         }
         itb.setText("ITB:" + DatabaseHelper.getInstance(this).getUserShoppingList(DatabaseHelper.getInstance(this).getCurrentUser().getFacebookID()).size());
 
+        viewDirections.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Uri uri = Uri.parse(recipe.getSource());
+//                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+//                startActivity(intent);
+                WebView webview = new WebView(RecipeInfoActivity.this);
+                setContentView(webview);
+                webview.loadUrl(recipe.getSource());
+
+            }
+        });
         if(recipe.getCourses().size() == 1){
             course1TV.setText(recipe.getCourses().get(0));
             course2TV.setVisibility(View.GONE);
