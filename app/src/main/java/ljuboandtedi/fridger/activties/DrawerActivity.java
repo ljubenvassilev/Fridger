@@ -3,39 +3,26 @@ package ljuboandtedi.fridger.activties;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.HttpMethod;
-import com.facebook.Profile;
+import com.facebook.login.LoginManager;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import ljuboandtedi.fridger.R;
 import ljuboandtedi.fridger.model.DatabaseHelper;
@@ -85,6 +72,8 @@ public class DrawerActivity extends AppCompatActivity {
                 .withCloseOnClick(true)
                 .withAccountHeader(headerResult)
                 .withSliderBackgroundColorRes(R.color.md_black_1000)
+                .withFooterDivider(true)
+                .withStickyFooterDivider(true)
                 .addDrawerItems(
                         new PrimaryDrawerItem().withIdentifier(1).withName(R.string.
                                 drawer_item_home).withOnDrawerItemClickListener
@@ -154,20 +143,23 @@ public class DrawerActivity extends AppCompatActivity {
                                         return false;
                                     }
                                 })
-                                .withTextColorRes(R.color.md_white_1000),
-                        new PrimaryDrawerItem().withIdentifier(7).withName(R.string.
-                                drawer_item_logout).withOnDrawerItemClickListener
-                                (new Drawer.OnDrawerItemClickListener() {
-                                    @Override
-                                    public boolean onItemClick(View view, int position,
-                                                               IDrawerItem drawerItem) {
-                                        startActivity(new Intent(getApplicationContext(), WelcomeActivity.class));
-                                        return false;
-                                    }
-                                })
                                 .withTextColorRes(R.color.md_white_1000)
+
                 )
                 .build();
+        result.addItem(new DividerDrawerItem());
+        result.addStickyFooterItem(new PrimaryDrawerItem().withIdentifier(7).withName(R.string.
+                drawer_item_logout).withOnDrawerItemClickListener
+                (new Drawer.OnDrawerItemClickListener() {
+                    @Override
+                    public boolean onItemClick(View view, int position,
+                                               IDrawerItem drawerItem) {
+                        LoginManager.getInstance().logOut();
+                        startActivity(new Intent(getApplicationContext(), WelcomeActivity.class));
+                        return false;
+                    }
+                })
+                .withTextColorRes(R.color.md_black_1000));
     }
 
     @Override
@@ -186,15 +178,6 @@ public class DrawerActivity extends AppCompatActivity {
         contentLayout = getLayoutInflater().inflate(sourceId, parent, false);
         parent.addView(contentLayout, index);
     }
-
-//    @Override
-//    public void onBackPressed() {
-//        if (result.isDrawerOpen()) {
-//            result.closeDrawer();
-//        } else {
-//            result.openDrawer();
-//        }
-//    }
 }
 
 

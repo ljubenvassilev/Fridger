@@ -47,6 +47,16 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
+//        profileTracker = new ProfileTracker() {
+//            @Override
+//             protected void onCurrentProfileChanged(Profile oldProfile,Profile currentProfile) {
+//                String userID = currentProfile.getId();
+//                Log.d("user",currentProfile.getName());
+//                if(db.userExists(userID)){
+//
+//                }
+//            }
+//        };
         callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_welcome);
         ImageView logo = (ImageView) findViewById(R.id.logo);
@@ -81,32 +91,17 @@ public class WelcomeActivity extends AppCompatActivity {
                     loginButton.setVisibility(View.VISIBLE);
                 }
                 else{
-                    final SharedPreferences.Editor editor = WelcomeActivity.this.
-                            getSharedPreferences("Fridger", Context.MODE_PRIVATE).edit();
-                    editor.putString("name", currentProfile.getName());
-                    editor.putString("pic",currentProfile.getProfilePictureUri(150,150).toString());
-                    Bundle params = new Bundle();
-                    params.putString("fields","email");
-                    new GraphRequest(AccessToken.getCurrentAccessToken(), "me",params,
-                            HttpMethod.GET, new GraphRequest.Callback() {
-                        @Override
-                        public void onCompleted(GraphResponse response) {
-                            if(response!=null){
-                                try {
-                                    editor.putString("email",response.getJSONObject().
-                                            getString("email"));
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                            editor.apply();
-                            startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
-                        }
-                    }).executeAsync();
+                    initiateLogin(currentProfile);
                 }
             }
         };
         profileTracker.startTracking();
+
+        if(isLoggedIn()){
+            loginButton.setVisibility(View.INVISIBLE);
+            db.initUsers(AccessToken.getCurrentAccessToken().getUserId());
+            initiateLogin(Profile.getCurrentProfile());
+        }
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -118,5 +113,35 @@ public class WelcomeActivity extends AppCompatActivity {
     public void onDestroy() {
         profileTracker.stopTracking();
         super.onDestroy();
+    }
+
+    public boolean isLoggedIn(){
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        return accessToken != null;
+    }
+
+    public void initiateLogin(Profile currentProfile){
+        final SharedPreferences.Editor editor = WelcomeActivity.this.
+                getSharedPreferences("Fridger", Context.MODE_PRIVATE).edit();
+        editor.putString("name", currentProfile.getName());
+        editor.putString("pic",currentProfile.getProfilePictureUri(150,150).toString());
+        Bundle params = new Bundle();
+        params.putString("fields","email");
+        new GraphRequest(AccessToken.getCurrentAccessToken(), "me",params,
+                HttpMethod.GET, new GraphRequest.Callback() {
+            @Override
+            public void onCompleted(GraphResponse response) {
+                if(response!=null){
+                    try {
+                        editor.putString("email",response.getJSONObject().
+                                getString("email"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                editor.apply();
+                startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
+            }
+        }).executeAsync();
     }
 }
