@@ -92,11 +92,6 @@ public class ShowMealActivity extends DrawerActivity {
                     flavorsString += "\nsour: " + flavorsInJson.getDouble("sour");
                     flavorsString += "\nsalty: " + flavorsInJson.getDouble("salty");
                 }
-                //Pic url.
-                if (!attributesInJson.isNull("imageUrlsBySize")) {
-                    JSONObject aboutPicture = attributesInJson.getJSONObject("imageUrlsBySize");
-                    picUrl = aboutPicture.getString("90");
-                }
                 String id = "";
                 if (!attributesInJson.isNull("id")) {
                     //JSONObject aboutPicture = attributesInJson.getJSONObject("id");

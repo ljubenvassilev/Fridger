@@ -11,6 +11,7 @@ public class Recipe {
     ArrayList<String> ingredientLines;
     HashMap<String,Double> flavors;
     HashMap<String,Double> nutritions;
+    ArrayList<String> courses;
     String name;
     String servings;
     String timeForPrepare;
@@ -19,7 +20,7 @@ public class Recipe {
     String numberOfServings;
     double rating;
 
-    public Recipe(ArrayList<String> ingredientLines, HashMap<String, Double> flavors, HashMap<String, Double> nutritions, String name, String servings, String timeForPrepare, double rating,String bigPicUrl,String id,String numberOfServings) {
+    public Recipe(ArrayList<String> ingredientLines, HashMap<String, Double> flavors, HashMap<String, Double> nutritions, String name, String servings, String timeForPrepare, double rating,String bigPicUrl,String id,String numberOfServings,ArrayList<String> courses) {
         this.ingredientLines = ingredientLines;
         this.flavors = flavors;
         this.nutritions = nutritions;
@@ -30,6 +31,7 @@ public class Recipe {
         this.bigPicUrl = bigPicUrl;
         this.id = id;
         this.numberOfServings = numberOfServings;
+        this.courses = courses;
     }
 
     public ArrayList<String> getIngredientLines() {
@@ -70,5 +72,9 @@ public class Recipe {
 
     public String getNumberOfServings() {
         return numberOfServings;
+    }
+
+    public ArrayList<String> getCourses() {
+        return courses;
     }
 }

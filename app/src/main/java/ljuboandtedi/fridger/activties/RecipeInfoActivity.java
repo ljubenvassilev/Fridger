@@ -28,6 +28,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Scanner;
 
 import ljuboandtedi.fridger.R;
 import ljuboandtedi.fridger.adapters.IngredientsRecyclerAdapter;
@@ -44,6 +45,9 @@ public class RecipeInfoActivity extends DrawerActivity {
     TextView ingredients;
     TextView servingsForTheIngredients;
     TextView itb;
+    TextView course1TV;
+    TextView course2TV;
+    TextView course3TV;
     CheckBox cbFavourite;
     Button buyALlButton;
     RecyclerView ingredientsList;
@@ -54,173 +58,111 @@ public class RecipeInfoActivity extends DrawerActivity {
         super.onCreate(savedInstanceState);
         super.replaceContentLayout(R.layout.activity_recipe_info, super.CONTENT_LAYOUT_ID);
         iv = (ImageView) findViewById(R.id.recipe_info_Image);
+
+        course1TV = (TextView) findViewById(R.id.recipe_info_course1);
+        course2TV = (TextView) findViewById(R.id.recipe_info_course2);
+        course3TV = (TextView) findViewById(R.id.recipe_info_course3);
+
         caloriesTV = (TextView) findViewById(R.id.recipe_info_Calories);
         totalTime = (TextView) findViewById(R.id.recipe_info_TotalTime);
         ingredients = (TextView) findViewById(R.id.recipe_info_Ingredients);
         cbFavourite = (CheckBox) findViewById(R.id.recipe_info_FavouriteButton);
         servingsForTheIngredients = (TextView) findViewById(R.id.recipe_info_servingsForTheIngredients);
+
         itb = (TextView) findViewById(R.id.recipe_info_itemsToBeBought);
+
         buyALlButton = (Button) findViewById(R.id.recipe_info_buyALlButton);
-        if(MealManager.meals.get(getIntent().getStringExtra("meal")) != null){
+        if (MealManager.meals.get(getIntent().getStringExtra("meal")) != null) {
             meal = MealManager.meals.get(getIntent().getStringExtra("meal"));
             recipe = meal.getRecipe();
-        }
-        else
+        } else
             recipe = RecipeManager.recipes.get(getIntent().getStringExtra("recipe"));
         new RequestTask().execute(recipe.getBigPicUrl());
-        if(recipe.getNutritions().get("ENERC_KCAL") == null){
+        if (recipe.getNutritions().get("Energy") == null) {
             caloriesTV.setText("Calories: " + 0);
+        } else {
+            caloriesTV.setText("Calories: " + recipe.getNutritions().get("FAT"));
         }
-        else{
-            caloriesTV.setText("Calories: "+recipe.getNutritions().get("FAT"));
-        }
-        if(recipe.getTimeForPrepare() == null ||recipe.getTimeForPrepare().equals("null")){
+        if (recipe.getTimeForPrepare() == null || recipe.getTimeForPrepare().equals("null")) {
             totalTime.setText("Fast & Easy");
-        }
-        else{
+        } else {
             totalTime.setText(recipe.getTimeForPrepare());
         }
-        itb.setText("ITB:" + DatabaseHelper.getInstance(this).getUserFridge(DatabaseHelper.getInstance(this).getCurrentUser().getFacebookID()).size());
+        itb.setText("ITB:" + DatabaseHelper.getInstance(this).getUserShoppingList(DatabaseHelper.getInstance(this).getCurrentUser().getFacebookID()).size());
+
+        if(recipe.getCourses().size() == 1){
+            course1TV.setText(recipe.getCourses().get(0));
+            course2TV.setVisibility(View.GONE);
+            course3TV.setVisibility(View.GONE);
+        }
+        else if (recipe.getCourses().size() == 0){
+            course1TV.setVisibility(View.GONE);
+            course2TV.setVisibility(View.GONE);
+            course3TV.setVisibility(View.GONE);
+        }
+        else if(recipe.getCourses().size() == 2){
+            course1TV.setText(recipe.getCourses().get(0));
+            course2TV.setText(recipe.getCourses().get(1));
+            course3TV.setVisibility(View.GONE);
+        }
+        else{
+            course1TV.setText(recipe.getCourses().get(0));
+            course2TV.setText(recipe.getCourses().get(1));
+            course3TV.setText(recipe.getCourses().get(2));
+        }
+        final String courseOfTV1 = "&allowedCourse[]=course^course-" + course1TV.getText().toString().trim().replace(" ","+");
+        course1TV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("allowed course","http://api.yummly.com/v1/api/recipes?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd&q="+ courseOfTV1 + "&maxResult=40&start=10");
+
+                new RequestTaskForTheCourses().execute("http://api.yummly.com/v1/api/recipes?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd&q=" + courseOfTV1 + "&maxResult=40&start=10");
+
+            }
+        });
+
         servingsForTheIngredients.setText(recipe.getNumberOfServings() + "");
         ingredients.setText(recipe.getIngredientLines().size() + " Ingredients");
-        if(DatabaseHelper.getInstance(this).getUserFavoriteMeals(DatabaseHelper.getInstance(this).getCurrentUser().getFacebookID()).contains(recipe.getId())){
+
+
+        if (DatabaseHelper.getInstance(this).getUserFavoriteMeals(DatabaseHelper.getInstance(this).getCurrentUser().getFacebookID()).contains(recipe.getId())) {
             cbFavourite.setChecked(true);
         }
         cbFavourite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                if(isChecked){
+                if (isChecked) {
                     DatabaseHelper.getInstance(RecipeInfoActivity.this).addToFavoriteMeals(recipe.getId());
                     RecipeManager.test.add(recipe.getId());
+                } else if (DatabaseHelper.getInstance(RecipeInfoActivity.this).getUserFavoriteMeals(DatabaseHelper.getInstance(RecipeInfoActivity.this).getCurrentUser().getFacebookID()).contains(recipe.getId())) {
+                    DatabaseHelper.getInstance(RecipeInfoActivity.this).removeFromFavoriteMeals(recipe.getId());
                 }
-                else
-                    if(DatabaseHelper.getInstance(RecipeInfoActivity.this).getUserFavoriteMeals(DatabaseHelper.getInstance(RecipeInfoActivity.this).getCurrentUser().getFacebookID()).contains(recipe.getId())){
-                        DatabaseHelper.getInstance(RecipeInfoActivity.this).removeFromFavoriteMeals(recipe.getId());
-                    }
             }
         });
+
+
         buyALlButton.setText("Buy Checked");
         final int sizeOfSList = DatabaseHelper.getInstance(RecipeInfoActivity.this).getUserShoppingList(DatabaseHelper.getInstance(RecipeInfoActivity.this).getCurrentUser().getFacebookID()).size();
         buyALlButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(sizeOfSList< DatabaseHelper.getInstance(RecipeInfoActivity.this).getUserShoppingList(DatabaseHelper.getInstance(RecipeInfoActivity.this).getCurrentUser().getFacebookID()).size()){
+                if (sizeOfSList < DatabaseHelper.getInstance(RecipeInfoActivity.this).getUserShoppingList(DatabaseHelper.getInstance(RecipeInfoActivity.this).getCurrentUser().getFacebookID()).size()) {
                     Toast.makeText(RecipeInfoActivity.this, "Ingr. added to your SList", Toast.LENGTH_SHORT).show();
                     finish();
-                }
-                else{
+                } else {
                     Toast.makeText(RecipeInfoActivity.this, "Nothing selected", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
         ingredientsList = (RecyclerView) findViewById(R.id.recycleListForIngredients);
         ingredientsList.setLayoutManager(new LinearLayoutManager(this));
-        ingredientsList.setAdapter(new IngredientsRecyclerAdapter(this ,recipe.getIngredientLines()));
-         class IngredientsRecyclerAdapter extends  RecyclerView.Adapter<IngredientsRecyclerAdapter.MyIngredientViewHolder>{
-
-            private List<String> ingredients;
-            private HashMap<String,Boolean> ingredientsChecker;
-            private Activity activity;
-
-            public IngredientsRecyclerAdapter(Activity activity, List<String> ingredients){
-                this.ingredients = ingredients;
-                ingredientsChecker = new HashMap<>();
-                for(String s: ingredients){
-                    ingredientsChecker.put(s,false);
-                }
-                this.activity = activity;
-
-            }
-
-            @Override
-            public IngredientsRecyclerAdapter.MyIngredientViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                //inflate xml
-                LayoutInflater inflater = activity.getLayoutInflater();
-                View row = inflater.inflate(R.layout.ingredients_info_activity, parent, false);
-                //create vh
-                IngredientsRecyclerAdapter.MyIngredientViewHolder vh = new MyIngredientViewHolder(row);
-                //return vh
-                return vh;
-            }
-
-            @Override
-            public int getItemCount() {
-                return ingredients.size();
-            }
-
-            @Override
-            public void onBindViewHolder(final IngredientsRecyclerAdapter.MyIngredientViewHolder holder, int position) {
-                //get obj on position
-                final String ingredient = ingredients.get(position);
-
-                //fill data of the VH with the data of the object
-//       int cbHeight = holder.cb.getHeight();
-//        ViewGroup.LayoutParams params =  holder.cb.getLayoutParams();
-//        WindowManager wm = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
-//        Display display = wm.getDefaultDisplay();
-//        Point size = new Point();
-//        display.getSize(size);
-//        double width = size.x;
-//        Log.e("widthScreen",width + "");
-//        double height = size.y;
-//        Log.e("heightScreen",height + " ");
-//        double scale = params.height/height;
-//        Log.e("scale",scale + "");
-//        Log.e("height",params.height + "");
-//        double newWidth = width*scale;
-//        Log.e("new width",""+newWidth);
-//        params.width =(int) newWidth;
-//
-//        holder.cb.setLayoutParams(params);
-//        Log.e("ingredient",ingredient);
-//        Log.e("selected",isitSelected + "");
+        ingredientsList.setAdapter(new IngredientsRecyclerAdapter(this, recipe.getIngredientLines()));
 
 
 
-                boolean isitSelected = ingredientsChecker.get(ingredient);
-                if(isitSelected){
-                    holder.cb.setChecked(true);
-                }
-                if(!isitSelected){
-                    holder.cb.setChecked(false);
-                }
-                holder.cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        if(isChecked){
-                            holder.cb.setBackgroundColor(Color.GRAY);
-                            holder.ingredient.setBackgroundColor(Color.GRAY);
-                            ingredientsChecker.put(ingredient,true);
-                            DatabaseHelper.getInstance(activity).addToShoppingList(ingredient);
-                        }
-                        if(!isChecked){
-                            holder.cb.setBackgroundColor(Color.WHITE);
-                            holder.ingredient.setBackgroundColor(Color.WHITE);
-                            if(DatabaseHelper.getInstance(activity).getUserShoppingList(DatabaseHelper.getInstance(activity).getCurrentUser().getFacebookID()).contains(ingredient)){
-                                DatabaseHelper.getInstance(activity).removeFromShoppingList(ingredient);
-                                ingredientsChecker.put(ingredient,false);
-                            }
-                        }
-                    }
-                });
 
-                holder.ingredient.setText(ingredient);
-
-            }
-
-              class MyIngredientViewHolder extends RecyclerView.ViewHolder{
-                TextView ingredient;
-                CheckBox cb;
-                MyIngredientViewHolder(View row){
-                    super(row);
-                    this.setIsRecyclable(false);
-                    cb = (CheckBox) row.findViewById(R.id.buyingIngredientChecked);
-                    ingredient = (TextView)    row.findViewById(R.id.buyingIngredient);
-
-                }
-            }
-        }
     }
     class RequestTask extends AsyncTask<String, Void, Bitmap> {
 
@@ -251,9 +193,38 @@ public class RecipeInfoActivity extends DrawerActivity {
 
         @Override
         protected void onPostExecute(Bitmap image) {
-             iv.setImageBitmap(image);
+            iv.setImageBitmap(image);
         }
     }
+    class RequestTaskForTheCourses extends AsyncTask<String, Void, String> {
 
+        @Override
+        protected String doInBackground(String... params) {
+            String address = params[0];
+            String json = "";
+            try {
+                URL url = new URL(address);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("GET");
+                connection.connect();
+                Scanner sc = new Scanner(connection.getInputStream());
+                while(sc.hasNextLine()){
+                    json+=(sc.nextLine());
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return json;
+        }
+
+        @Override
+        protected void onPostExecute(String json) {
+            Intent intent = new Intent(RecipeInfoActivity.this, ShowMealActivity.class);
+            intent.putExtra("json", json);
+            startActivity(intent);
+            finish();
+            Log.i("JSON",json);
+        }
+    }
 
 }

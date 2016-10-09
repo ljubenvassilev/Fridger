@@ -117,13 +117,13 @@ public class SearchMealsActivity extends DrawerActivity {
                     holiday = "";
                 }
                 else{
-                    holiday = "&allowedHoliday[]=holiday^holiday-" + holiday;
+                    holiday = "&allowedHoliday[]=holiday^holiday-" + holiday.trim().replace(" ","+");
                 }
                 if(course.equals("Choose course")){
                     course = "";
                 }
                 else{
-                    course = "&allowedCourse[]=course^course-"+course;
+                    course = "&allowedCourse[]=course^course-"+course.trim().replace(" ","+");
                 }
                 seekBarBitter.getSelectedMaxValue();
                 seekBarBitter.getSelectedMinValue();

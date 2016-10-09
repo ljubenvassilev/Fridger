@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,7 +69,7 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
         holder.mealPic.setImageResource(R.drawable.rsz_black_background);
         holder.mealPic.setAlpha(0.78f);
         new RequestTaskForRecipe(holder).execute("http://api.yummly.com/v1/api/recipe/" +recipe+ "?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd");
-        holder.recipeNameTV.setText(recipe);
+
         //holder.recipeNameTV.getBackground().setAlpha(34);
 
 
@@ -96,6 +97,7 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
 
         @Override
         protected String doInBackground(String... params) {
+            Log.e("params",params[0]);
             String address = params[0];
             String json = "";
 
@@ -165,8 +167,18 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
                 String bigPicUrl = images.getJSONObject(0).getString("hostedLargeUrl");
                 String id = object.getString("id");
                 String numberOfServings = object.getString("numberOfServings");
-                Recipe recipe = new Recipe(ingredientLinesArr, flavorsMap, nutritionsMap, nameOfRecipe, servings, totalTime, rating,bigPicUrl,id,numberOfServings);
+                ArrayList<String> coursesForTheRecipe = new ArrayList<>();
 
+                JSONObject course = object.getJSONObject("attributes");
+                if(!course.isNull("course")) {
+                    JSONArray courses = course.getJSONArray("course");
+                    for (int i = 0; i < courses.length(); i++) {
+                        coursesForTheRecipe.add(courses.getString(i));
+                    }
+                }
+                Log.e("ccourses",coursesForTheRecipe.toString());
+                Recipe recipe = new Recipe(ingredientLinesArr, flavorsMap, nutritionsMap, nameOfRecipe, servings, totalTime, rating,bigPicUrl,id,numberOfServings,coursesForTheRecipe);
+                holder.recipeNameTV.setText(recipe.getName());
                 new MealRecyclerAdapter.RequestTaskForRecipe.RequestTask(holder, recipe).execute(bigPicUrl);
 
             } catch (JSONException e) {

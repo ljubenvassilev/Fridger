@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,7 +62,7 @@ public class FavouriteMealsAdapter extends RecyclerView.Adapter<FavouriteMealsAd
         final String recipeId = recipes.get(position);
 
         new FavouriteMealsAdapter.RequestTaskForRecipe(holder).execute("http://api.yummly.com/v1/api/recipe/" +recipeId+ "?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd" );
-        holder.recipeNameTV.setText(recipeId);
+
 
     }
 
@@ -156,7 +157,14 @@ public class FavouriteMealsAdapter extends RecyclerView.Adapter<FavouriteMealsAd
                 String bigPicUrl = images.getJSONObject(0).getString("hostedLargeUrl");
                 String id = object.getString("id");
                 String numberOfServings = object.getString("numberOfServings");
-                Recipe recipe = new Recipe(ingredientLinesArr, flavorsMap, nutritionsMap, nameOfRecipe, servings, totalTime, rating,bigPicUrl,id,numberOfServings);
+                JSONObject course = object.getJSONObject("attributes");
+                JSONArray courses = course.getJSONArray("course");
+                ArrayList<String> coursesForTheRecipe = new ArrayList<>();
+                for(int i = 0; i < courses.length(); i++){
+                    coursesForTheRecipe.add(courses.getString(i));
+                }
+                Log.e("ccourses",coursesForTheRecipe.toString());
+                Recipe recipe = new Recipe(ingredientLinesArr, flavorsMap, nutritionsMap, nameOfRecipe, servings, totalTime, rating,bigPicUrl,id,numberOfServings,coursesForTheRecipe);
                 new FavouriteMealsAdapter.RequestTaskForRecipe.RequestTask(holder, recipe).execute(bigPicUrl);
             } catch (JSONException e) {
                 e.printStackTrace();

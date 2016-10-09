@@ -17,10 +17,10 @@ public class FavouriteMealsActivity extends DrawerActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.replaceContentLayout(R.layout.activity_favourite_meals, super.CONTENT_LAYOUT_ID);
+        super.replaceContentLayout(R.layout.activity_search_meals, super.CONTENT_LAYOUT_ID);
         listOfMeals = (RecyclerView) findViewById(R.id.recycleList);
 
-        listOfMeals.setLayoutManager(new LinearLayoutManager(FavouriteMealsActivity.this));
+        listOfMeals.setLayoutManager(new LinearLayoutManager(this));
         listOfMeals.setAdapter(new ljuboandtedi.fridger.adapters.MealRecyclerAdapter(FavouriteMealsActivity.this, DatabaseHelper.getInstance(FavouriteMealsActivity.this).getUserFavoriteMeals(DatabaseHelper.getInstance(FavouriteMealsActivity.this).getCurrentUser().getFacebookID())));
     }
 }

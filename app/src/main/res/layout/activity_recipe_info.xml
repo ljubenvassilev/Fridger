@@ -78,7 +78,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="horizontal"
-            android:layout_weight="1.6"
+            android:layout_weight="1.9"
             android:layout_height="0dp">
             <TextView
                 android:gravity="center"
@@ -91,7 +91,7 @@
 
             <TextView
                 android:text=" ITB:"
-                android:gravity="center_horizontal"
+                android:gravity="center"
                 android:background="@color/md_grey_100"
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -135,12 +135,52 @@
                 android:text="buy all"
                 android:id="@+id/recipe_info_buyALlButton"
                 android:layout_weight="2"/>
+
             <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="3.69"
                 android:id="@+id/recycleListForIngredients">
             </android.support.v7.widget.RecyclerView>
+            <TextView
+                android:background="@color/md_blue_grey_400"
+                android:layout_width="match_parent"
+                android:layout_weight="1.4"
+                android:text="Continue Exploring"
+                android:textColor="@color/md_blue_50"
+                android:textSize="15sp"
+                android:layout_height="0dp" />
+            <LinearLayout
+                android:background="@color/md_blue_grey_400"
+                android:layout_width="match_parent"
+                android:layout_weight="1.7"
+                android:orientation="horizontal"
+                android:layout_height="0dp">
+                <TextView
+                    android:textColor="@color/md_red_50"
+                    android:textSize="15sp"
+                    android:gravity="center"
+                    android:id="@+id/recipe_info_course1"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent" />
+                <TextView
+                    android:textColor="@color/md_red_50"
+                    android:gravity="center"
+                    android:id="@+id/recipe_info_course2"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent" />
+
+                <TextView
+                    android:textColor="@color/md_red_50"
+                    android:gravity="center"
+                    android:id="@+id/recipe_info_course3"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
