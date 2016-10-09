@@ -1,7 +1,5 @@
 package ljuboandtedi.fridger.model;
 
-import android.app.Activity;
-
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -27,11 +25,11 @@ public class User {
     private ArrayList <String> shoppingList;
     private ArrayList <String> favouriteMeals;
 
-    public void setFacebookID(String facebookID) { this.facebookID = facebookID;   }
+    void setFacebookID(String facebookID) { this.facebookID = facebookID;   }
 
     public String getFacebookID() { return facebookID; }
 
-    public void setPreferences(String preferences){ this.preferences = preferences; }
+    void setPreferences(String preferences){ this.preferences = preferences; }
 
     public String getPreferences(){return this.preferences;}
 
@@ -47,15 +45,15 @@ public class User {
         return (ArrayList<String>) Collections.unmodifiableList(favouriteMeals);
     }
 
-    public void setFridge(ArrayList<String> fridge) {
+    void setFridge(ArrayList<String> fridge) {
         this.fridge = fridge;
     }
 
-    public void setShoppingList(ArrayList<String> shoppingList) {
+    void setShoppingList(ArrayList<String> shoppingList) {
         this.shoppingList = shoppingList;
     }
 
-    public void setFavouriteMeals(ArrayList<String> favouriteMeals) {
+    void setFavouriteMeals(ArrayList<String> favouriteMeals) {
         this.favouriteMeals = favouriteMeals;
     }
 }

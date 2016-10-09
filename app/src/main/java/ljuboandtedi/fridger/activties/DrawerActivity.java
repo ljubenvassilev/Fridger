@@ -1,17 +1,25 @@
 package ljuboandtedi.fridger.activties;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
@@ -30,20 +38,26 @@ public class DrawerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_drawer);
         DatabaseHelper db = DatabaseHelper.getInstance(DrawerActivity.this);
         user = db.getCurrentUser();
-        String userID = user.getFacebookID();
-        Log.e("USER",userID);
+        Bundle params = new Bundle();
+        params.putBoolean("redirect", false);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        String name, email, pic;
+        SharedPreferences prefs = getSharedPreferences("Fridger", Context.MODE_PRIVATE);
+        name = prefs.getString("name", "");
+        email = prefs.getString("email", "");
+        pic = prefs.getString("pic", "");
         AccountHeader headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withHeaderBackground(R.drawable.drawer_header)
                 .addProfiles(
-                        new ProfileDrawerItem().withName("Ljuben Vassilev")
-                                .withEmail(user.getFacebookID())
-                                .withIcon(getResources().getDrawable(R.drawable.profile))
+                        new ProfileDrawerItem().withName(name)
+                                .withEmail(email)
+                                .withIcon(Uri.parse(pic))
                 )
                 .withSelectionListEnabledForSingleProfile(false)
                 .build();
@@ -58,6 +72,8 @@ public class DrawerActivity extends AppCompatActivity {
                 .withCloseOnClick(true)
                 .withAccountHeader(headerResult)
                 .withSliderBackgroundColorRes(R.color.md_black_1000)
+                .withFooterDivider(true)
+                .withStickyFooterDivider(true)
                 .addDrawerItems(
                         new PrimaryDrawerItem().withIdentifier(1).withName(R.string.
                                 drawer_item_home).withOnDrawerItemClickListener
@@ -65,7 +81,7 @@ public class DrawerActivity extends AppCompatActivity {
                                     @Override
                                     public boolean onItemClick(View view, int position,
                                                                IDrawerItem drawerItem) {
-                                        startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
                                         return false;
 
                                     }
@@ -77,7 +93,7 @@ public class DrawerActivity extends AppCompatActivity {
                                     @Override
                                     public boolean onItemClick(View view, int position,
                                                                IDrawerItem drawerItem) {
-                                        startActivity(new Intent(getApplicationContext(),SearchMealsActivity.class));
+                                        startActivity(new Intent(getApplicationContext(), SearchMealsActivity.class));
                                         return false;
                                     }
                                 })
@@ -88,7 +104,7 @@ public class DrawerActivity extends AppCompatActivity {
                                     @Override
                                     public boolean onItemClick(View view, int position,
                                                                IDrawerItem drawerItem) {
-                                        startActivity(new Intent(getApplicationContext(),YourFridgeActivity.class));
+                                        startActivity(new Intent(getApplicationContext(), YourFridgeActivity.class));
                                         return false;
 
                                     }
@@ -100,7 +116,7 @@ public class DrawerActivity extends AppCompatActivity {
                                     @Override
                                     public boolean onItemClick(View view, int position,
                                                                IDrawerItem drawerItem) {
-                                        startActivity(new Intent(getApplicationContext(),ShoppingListActivity.class));
+                                        startActivity(new Intent(getApplicationContext(), ShoppingListActivity.class));
                                         return false;
                                     }
                                 })
@@ -112,7 +128,7 @@ public class DrawerActivity extends AppCompatActivity {
                                     @Override
                                     public boolean onItemClick(View view, int position,
                                                                IDrawerItem drawerItem) {
-                                        startActivity(new Intent(getApplicationContext(),FavouriteMealsActivity.class));
+                                        startActivity(new Intent(getApplicationContext(), FavouriteMealsActivity.class));
                                         return false;
                                     }
                                 })
@@ -123,24 +139,27 @@ public class DrawerActivity extends AppCompatActivity {
                                     @Override
                                     public boolean onItemClick(View view, int position,
                                                                IDrawerItem drawerItem) {
-                                        startActivity(new Intent(getApplicationContext(),ProfileActivity.class));
-                                        return false;
-                                    }
-                                })
-                                .withTextColorRes(R.color.md_white_1000),
-                        new PrimaryDrawerItem().withIdentifier(7).withName(R.string.
-                                drawer_item_logout).withOnDrawerItemClickListener
-                                (new Drawer.OnDrawerItemClickListener() {
-                                    @Override
-                                    public boolean onItemClick(View view, int position,
-                                                               IDrawerItem drawerItem) {
-                                        startActivity(new Intent(getApplicationContext(),WelcomeActivity.class));
+                                        startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
                                         return false;
                                     }
                                 })
                                 .withTextColorRes(R.color.md_white_1000)
-                        )
+
+                )
                 .build();
+        result.addItem(new DividerDrawerItem());
+        result.addStickyFooterItem(new PrimaryDrawerItem().withIdentifier(7).withName(R.string.
+                drawer_item_logout).withOnDrawerItemClickListener
+                (new Drawer.OnDrawerItemClickListener() {
+                    @Override
+                    public boolean onItemClick(View view, int position,
+                                               IDrawerItem drawerItem) {
+                        LoginManager.getInstance().logOut();
+                        startActivity(new Intent(getApplicationContext(), WelcomeActivity.class));
+                        return false;
+                    }
+                })
+                .withTextColorRes(R.color.md_black_1000));
     }
 
     @Override
@@ -159,5 +178,7 @@ public class DrawerActivity extends AppCompatActivity {
         contentLayout = getLayoutInflater().inflate(sourceId, parent, false);
         parent.addView(contentLayout, index);
     }
-
 }
+
+
+
