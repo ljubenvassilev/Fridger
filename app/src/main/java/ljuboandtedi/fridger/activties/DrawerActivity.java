@@ -1,6 +1,12 @@
 package ljuboandtedi.fridger.activties;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -8,6 +14,12 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.facebook.AccessToken;
+import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
+import com.facebook.Profile;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -15,6 +27,15 @@ import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import ljuboandtedi.fridger.R;
 import ljuboandtedi.fridger.model.DatabaseHelper;
@@ -30,20 +51,26 @@ public class DrawerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_drawer);
         DatabaseHelper db = DatabaseHelper.getInstance(DrawerActivity.this);
         user = db.getCurrentUser();
-        String userID = user.getFacebookID();
-        Log.e("USER",userID);
+        Bundle params = new Bundle();
+        params.putBoolean("redirect", false);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        String name, email, pic;
+        SharedPreferences prefs = getSharedPreferences("Fridger", Context.MODE_PRIVATE);
+        name = prefs.getString("name", "");
+        email = prefs.getString("email", "");
+        pic = prefs.getString("pic", "");
         AccountHeader headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withHeaderBackground(R.drawable.drawer_header)
                 .addProfiles(
-                        new ProfileDrawerItem().withName("Ljuben Vassilev")
-                                .withEmail(user.getFacebookID())
-                                .withIcon(getResources().getDrawable(R.drawable.profile))
+                        new ProfileDrawerItem().withName(name)
+                                .withEmail(email)
+                                .withIcon(Uri.parse(pic))
                 )
                 .withSelectionListEnabledForSingleProfile(false)
                 .build();
@@ -65,7 +92,7 @@ public class DrawerActivity extends AppCompatActivity {
                                     @Override
                                     public boolean onItemClick(View view, int position,
                                                                IDrawerItem drawerItem) {
-                                        startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
                                         return false;
 
                                     }
@@ -77,7 +104,7 @@ public class DrawerActivity extends AppCompatActivity {
                                     @Override
                                     public boolean onItemClick(View view, int position,
                                                                IDrawerItem drawerItem) {
-                                        startActivity(new Intent(getApplicationContext(),SearchMealsActivity.class));
+                                        startActivity(new Intent(getApplicationContext(), SearchMealsActivity.class));
                                         return false;
                                     }
                                 })
@@ -88,7 +115,7 @@ public class DrawerActivity extends AppCompatActivity {
                                     @Override
                                     public boolean onItemClick(View view, int position,
                                                                IDrawerItem drawerItem) {
-                                        startActivity(new Intent(getApplicationContext(),YourFridgeActivity.class));
+                                        startActivity(new Intent(getApplicationContext(), YourFridgeActivity.class));
                                         return false;
 
                                     }
@@ -100,7 +127,7 @@ public class DrawerActivity extends AppCompatActivity {
                                     @Override
                                     public boolean onItemClick(View view, int position,
                                                                IDrawerItem drawerItem) {
-                                        startActivity(new Intent(getApplicationContext(),ShoppingListActivity.class));
+                                        startActivity(new Intent(getApplicationContext(), ShoppingListActivity.class));
                                         return false;
                                     }
                                 })
@@ -112,7 +139,7 @@ public class DrawerActivity extends AppCompatActivity {
                                     @Override
                                     public boolean onItemClick(View view, int position,
                                                                IDrawerItem drawerItem) {
-                                        startActivity(new Intent(getApplicationContext(),FavouriteMealsActivity.class));
+                                        startActivity(new Intent(getApplicationContext(), FavouriteMealsActivity.class));
                                         return false;
                                     }
                                 })
@@ -123,7 +150,7 @@ public class DrawerActivity extends AppCompatActivity {
                                     @Override
                                     public boolean onItemClick(View view, int position,
                                                                IDrawerItem drawerItem) {
-                                        startActivity(new Intent(getApplicationContext(),ProfileActivity.class));
+                                        startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
                                         return false;
                                     }
                                 })
@@ -134,12 +161,12 @@ public class DrawerActivity extends AppCompatActivity {
                                     @Override
                                     public boolean onItemClick(View view, int position,
                                                                IDrawerItem drawerItem) {
-                                        startActivity(new Intent(getApplicationContext(),WelcomeActivity.class));
+                                        startActivity(new Intent(getApplicationContext(), WelcomeActivity.class));
                                         return false;
                                     }
                                 })
                                 .withTextColorRes(R.color.md_white_1000)
-                        )
+                )
                 .build();
     }
 
@@ -160,4 +187,15 @@ public class DrawerActivity extends AppCompatActivity {
         parent.addView(contentLayout, index);
     }
 
+//    @Override
+//    public void onBackPressed() {
+//        if (result.isDrawerOpen()) {
+//            result.closeDrawer();
+//        } else {
+//            result.openDrawer();
+//        }
+//    }
 }
+
+
+

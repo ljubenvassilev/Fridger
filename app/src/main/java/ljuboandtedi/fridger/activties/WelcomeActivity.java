@@ -1,9 +1,12 @@
 package ljuboandtedi.fridger.activties;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,64 +16,54 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
+import org.json.JSONException;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
 import ljuboandtedi.fridger.R;
 import ljuboandtedi.fridger.model.DatabaseHelper;
 
 public class WelcomeActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
-    ProfileTracker profileTracker;
-    DatabaseHelper db = DatabaseHelper.getInstance(WelcomeActivity.this);
+    private ProfileTracker profileTracker;
+    private DatabaseHelper db = DatabaseHelper.getInstance(WelcomeActivity.this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
-
-        profileTracker = new ProfileTracker() {
-            @Override
-            protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
-                if(currentProfile==null)return;
-                String userID = currentProfile.getId();
-                if(db.userExists(userID)){
-                    new LoginTask().execute(userID);
-                }
-
-            }
-
-        };
         setContentView(R.layout.activity_welcome);
-        try {
-            PackageInfo info = getPackageManager().getPackageInfo(
-                               "ljuboandtedi.fridger",
-                                PackageManager.GET_SIGNATURES);
-                        for (Signature signature : info.signatures) {
-                            MessageDigest md = MessageDigest.getInstance("SHA");
-                                md.update(signature.toByteArray());
-                                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-                            }
-        } catch (PackageManager.NameNotFoundException | NoSuchAlgorithmException ignored) {}
         ImageView logo = (ImageView) findViewById(R.id.logo);
         logo.setImageResource(R.drawable.logo);
-
         final LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
+        loginButton.setReadPermissions(Arrays.asList("public_profile","email"));
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(final LoginResult loginResult) {
                 loginButton.setVisibility(View.INVISIBLE);
-                String userID=loginResult.getAccessToken().getUserId();
-                new LoginTask().execute(userID);
+                new AsyncTask<Void,Void,Void>(){
+                    @Override
+                    protected Void doInBackground(Void... params) {
+                        db.initUsers(loginResult.getAccessToken().getUserId());
+                        return null;
+                    }
+                }.execute();
             }
             @Override
             public void onCancel() {
@@ -81,11 +74,43 @@ public class WelcomeActivity extends AppCompatActivity {
                 Toast.makeText(WelcomeActivity.this, "Login error! Please try again.", Toast.LENGTH_SHORT).show();
             }
         });
+        profileTracker = new ProfileTracker() {
+            @Override
+            protected void onCurrentProfileChanged(Profile oldProfile, final Profile currentProfile) {
+                if(currentProfile==null){
+                    loginButton.setVisibility(View.VISIBLE);
+                }
+                else{
+                    final SharedPreferences.Editor editor = WelcomeActivity.this.
+                            getSharedPreferences("Fridger", Context.MODE_PRIVATE).edit();
+                    editor.putString("name", currentProfile.getName());
+                    editor.putString("pic",currentProfile.getProfilePictureUri(150,150).toString());
+                    Bundle params = new Bundle();
+                    params.putString("fields","email");
+                    new GraphRequest(AccessToken.getCurrentAccessToken(), "me",params,
+                            HttpMethod.GET, new GraphRequest.Callback() {
+                        @Override
+                        public void onCompleted(GraphResponse response) {
+                            if(response!=null){
+                                try {
+                                    editor.putString("email",response.getJSONObject().
+                                            getString("email"));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            editor.apply();
+                            startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
+                        }
+                    }).executeAsync();
+                }
+            }
+        };
+        profileTracker.startTracking();
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.e("FB",String.valueOf(resultCode));
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -93,20 +118,5 @@ public class WelcomeActivity extends AppCompatActivity {
     public void onDestroy() {
         profileTracker.stopTracking();
         super.onDestroy();
-    }
-
-    class LoginTask extends AsyncTask<String,Void,Void>{
-
-        @Override
-        protected Void doInBackground(String... params) {
-            db.initUsers(params[0]);
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            startActivity(new Intent(WelcomeActivity.this,MainActivity.class));
-            finish();
-        }
     }
 }

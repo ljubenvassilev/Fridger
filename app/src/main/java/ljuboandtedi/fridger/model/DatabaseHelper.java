@@ -5,14 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.AsyncTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-/**
- * Created by Ljuben Vassilev on 9/25/2016.
- */
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -20,7 +15,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private User currentUser;
     private static final String DATABASE_NAME = "Fridger.db";
     private static final String USERS_TABLE = "users_table";
-
     private static DatabaseHelper ourInstance;
 
     private DatabaseHelper(Context context) {
@@ -28,10 +22,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         users = new HashMap<>();
     }
 
-    public static DatabaseHelper  getInstance(Context context){
-        if (ourInstance==null){
-            ourInstance=new DatabaseHelper(context);
-        }
+    public static DatabaseHelper getInstance(Context context){
+        if (ourInstance==null){ourInstance=new DatabaseHelper(context);}
         return ourInstance;
     }
 
@@ -86,8 +78,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-    }
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {}
 
     public void initUsers (final String userID){
         if (!userExists(userID)) {addUser(userID);}
