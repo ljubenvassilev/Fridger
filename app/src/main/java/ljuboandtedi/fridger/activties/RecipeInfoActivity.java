@@ -19,6 +19,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -99,7 +100,20 @@ public class RecipeInfoActivity extends DrawerActivity {
                     }
             }
         });
-
+        buyALlButton.setText("Buy Checked");
+        final int sizeOfSList = DatabaseHelper.getInstance(RecipeInfoActivity.this).getUserShoppingList(DatabaseHelper.getInstance(RecipeInfoActivity.this).getCurrentUser().getFacebookID()).size();
+        buyALlButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(sizeOfSList< DatabaseHelper.getInstance(RecipeInfoActivity.this).getUserShoppingList(DatabaseHelper.getInstance(RecipeInfoActivity.this).getCurrentUser().getFacebookID()).size()){
+                    Toast.makeText(RecipeInfoActivity.this, "Ingr. added to your SList", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+                else{
+                    Toast.makeText(RecipeInfoActivity.this, "Nothing selected", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         ingredientsList = (RecyclerView) findViewById(R.id.recycleListForIngredients);
         ingredientsList.setLayoutManager(new LinearLayoutManager(this));
         ingredientsList.setAdapter(new IngredientsRecyclerAdapter(this ,recipe.getIngredientLines()));
