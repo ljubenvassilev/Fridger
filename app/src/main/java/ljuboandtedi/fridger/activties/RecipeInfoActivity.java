@@ -53,8 +53,9 @@ public class RecipeInfoActivity extends DrawerActivity {
     CheckBox cbFavourite;
     Button buyALlButton;
     Button viewDirections;
+    Button viewNutritions;
     RecyclerView ingredientsList;
-    Meal meal;
+
     Recipe recipe;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,18 +77,12 @@ public class RecipeInfoActivity extends DrawerActivity {
 
         buyALlButton = (Button) findViewById(R.id.recipe_info_buyALlButton);
         viewDirections = (Button) findViewById(R.id.recipe_info_viewDirections);
+        viewNutritions = (Button) findViewById(R.id.recipe_info_viewNutritions);
 
-        if (MealManager.meals.get(getIntent().getStringExtra("meal")) != null) {
-            meal = MealManager.meals.get(getIntent().getStringExtra("meal"));
-            recipe = meal.getRecipe();
-        } else
-            recipe = RecipeManager.recipes.get(getIntent().getStringExtra("recipe"));
+        recipe = RecipeManager.recipes.get(getIntent().getStringExtra("recipe"));
         new RequestTask().execute(recipe.getBigPicUrl());
-        if (recipe.getNutritions().get("Energy") == null) {
-            caloriesTV.setText("Calories: " + 0);
-        } else {
-            caloriesTV.setText("Calories: " + recipe.getNutritions().get("FAT"));
-        }
+
+        caloriesTV.setText("Calories: " + recipe.getFatKCAL());
         if (recipe.getTimeForPrepare() == null || recipe.getTimeForPrepare().equals("null")) {
             totalTime.setText("Fast & Easy");
         } else {
@@ -102,9 +97,16 @@ public class RecipeInfoActivity extends DrawerActivity {
 //                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 //                startActivity(intent);
                 WebView webview = new WebView(RecipeInfoActivity.this);
-                setContentView(webview);
                 webview.loadUrl(recipe.getSource());
-
+                setContentView(webview);
+            }
+        });
+        viewNutritions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RecipeInfoActivity.this,NutritionsActivity.class);
+                intent.putExtra("recipe",recipe.getName());
+                startActivity(intent);
             }
         });
         if(recipe.getCourses().size() == 1){
@@ -128,12 +130,34 @@ public class RecipeInfoActivity extends DrawerActivity {
             course3TV.setText(recipe.getCourses().get(2));
         }
         final String courseOfTV1 = "&allowedCourse[]=course^course-" + course1TV.getText().toString().trim().replace(" ","+");
+        final String courseOfTV2 = "&allowedCourse[]=course^course-" + course2TV.getText().toString().trim().replace(" ","+");
+        final String courseOfTV3 = "&allowedCourse[]=course^course-" + course3TV.getText().toString().trim().replace(" ","+");
+
+
         course1TV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.e("allowed course","http://api.yummly.com/v1/api/recipes?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd&q="+ courseOfTV1 + "&maxResult=40&start=10");
 
                 new RequestTaskForTheCourses().execute("http://api.yummly.com/v1/api/recipes?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd&q=" + courseOfTV1 + "&maxResult=40&start=10");
+
+            }
+        });
+        course2TV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("allowed course","http://api.yummly.com/v1/api/recipes?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd&q="+ courseOfTV2 + "&maxResult=40&start=10");
+
+                new RequestTaskForTheCourses().execute("http://api.yummly.com/v1/api/recipes?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd&q=" + courseOfTV2 + "&maxResult=40&start=10");
+
+            }
+        });
+        course3TV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("allowed course","http://api.yummly.com/v1/api/recipes?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd&q="+ courseOfTV3 + "&maxResult=40&start=10");
+
+                new RequestTaskForTheCourses().execute("http://api.yummly.com/v1/api/recipes?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd&q=" + courseOfTV3 + "&maxResult=40&start=10");
 
             }
         });

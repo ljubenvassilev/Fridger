@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:gravity="center"
     android:orientation="vertical"
+    android:background="@color/md_blue_grey_100"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -20,11 +21,11 @@
         <FrameLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:background="@drawable/background_pale">
+            android:layout_height="fill_parent">
             <ImageView
                 android:id="@+id/recipe_info_Image"
                 android:layout_height="match_parent"
+                android:background="@drawable/black_to_white"
                 android:layout_width="match_parent"
                 android:scaleType="fitXY">
             </ImageView>
@@ -76,13 +77,16 @@
         android:orientation="vertical"
         android:layout_height="0dp">
         <LinearLayout
+            android:background="@color/md_blue_grey_300"
+
             android:layout_width="match_parent"
             android:orientation="horizontal"
             android:layout_weight="1.9"
+            android:layout_marginBottom="10dp"
             android:layout_height="0dp">
             <TextView
                 android:gravity="center"
-                android:background="@color/md_grey_100"
+
                 android:text="Ingredients"
                 android:textColor="@color/md_black_1000"
                 android:layout_width="0dp"
@@ -92,7 +96,7 @@
             <TextView
                 android:text=" ITB:"
                 android:gravity="center"
-                android:background="@color/md_grey_100"
+
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
@@ -105,7 +109,7 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:background="@color/md_grey_100"
+
                     android:id="@+id/recipe_info_servingsForTheIngredients"
                     android:layout_width="match_parent"
                     android:layout_weight="1.3"
@@ -113,7 +117,7 @@
                     android:layout_height="0dp" />
 
                 <TextView
-                    android:background="@color/md_grey_100"
+
                     android:text="Servings"
                     android:textSize="8sp"
                     android:gravity="center"
@@ -130,9 +134,12 @@
             android:orientation="vertical"
             android:layout_height="0dp">
             <Button
+                android:background="@color/md_blue_grey_300"
+
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:text="buy all"
+                android:layout_marginBottom="10dp"
                 android:id="@+id/recipe_info_buyALlButton"
                 android:layout_weight="2"/>
 
@@ -188,16 +195,22 @@
 
 </ScrollView>
     <LinearLayout
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="horizontal"
         android:layout_weight="0.2">
         <Button
+            android:background="@color/md_blue_grey_300"
+
+            android:id="@+id/recipe_info_viewNutritions"
             android:layout_width="0dp"
             android:text="All Nutritions"
             android:layout_height="match_parent"
             android:layout_weight="1"/>
         <Button
+            android:background="@color/md_blue_grey_300"
+
             android:id="@+id/recipe_info_viewDirections"
             android:text="View Directions"
             android:layout_width="0dp"

@@ -66,27 +66,7 @@ public class IngredientsRecyclerAdapter extends  RecyclerView.Adapter<Ingredient
         //get obj on position
         final String ingredient = ingredients.get(position);
         boolean isitSelected = ingredientsChecker.get(ingredient);
-        //fill data of the VH with the data of the object
-//       int cbHeight = holder.cb.getHeight();
-//        ViewGroup.LayoutParams params =  holder.cb.getLayoutParams();
-//        WindowManager wm = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
-//        Display display = wm.getDefaultDisplay();
-//        Point size = new Point();
-//        display.getSize(size);
-//        double width = size.x;
-//        Log.e("widthScreen",width + "");
-//        double height = size.y;
-//        Log.e("heightScreen",height + " ");
-//        double scale = params.height/height;
-//        Log.e("scale",scale + "");
-//        Log.e("height",params.height + "");
-//        double newWidth = width*scale;
-//        Log.e("new width",""+newWidth);
-//        params.width =(int) newWidth;
-//
-//        holder.cb.setLayoutParams(params);
-//        Log.e("ingredient",ingredient);
-//        Log.e("selected",isitSelected + "");
+
         if(isitSelected){
             holder.cb.setChecked(true);
         }
@@ -97,8 +77,8 @@ public class IngredientsRecyclerAdapter extends  RecyclerView.Adapter<Ingredient
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    holder.cb.setBackgroundColor(Color.GRAY);
-                    holder.ingredient.setBackgroundColor(Color.GRAY);
+                    holder.cb.setBackgroundColor(Color.blue(200));
+                    holder.ingredient.setBackgroundColor(Color.blue(200));
                     ingredientsChecker.put(ingredient,true);
                     DatabaseHelper.getInstance(activity).addToShoppingList(ingredient);
                 }
@@ -117,15 +97,13 @@ public class IngredientsRecyclerAdapter extends  RecyclerView.Adapter<Ingredient
 
     }
 
-    public class MyIngredientViewHolder extends RecyclerView.ViewHolder{
+     class MyIngredientViewHolder extends RecyclerView.ViewHolder{
         TextView ingredient;
         CheckBox cb;
         MyIngredientViewHolder(View row){
             super(row);
-            this.setIsRecyclable(false);
             cb = (CheckBox) row.findViewById(R.id.buyingIngredientChecked);
             ingredient = (TextView)    row.findViewById(R.id.buyingIngredient);
-
         }
     }
 }

@@ -65,7 +65,6 @@ public class SearchMealsActivity extends DrawerActivity {
         courses.add("Desserts");
         courses.add("Salads");
         courses.add("Breakfast and Brunch");
-        courses.add("Lunch and Snacks");
         courses.add("Cocktails");
 
         final ArrayList<String> holidays = new ArrayList<>();
@@ -86,7 +85,6 @@ public class SearchMealsActivity extends DrawerActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 searchOptions.put("course",parent.getSelectedItem().toString());
-                //&allowedCourse[]=course^course-Appetizers
             }
 
             @Override

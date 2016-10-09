@@ -17,7 +17,7 @@ public class FavouriteMealsActivity extends DrawerActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.replaceContentLayout(R.layout.activity_search_meals, super.CONTENT_LAYOUT_ID);
+        super.replaceContentLayout(R.layout.activity_recyclelist, super.CONTENT_LAYOUT_ID);
         listOfMeals = (RecyclerView) findViewById(R.id.recycleList);
 
         listOfMeals.setLayoutManager(new LinearLayoutManager(this));

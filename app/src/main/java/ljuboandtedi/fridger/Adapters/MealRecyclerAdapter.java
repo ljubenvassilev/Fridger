@@ -32,6 +32,7 @@ import java.util.Scanner;
 
 import ljuboandtedi.fridger.R;
 import ljuboandtedi.fridger.activties.RecipeInfoActivity;
+import ljuboandtedi.fridger.model.IngredientValues;
 import ljuboandtedi.fridger.model.Recipe;
 import ljuboandtedi.fridger.model.RecipeManager;
 
@@ -66,8 +67,8 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
         final String recipe = recipes.get(position);
 
         holder.mealPic.setImageDrawable(null);
-        holder.mealPic.setImageResource(R.drawable.rsz_black_background);
-        holder.mealPic.setAlpha(0.78f);
+        holder.mealPic.setImageResource(R.drawable.black_to_white);
+        holder.mealPic.setAlpha(0.60f);
         new RequestTaskForRecipe(holder).execute("http://api.yummly.com/v1/api/recipe/" +recipe+ "?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd");
 
         //holder.recipeNameTV.getBackground().setAlpha(34);
@@ -81,12 +82,14 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
     }
     class MyMealViewHolder extends RecyclerView.ViewHolder {
         TextView recipeNameTV;
+        TextView recipeCreator;
         ImageView mealPic;
 
         MyMealViewHolder(View row){
             super(row);
             recipeNameTV = (TextView) row.findViewById(R.id.searchpic_NameOfTheRecipe);
             mealPic = (ImageView) row.findViewById(R.id.searchpic_Image);
+            recipeCreator = (TextView) row.findViewById(R.id.searchpic_creator);
         }
     }
     class RequestTaskForRecipe extends AsyncTask<String, Void, String> {
@@ -152,11 +155,17 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
                     }
                 }
                 JSONArray nutritions = object.getJSONArray("nutritionEstimates");
-                HashMap<String, Double> nutritionsMap = new HashMap<>();
-
+                ArrayList<IngredientValues> nutritionsValues = new ArrayList<>();
+                double fatKCAL = 0.0;
                 for (int i = 0; i < nutritions.length(); i++) {
                     JSONObject nutrition = nutritions.getJSONObject(i);
-                    nutritionsMap.put(nutrition.getString("description"), nutrition.getDouble("value"));
+                    if(nutrition.getString("attribute").equals("FAT_KCAL")){
+                        fatKCAL = nutrition.getDouble("value");
+                    }
+                    else{
+                        IngredientValues ingrValue = new IngredientValues(nutrition.getString("description"),nutrition.getDouble("value"));
+                        nutritionsValues.add(ingrValue);
+                    }
                 }
 
                 String nameOfRecipe = object.getString("name");
@@ -170,7 +179,7 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
                 ArrayList<String> coursesForTheRecipe = new ArrayList<>();
                 JSONObject sources = object.getJSONObject("source");
                 String source = sources.getString("sourceRecipeUrl");
-
+                String creator = sources.getString("sourceDisplayName");
                 JSONObject course = object.getJSONObject("attributes");
                 if(!course.isNull("course")) {
                     JSONArray courses = course.getJSONArray("course");
@@ -179,8 +188,9 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
                     }
                 }
                 Log.e("ccourses",coursesForTheRecipe.toString());
-                Recipe recipe = new Recipe(ingredientLinesArr, flavorsMap, nutritionsMap, nameOfRecipe, servings, totalTime, rating,bigPicUrl,id,numberOfServings,coursesForTheRecipe,source);
+                Recipe recipe = new Recipe(ingredientLinesArr, flavorsMap, nutritionsValues, nameOfRecipe, servings, totalTime, rating,bigPicUrl,id,numberOfServings,coursesForTheRecipe,source,creator,fatKCAL);
                 holder.recipeNameTV.setText(recipe.getName());
+                holder.recipeCreator.setText(recipe.getCreator());
                 new MealRecyclerAdapter.RequestTaskForRecipe.RequestTask(holder, recipe).execute(bigPicUrl);
 
             } catch (JSONException e) {
