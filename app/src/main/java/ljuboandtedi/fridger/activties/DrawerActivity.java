@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
@@ -32,6 +33,7 @@ public class DrawerActivity extends AppCompatActivity {
     User user;
     Toolbar toolbar;
     Drawer result;
+    Button search;
     public final int CONTENT_LAYOUT_ID = R.id.frame_container;
 
     @Override
@@ -90,6 +92,8 @@ public class DrawerActivity extends AppCompatActivity {
         result = new DrawerBuilder()
                 .withActivity(this)
                 .withToolbar(toolbar)
+                .withTranslucentStatusBar(false)
+                .withActionBarDrawerToggle(true)
                 .withDrawerWidthDp(200)
                 .withTranslucentStatusBar(true)
                 .withDisplayBelowStatusBar(true)
@@ -109,7 +113,6 @@ public class DrawerActivity extends AppCompatActivity {
                                         editor.putString("page", "Home");
                                         editor.apply();
                                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                                        finish();
                                         return false;
                                     }
                                 })
@@ -123,7 +126,6 @@ public class DrawerActivity extends AppCompatActivity {
                                         editor.putString("page", "Search");
                                         editor.apply();
                                         startActivity(new Intent(getApplicationContext(), SearchMealsActivity.class));
-                                        finish();
                                         return false;
                                     }
                                 })
@@ -137,7 +139,6 @@ public class DrawerActivity extends AppCompatActivity {
                                         editor.putString("page", "MyFridge");
                                         editor.apply();
                                         startActivity(new Intent(getApplicationContext(), YourFridgeActivity.class));
-                                        finish();
                                         return false;
 
                                     }
@@ -152,7 +153,6 @@ public class DrawerActivity extends AppCompatActivity {
                                         editor.putString("page", "Shopping List");
                                         editor.apply();
                                         startActivity(new Intent(getApplicationContext(), ShoppingListActivity.class));
-                                        finish();
                                         return false;
                                     }
                                 })
@@ -167,7 +167,6 @@ public class DrawerActivity extends AppCompatActivity {
                                         editor.putString("page", "Favorite");
                                         editor.apply();
                                         startActivity(new Intent(getApplicationContext(), FavouriteMealsActivity.class));
-                                        finish();
                                         return false;
                                     }
                                 })
@@ -181,7 +180,6 @@ public class DrawerActivity extends AppCompatActivity {
                                         editor.putString("page", "Profile");
                                         editor.apply();
                                         startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
-                                        finish();
                                         return false;
                                     }
                                 })
@@ -189,7 +187,6 @@ public class DrawerActivity extends AppCompatActivity {
 
                 )
                 .build();
-        result.setToolbar(this,toolbar);
         result.addItem(new DividerDrawerItem());
         result.addStickyFooterItem(new PrimaryDrawerItem().withIdentifier(7).withName(R.string.
                 drawer_item_logout).withOnDrawerItemClickListener
@@ -201,11 +198,20 @@ public class DrawerActivity extends AppCompatActivity {
                         editor.putString("page", " ");
                         editor.apply();
                         startActivity(new Intent(getApplicationContext(), WelcomeActivity.class));
-                        finish();
                         return false;
                     }
                 })
                 .withTextColorRes(R.color.md_black_1000));
+
+        search = (Button) findViewById(R.id.search_button_toolbar);
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                editor.putString("page", "Search");
+                editor.apply();
+                startActivity(new Intent(getApplicationContext(), SearchMealsActivity.class));
+            }
+        });
     }
 
     @Override
@@ -225,6 +231,15 @@ public class DrawerActivity extends AppCompatActivity {
         parent.addView(contentLayout, index);
     }
 
+    @Override
+    public void onBackPressed() {
+        if(result.isDrawerOpen()){
+            result.closeDrawer();
+            return;
+        }
+        super.onBackPressed();
+
+    }
 }
 
 

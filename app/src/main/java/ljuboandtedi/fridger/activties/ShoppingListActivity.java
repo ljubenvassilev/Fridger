@@ -39,11 +39,11 @@ public class ShoppingListActivity extends DrawerActivity {
             }
         });
 
-        removeAllButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                adapter.removeAllProducts();
-            }
-        });
+//        removeAllButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                adapter.removeAllProducts();
+//            }
+//        });
     }
 }
