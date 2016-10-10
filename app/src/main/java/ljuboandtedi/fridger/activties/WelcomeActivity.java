@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -46,6 +47,8 @@ public class WelcomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         FacebookSdk.sdkInitialize(getApplicationContext());
 //        profileTracker = new ProfileTracker() {
 //            @Override
@@ -87,10 +90,7 @@ public class WelcomeActivity extends AppCompatActivity {
         profileTracker = new ProfileTracker() {
             @Override
             protected void onCurrentProfileChanged(Profile oldProfile, final Profile currentProfile) {
-                if(currentProfile==null){
-                    loginButton.setVisibility(View.VISIBLE);
-                }
-                else{
+                if (currentProfile != null) {
                     initiateLogin(currentProfile);
                 }
             }
@@ -141,6 +141,7 @@ public class WelcomeActivity extends AppCompatActivity {
                 }
                 editor.apply();
                 startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
+                finish();
             }
         }).executeAsync();
     }

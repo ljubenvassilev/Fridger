@@ -19,7 +19,7 @@
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
-        <activity android:name=".activties.MainActivity" />
+        <activity android:name=".activties.MainActivity"/>
         <activity android:name=".activties.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -44,11 +44,11 @@
         <activity android:name=".activties.BuyingIngredientsActivity" />
         <activity android:name=".activties.ProfileActivity" />
         <activity android:name=".activties.ShoppingListActivity" />
-        <activity android:name=".activties.DrawerActivity" />
+        <activity android:name=".activties.DrawerActivity"/>
         <activity android:name=".activties.FavouriteMealsActivity" />
         <activity android:name=".activties.YourFridgeActivity" />
         <activity android:name=".activties.SearchMealsActivity" />
-        <activity android:name=".activties.NutritionsActivity"></activity>
+        <activity android:name=".activties.NutritionsActivity"/>
     </application>
 
 </manifest>
