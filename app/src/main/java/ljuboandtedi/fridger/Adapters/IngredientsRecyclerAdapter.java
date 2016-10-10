@@ -50,10 +50,7 @@ public class IngredientsRecyclerAdapter extends  RecyclerView.Adapter<Ingredient
         //inflate xml
         LayoutInflater inflater = activity.getLayoutInflater();
         View row = inflater.inflate(R.layout.ingredients_info_activity, parent, false);
-        //create vh
-        MyIngredientViewHolder vh = new MyIngredientViewHolder(row);
-        //return vh
-        return vh;
+        return new MyIngredientViewHolder(row);
     }
 
     @Override

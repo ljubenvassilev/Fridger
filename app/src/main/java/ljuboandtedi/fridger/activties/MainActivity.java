@@ -11,16 +11,10 @@ import ljuboandtedi.fridger.R;
 
 public class MainActivity extends DrawerActivity {
 
-    private Button apiTestInfoButton;
-    CheckBox cbIngrButter;
-    CheckBox cbIngrCarrot;
-    CheckBox cbIngrGarlic;
-    CheckBox cbIngrCheese;
     Button favMealsButton;
     Button shoppingListButton;
     Button myFridgeButton;
     Button searchMenuButton;
-    EditText etMeal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
