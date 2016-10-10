@@ -122,5 +122,14 @@ public class IngredientsInShoppingListAdapter extends  RecyclerView.Adapter<Ingr
 
         }
     }
+
+    public void removeSelectedProducts(){
+
+    }
+
+    public void removeAllProducts(){
+        ingredientsChecker.clear();
+        notifyDataSetChanged();
+    }
 }
 

@@ -2,7 +2,6 @@ package ljuboandtedi.fridger.activties;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,14 +9,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.SeekBar;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -75,8 +71,8 @@ public class SearchMealsActivity extends DrawerActivity {
         holidays.add("Halloween");
         holidays.add("4th of July");
         final HashMap<String,String> searchOptions = new HashMap<>();
-        ArrayAdapter adapterCourses = new ArrayAdapter(this,android.R.layout.simple_spinner_dropdown_item,courses);
-        ArrayAdapter adapterHolidays = new ArrayAdapter(this,android.R.layout.simple_spinner_dropdown_item,holidays);
+        ArrayAdapter<String> adapterCourses = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,courses);
+        ArrayAdapter<String> adapterHolidays = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,holidays);
         adapterHolidays.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         adapterCourses.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         courseSpinner.setAdapter(adapterCourses);

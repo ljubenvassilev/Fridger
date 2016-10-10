@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.animation.OvershootInterpolator;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,6 +14,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 import ljuboandtedi.fridger.R;
 
 public class ShowMealActivity extends DrawerActivity {
@@ -111,6 +113,7 @@ public class ShowMealActivity extends DrawerActivity {
 
         listOfMeals.setLayoutManager(new LinearLayoutManager(this));
         listOfMeals.setAdapter(new ljuboandtedi.fridger.adapters.MealRecyclerAdapter(this, recipes));
+        listOfMeals.setItemAnimator(new SlideInUpAnimator(new OvershootInterpolator(1f)));
     }
 
 }

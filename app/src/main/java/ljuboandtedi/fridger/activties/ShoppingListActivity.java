@@ -16,6 +16,10 @@ import ljuboandtedi.fridger.model.DatabaseHelper;
 public class ShoppingListActivity extends DrawerActivity {
     private RecyclerView listOfIngredients;
     Button addToFridgeButton;
+    Button removeAllButton;
+    private IngredientsInShoppingListAdapter adapter;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,13 +28,21 @@ public class ShoppingListActivity extends DrawerActivity {
         addToFridgeButton = (Button) findViewById(R.id.yourIngredients_addToFridgeButton);
 
         listOfIngredients.setLayoutManager(new LinearLayoutManager(this));
-        listOfIngredients.setAdapter(new IngredientsInShoppingListAdapter(this,DatabaseHelper.getInstance(this).getUserShoppingList(DatabaseHelper.getInstance(this).getCurrentUser().getFacebookID())));
+        adapter = new IngredientsInShoppingListAdapter(this,DatabaseHelper.getInstance(this).getUserShoppingList(DatabaseHelper.getInstance(this).getCurrentUser().getFacebookID()));
+        listOfIngredients.setAdapter(adapter);
 
         addToFridgeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(ShoppingListActivity.this, "Selected are now in your fridge", Toast.LENGTH_SHORT).show();
                 finish();
+            }
+        });
+
+        removeAllButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adapter.removeAllProducts();
             }
         });
     }

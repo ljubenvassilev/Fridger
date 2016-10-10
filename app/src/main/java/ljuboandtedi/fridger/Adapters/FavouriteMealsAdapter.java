@@ -80,7 +80,7 @@ public class FavouriteMealsAdapter extends RecyclerView.Adapter<FavouriteMealsAd
             mealPic = (ImageView) row.findViewById(R.id.searchpic_Image);
         }
     }
-    class RequestTaskForRecipe extends AsyncTask<String, Void, String> {
+    private class RequestTaskForRecipe extends AsyncTask<String, Void, String> {
 
         MyFavouriteMealHolder holder;
         RequestTaskForRecipe(MyFavouriteMealHolder holder){
