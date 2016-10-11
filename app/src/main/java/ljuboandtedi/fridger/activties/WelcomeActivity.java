@@ -50,16 +50,6 @@ public class WelcomeActivity extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         FacebookSdk.sdkInitialize(getApplicationContext());
-//        profileTracker = new ProfileTracker() {
-//            @Override
-//             protected void onCurrentProfileChanged(Profile oldProfile,Profile currentProfile) {
-//                String userID = currentProfile.getId();
-//                Log.d("user",currentProfile.getName());
-//                if(db.userExists(userID)){
-//
-//                }
-//            }
-//        };
         callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_welcome);
         ImageView logo = (ImageView) findViewById(R.id.logo);

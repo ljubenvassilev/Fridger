@@ -35,6 +35,7 @@ public class DrawerActivity extends AppCompatActivity {
     Drawer result;
     Button search;
     public final int CONTENT_LAYOUT_ID = R.id.frame_container;
+    protected SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,7 @@ public class DrawerActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_drawer);
+        prefs = getSharedPreferences("Fridger", Context.MODE_PRIVATE);
         DatabaseHelper db = DatabaseHelper.getInstance(DrawerActivity.this);
         user = db.getCurrentUser();
         Bundle params = new Bundle();
@@ -50,7 +52,6 @@ public class DrawerActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         String name, email, pic;
-        SharedPreferences prefs = getSharedPreferences("Fridger", Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = DrawerActivity.this.
                 getSharedPreferences("Fridger", Context.MODE_PRIVATE).edit();
         name = prefs.getString("name", "");

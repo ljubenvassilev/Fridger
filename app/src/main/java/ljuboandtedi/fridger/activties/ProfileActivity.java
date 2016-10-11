@@ -2,13 +2,26 @@ package ljuboandtedi.fridger.activties;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 
 import ljuboandtedi.fridger.R;
 import ljuboandtedi.fridger.model.DatabaseHelper;
+import ljuboandtedi.fridger.model.User;
 
 public class ProfileActivity extends DrawerActivity {
 
@@ -19,12 +32,32 @@ public class ProfileActivity extends DrawerActivity {
             japanese, cuban, hawaiian, swedish, hungarian, portuguese;
     Button confirm;
     DatabaseHelper db;
+    User user;
+    ImageButton profilePicture;
+    TextView nameTV;
+    TextView emailTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.replaceContentLayout(R.layout.activity_profile, super.CONTENT_LAYOUT_ID);
         db = DatabaseHelper.getInstance(ProfileActivity.this);
+        user = db.getCurrentUser();
+        profilePicture= (ImageButton) findViewById(R.id.user_profile_photo);
+        Glide.with(getApplicationContext()).load(Uri.parse(prefs.getString("pic", "")))
+                .asBitmap().centerCrop().into(new BitmapImageViewTarget(profilePicture) {
+            @Override
+            protected void setResource(Bitmap resource) {
+                RoundedBitmapDrawable circularBitmapDrawable = RoundedBitmapDrawableFactory
+                        .create(getApplicationContext().getResources(), resource);
+                circularBitmapDrawable.setCircular(true);
+                profilePicture.setImageDrawable(circularBitmapDrawable);
+            }
+        });
+        nameTV = (TextView) findViewById(R.id.user_profile_name);
+        nameTV.setText(prefs.getString("name", ""));
+        emailTV = (TextView) findViewById(R.id.user_profile_short_bio);
+        emailTV.setText(prefs.getString("email", ""));
         vegan = (CheckBox) findViewById(R.id.profile_checkBox_vegan);
         vegetarian = (CheckBox) findViewById(R.id.profile_checkBox_vegetarian);
         pascetarian = (CheckBox) findViewById(R.id.profile_checkBox_pascetarian);
