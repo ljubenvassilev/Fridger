@@ -39,6 +39,10 @@ dependencies {
     compile 'com.uniquestudio:checkbox:1.0.1'
     compile 'com.github.bumptech.glide:glide:3.5.2'
     compile 'jp.wasabeef:recyclerview-animators:2.2.4'
+    repositories {
+        mavenCentral()
+    }
+    compile 'com.sothree.slidinguppanel:library:3.0.0'
     testCompile 'junit:junit:4.12'
 }
 

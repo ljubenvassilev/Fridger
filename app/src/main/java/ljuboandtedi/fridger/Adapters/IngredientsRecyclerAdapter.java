@@ -20,7 +20,9 @@ import com.uniquestudio.library.CircleCheckBox;
 
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import ljuboandtedi.fridger.R;
 import ljuboandtedi.fridger.model.DatabaseHelper;
@@ -77,13 +79,12 @@ public class IngredientsRecyclerAdapter extends  RecyclerView.Adapter<Ingredient
                     holder.cb.setBackgroundColor(Color.blue(200));
                     holder.ingredient.setBackgroundColor(Color.blue(200));
                     ingredientsChecker.put(ingredient,true);
-                    DatabaseHelper.getInstance(activity).addToShoppingList(ingredient);
+
                 }
                 if(!isChecked){
                     holder.cb.setBackgroundColor(Color.WHITE);
                     holder.ingredient.setBackgroundColor(Color.WHITE);
                     if(DatabaseHelper.getInstance(activity).getUserShoppingList(DatabaseHelper.getInstance(activity).getCurrentUser().getFacebookID()).contains(ingredient)){
-                        DatabaseHelper.getInstance(activity).removeFromShoppingList(ingredient);
                         ingredientsChecker.put(ingredient,false);
                     }
                 }
@@ -103,5 +104,32 @@ public class IngredientsRecyclerAdapter extends  RecyclerView.Adapter<Ingredient
             ingredient = (TextView)    row.findViewById(R.id.buyingIngredient);
         }
     }
+    public int removeSelectedProducts(){
+        int counter = 0;
+        Iterator<Map.Entry<String,Boolean>> iter = ingredientsChecker.entrySet().iterator();
+        while (iter.hasNext()) {
+            Map.Entry<String,Boolean> entry = iter.next();
+            if(entry.getValue()){
+                DatabaseHelper.getInstance(activity).getUserShoppingList(DatabaseHelper.getInstance(activity).getCurrentUser().getFacebookID()).add(entry.getKey());
+                iter.remove();
+                ingredients.remove(entry.getKey());
+                counter++;
+            }
+        }
+        notifyDataSetChanged();
+        return counter;
+    }
+    public void removeAll(){
+        Iterator<Map.Entry<String,Boolean>> iter = ingredientsChecker.entrySet().iterator();
+        while (iter.hasNext()) {
+            Map.Entry<String,Boolean> entry = iter.next();
+                DatabaseHelper.getInstance(activity).getUserShoppingList(DatabaseHelper.getInstance(activity).getCurrentUser().getFacebookID()).add(entry.getKey());
+                iter.remove();
+                ingredients.remove(entry.getKey());
+        }
+        notifyDataSetChanged();
+    }
+
 }
+
 

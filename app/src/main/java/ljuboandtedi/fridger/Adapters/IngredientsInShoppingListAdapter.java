@@ -18,6 +18,7 @@ import com.uniquestudio.library.CircleCheckBox;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ljuboandtedi.fridger.R;
 import ljuboandtedi.fridger.model.DatabaseHelper;
@@ -124,7 +125,16 @@ public class IngredientsInShoppingListAdapter extends  RecyclerView.Adapter<Ingr
     }
 
     public void removeSelectedProducts(){
-
+        Map<String, Boolean> map = ingredientsChecker;
+        for (Map.Entry<String, Boolean> entry : map.entrySet())
+        {
+            System.out.println(entry.getKey() + "/" + entry.getValue());
+            if(entry.getValue()){
+                DatabaseHelper.getInstance(activity).getUserFridge(DatabaseHelper.getInstance(activity).getCurrentUser().getFacebookID()).add(entry.getKey());
+                map.remove(entry.getKey());
+            }
+        }
+        notifyDataSetChanged();
     }
 
     public void removeAllProducts(){
