@@ -3,9 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cardView"
     android:layout_width="fill_parent"
-    android:layout_height="300dp"
-
-    app:cardBackgroundColor="#43005eff">
+    android:layout_height="300dp">
 
     <RelativeLayout
         android:id="@+id/relativelayout"
@@ -17,6 +15,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
+            />
+
+        <ImageView
+            android:id="@+id/overlay"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:scaleType="fitStart"
+            android:scaleX="2"
             />
 
         <TextView

@@ -19,7 +19,6 @@
             <ImageView
                 android:id="@+id/recipe_info_Image"
                 android:layout_height="match_parent"
-                android:background="@drawable/black_to_white"
                 android:layout_width="match_parent"
                 android:scaleType="fitXY">
             </ImageView>

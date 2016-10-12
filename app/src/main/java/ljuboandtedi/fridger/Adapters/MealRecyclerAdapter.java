@@ -67,8 +67,8 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
         final String recipe = recipes.get(position);
 
         holder.mealPic.setImageDrawable(null);
-        holder.mealPic.setImageResource(R.drawable.black_to_white);
-        holder.mealPic.setAlpha(0.60f);
+//        holder.mealPic.setImageResource(R.drawable.black_to_white);
+//        holder.mealPic.setAlpha(0.60f);
         new RequestTaskForRecipe(holder).execute("http://api.yummly.com/v1/api/recipe/" +recipe+ "?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd");
 
         //holder.recipeNameTV.getBackground().setAlpha(34);
@@ -84,12 +84,14 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
         TextView recipeNameTV;
         TextView recipeCreator;
         ImageView mealPic;
+        ImageView overlay;
 
         MyMealViewHolder(View row){
             super(row);
             recipeNameTV = (TextView) row.findViewById(R.id.searchpic_NameOfTheRecipe);
             mealPic = (ImageView) row.findViewById(R.id.searchpic_Image);
             recipeCreator = (TextView) row.findViewById(R.id.searchpic_creator);
+            overlay = (ImageView) row.findViewById(R.id.overlay);
         }
     }
     class RequestTaskForRecipe extends AsyncTask<String, Void, String> {
@@ -235,7 +237,8 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
             protected void onPostExecute(Bitmap image) {
                 RecipeManager.recipes.put(recipe.getName(),recipe);
                 holder.mealPic.setImageBitmap(image);
-
+                holder.overlay.setBackgroundResource(R.color.transparent);
+                holder.overlay.setImageResource(R.drawable.gradient);
                 holder.mealPic.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
