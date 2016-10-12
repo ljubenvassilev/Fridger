@@ -58,10 +58,11 @@ public class RecipeInfoActivity extends DrawerActivity {
     Button showHideIngredients;
     RecyclerView ingredientsList;
     IngredientsRecyclerAdapter adapter;
+    MealRecyclerAdapter adpterForRelatedMeals;
     TextView continueExploring;
     RecyclerView relatedMeals;
     private SlidingUpPanelLayout slidingLayout;
-
+    ArrayList<String> recipes;
     Recipe recipe;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,8 +70,11 @@ public class RecipeInfoActivity extends DrawerActivity {
         super.replaceContentLayout(R.layout.activity_recipe_info_slidingbar, super.CONTENT_LAYOUT_ID);
         iv = (ImageView) findViewById(R.id.recipe_info_Image);
 
+        recipes = new ArrayList<>();
         relatedMeals = (RecyclerView) findViewById(R.id.recycleListForRelatedMeals);
         relatedMeals.setLayoutManager(new LinearLayoutManager(RecipeInfoActivity.this,LinearLayoutManager.HORIZONTAL,false));
+        adpterForRelatedMeals = new MealRecyclerAdapter(RecipeInfoActivity.this,recipes);
+        relatedMeals.setAdapter(adpterForRelatedMeals);
         new RequestTaskForRelatedMeals().execute("http://api.yummly.com/v1/api/recipes?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd&q=&maxResult=10&start=10");
 
         course1TV = (TextView) findViewById(R.id.recipe_info_course1);
@@ -229,6 +233,8 @@ public class RecipeInfoActivity extends DrawerActivity {
                     Toast.makeText(RecipeInfoActivity.this, "Nothing selected", Toast.LENGTH_SHORT).show();
                 }
 
+                Log.e("addedToFridge",DatabaseHelper.getInstance(RecipeInfoActivity.this).getUserShoppingList(DatabaseHelper.getInstance(RecipeInfoActivity.this).getCurrentUser().getFacebookID()).toString());
+                DatabaseHelper.getInstance(RecipeInfoActivity.this).getUserShoppingList(DatabaseHelper.getInstance(RecipeInfoActivity.this).getCurrentUser().getFacebookID()).add("item");
 //                itb.setText("ITB:" + DatabaseHelper.getInstance(RecipeInfoActivity.this).getUserShoppingList(DatabaseHelper.getInstance(RecipeInfoActivity.this).getCurrentUser().getFacebookID()).size());
 
             }
@@ -240,6 +246,7 @@ public class RecipeInfoActivity extends DrawerActivity {
         ingredientsList.setAdapter(adapter);
 
     }
+
     private View.OnClickListener onShowListener() {
         return new View.OnClickListener() {
             @Override
@@ -347,7 +354,6 @@ public class RecipeInfoActivity extends DrawerActivity {
 
         @Override
         protected void onPostExecute(String jsonX) {
-            List<String> recipes = new ArrayList<>();
             try {
                 JSONObject json = new JSONObject(jsonX);
                 JSONArray matches = json.getJSONArray("matches");
@@ -426,7 +432,7 @@ public class RecipeInfoActivity extends DrawerActivity {
                 e.printStackTrace();
             }
 
-            relatedMeals.setAdapter(new MealRecyclerAdapter(RecipeInfoActivity.this,recipes));
+            adpterForRelatedMeals.notifyDataSetChanged();
             Log.e("bqhtuk","123");
 
         }

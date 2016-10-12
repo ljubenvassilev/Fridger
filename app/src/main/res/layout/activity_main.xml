@@ -40,6 +40,17 @@
                 android:layout_gravity="center"
                 android:text="Fav meals"
                 android:id="@+id/main_favMealsButton"/>
+
+            <com.lorentzos.flingswipe.SwipeFlingAdapterView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="277dp"
+                android:layout_height="126dp"
+                android:id="@+id/frame"
+                app:rotation_degrees="16"
+                app:max_visible="4"
+                app:min_adapter_stack="6" />
+
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -52,6 +63,7 @@
                 android:layout_gravity="center"
                 android:text="FridgeProducts"
                 android:id="@+id/main_fridgeButton"/>
+
         </LinearLayout>
     </FrameLayout>
 </RelativeLayout>

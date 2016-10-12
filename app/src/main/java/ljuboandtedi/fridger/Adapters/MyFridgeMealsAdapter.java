@@ -17,7 +17,9 @@ import android.widget.TextView;
 import com.uniquestudio.library.CircleCheckBox;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import ljuboandtedi.fridger.R;
 import ljuboandtedi.fridger.model.DatabaseHelper;
@@ -124,5 +126,35 @@ public class MyFridgeMealsAdapter extends  RecyclerView.Adapter<MyFridgeMealsAda
 
         }
     }
+    public int removeSelectedProducts(){
+        int counter = 0;
+        Iterator<Map.Entry<String,Boolean>> iter = ingredientsChecker.entrySet().iterator();
+        while (iter.hasNext()) {
+            Map.Entry<String,Boolean> entry = iter.next();
+            if(entry.getValue()){
+
+                //DatabaseHelper.getInstance(activity).addToFridge(entry.getKey());
+                iter.remove();
+                ingredients.remove(entry.getKey());
+               // ingredientsChecker.remove(entry.getKey());
+                counter++;
+            }
+        }
+        notifyDataSetChanged();
+        return counter;
+    }
+    public void removeAll(){
+        Iterator<Map.Entry<String,Boolean>> iter = ingredientsChecker.entrySet().iterator();
+        while (iter.hasNext()) {
+            Map.Entry<String,Boolean> entry = iter.next();
+            //DatabaseHelper.getInstance(activity).addToFridge(entry.getKey());
+            iter.remove();
+            ingredients.remove(entry.getKey());
+           // ingredientsChecker.remove(entry.getKey());
+        }
+        notifyDataSetChanged();
+    }
+
+
 }
 

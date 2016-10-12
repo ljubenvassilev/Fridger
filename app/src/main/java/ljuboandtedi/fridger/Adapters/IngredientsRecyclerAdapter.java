@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import ljuboandtedi.fridger.R;
+import ljuboandtedi.fridger.activties.RecipeInfoActivity;
 import ljuboandtedi.fridger.model.DatabaseHelper;
 
 /**
@@ -110,9 +111,14 @@ public class IngredientsRecyclerAdapter extends  RecyclerView.Adapter<Ingredient
         while (iter.hasNext()) {
             Map.Entry<String,Boolean> entry = iter.next();
             if(entry.getValue()){
-                DatabaseHelper.getInstance(activity).getUserShoppingList(DatabaseHelper.getInstance(activity).getCurrentUser().getFacebookID()).add(entry.getKey());
+
+                Log.e("entryKey",entry.getKey());
+                DatabaseHelper.getInstance(activity).addToShoppingList(entry.getKey());
+                Log.e("addedToFridgeInAdapter",DatabaseHelper.getInstance(activity).getUserShoppingList(DatabaseHelper.getInstance(activity).getCurrentUser().getFacebookID()).toString());
                 iter.remove();
+
                 ingredients.remove(entry.getKey());
+                //ingredientsChecker.remove(entry.getKey());
                 counter++;
             }
         }
@@ -123,9 +129,10 @@ public class IngredientsRecyclerAdapter extends  RecyclerView.Adapter<Ingredient
         Iterator<Map.Entry<String,Boolean>> iter = ingredientsChecker.entrySet().iterator();
         while (iter.hasNext()) {
             Map.Entry<String,Boolean> entry = iter.next();
-                DatabaseHelper.getInstance(activity).getUserShoppingList(DatabaseHelper.getInstance(activity).getCurrentUser().getFacebookID()).add(entry.getKey());
-                iter.remove();
-                ingredients.remove(entry.getKey());
+            DatabaseHelper.getInstance(activity).addToShoppingList(entry.getKey());
+            iter.remove();
+            ingredients.remove(entry.getKey());
+            //ingredientsChecker.remove(entry.getKey());
         }
         notifyDataSetChanged();
     }

@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.uniquestudio.library.CircleCheckBox;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -124,22 +125,37 @@ public class IngredientsInShoppingListAdapter extends  RecyclerView.Adapter<Ingr
         }
     }
 
-    public void removeSelectedProducts(){
-        Map<String, Boolean> map = ingredientsChecker;
-        for (Map.Entry<String, Boolean> entry : map.entrySet())
-        {
-            System.out.println(entry.getKey() + "/" + entry.getValue());
+    public int removeSelectedProducts(){
+        int counter = 0;
+        Iterator<Map.Entry<String,Boolean>> iter = ingredientsChecker.entrySet().iterator();
+        while (iter.hasNext()) {
+            Map.Entry<String,Boolean> entry = iter.next();
             if(entry.getValue()){
-                DatabaseHelper.getInstance(activity).getUserFridge(DatabaseHelper.getInstance(activity).getCurrentUser().getFacebookID()).add(entry.getKey());
-                map.remove(entry.getKey());
+
+                Log.e("entryKey",entry.getKey());
+                DatabaseHelper.getInstance(activity).addToFridge(entry.getKey());
+                Log.e("addedToFridgeInAdapter",DatabaseHelper.getInstance(activity).getUserShoppingList(DatabaseHelper.getInstance(activity).getCurrentUser().getFacebookID()).toString());
+                iter.remove();
+
+                ingredients.remove(entry.getKey());
+                //ingredientsChecker.remove(entry.getKey());
+                counter++;
             }
+        }
+        notifyDataSetChanged();
+        return counter;
+    }
+    public void removeAll(){
+        Iterator<Map.Entry<String,Boolean>> iter = ingredientsChecker.entrySet().iterator();
+        while (iter.hasNext()) {
+            Map.Entry<String,Boolean> entry = iter.next();
+            DatabaseHelper.getInstance(activity).addToFridge(entry.getKey());
+            iter.remove();
+            ingredients.remove(entry.getKey());
+           // ingredientsChecker.remove(entry.getKey());
         }
         notifyDataSetChanged();
     }
 
-    public void removeAllProducts(){
-        ingredientsChecker.clear();
-        notifyDataSetChanged();
-    }
 }
 

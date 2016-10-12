@@ -42,6 +42,7 @@ dependencies {
     repositories {
         mavenCentral()
     }
+    compile 'com.lorentzos.swipecards:library:1.0.9'
     compile 'com.sothree.slidinguppanel:library:3.0.0'
     testCompile 'junit:junit:4.12'
 }
