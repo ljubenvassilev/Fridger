@@ -252,4 +252,9 @@ public class MealAdapter extends ArrayAdapter {
         // TODO Auto-generated method stub
         return recipes.size();
     }
+
+    @Override
+    public void remove(Object object) {
+        super.remove(object);
+    }
 }

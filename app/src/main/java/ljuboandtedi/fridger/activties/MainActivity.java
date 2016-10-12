@@ -195,6 +195,7 @@ public class MainActivity extends DrawerActivity {
 
                     final  MealAdapter mealAdapter = new MealAdapter(MainActivity.this, recipesMAIN);
                     flingContainer.setAdapter(mealAdapter);
+                    mealAdapter.notifyDataSetChanged();
                      flingContainer.setVisibility(View.VISIBLE);
                     flingContainer.performClick();
                     flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
@@ -202,7 +203,7 @@ public class MainActivity extends DrawerActivity {
                         public void removeFirstObjectInAdapter() {
                             // this is the simplest way to delete an object from the Adapter (/AdapterView)
                             Log.d("LIST", "removed object!");
-                            mealAdapter.remove(0);
+                            mealAdapter.remove(recipesMAIN.get(0));
                             mealAdapter.notifyDataSetChanged();
                         }
 
@@ -229,8 +230,8 @@ public class MainActivity extends DrawerActivity {
                         @Override
                         public void onScroll(float scrollProgressPercent) {
                             View view = flingContainer.getSelectedView();
-                            view.findViewById(R.id.item_swipe_right_indicator).setAlpha(scrollProgressPercent < 0 ? -scrollProgressPercent : 0);
-                            view.findViewById(R.id.item_swipe_left_indicator).setAlpha(scrollProgressPercent > 0 ? scrollProgressPercent : 0);
+                            view.findViewById(R.id.item_swipe_right_indicator1).setAlpha(scrollProgressPercent < 0 ? -scrollProgressPercent : 0);
+                            view.findViewById(R.id.item_swipe_left_indicator1).setAlpha(scrollProgressPercent > 0 ? scrollProgressPercent : 0);
                         }
                     });
 
