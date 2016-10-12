@@ -197,7 +197,8 @@ public class MainActivity extends DrawerActivity {
                     flingContainer.setAdapter(mealAdapter);
                     mealAdapter.notifyDataSetChanged();
                      flingContainer.setVisibility(View.VISIBLE);
-                    flingContainer.performClick();
+                    //flingContainer.performClick();
+                    //flingContainer.getTopCardListener().selectLeft();
                     flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
                         @Override
                         public void removeFirstObjectInAdapter() {
@@ -230,8 +231,8 @@ public class MainActivity extends DrawerActivity {
                         @Override
                         public void onScroll(float scrollProgressPercent) {
                             View view = flingContainer.getSelectedView();
-                            view.findViewById(R.id.item_swipe_right_indicator1).setAlpha(scrollProgressPercent < 0 ? -scrollProgressPercent : 0);
-                            view.findViewById(R.id.item_swipe_left_indicator1).setAlpha(scrollProgressPercent > 0 ? scrollProgressPercent : 0);
+                            view.findViewById(R.id.item_swipe_right_indicator).setAlpha(scrollProgressPercent < 0 ? -scrollProgressPercent : 0);
+                            view.findViewById(R.id.item_swipe_left_indicator).setAlpha(scrollProgressPercent > 0 ? scrollProgressPercent : 0);
                         }
                     });
 
