@@ -423,7 +423,7 @@
                             android:id="@+id/profile_checkBox_hawaiian"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:hint="Hawaiin"
+                            android:hint="Hawaiian"
                             android:textSize="30sp"/>
 
                         <CheckBox
