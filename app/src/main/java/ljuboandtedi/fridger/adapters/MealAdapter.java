@@ -30,7 +30,6 @@ import java.util.Scanner;
 import ljuboandtedi.fridger.R;
 import ljuboandtedi.fridger.activties.RecipeInfoActivity;
 import ljuboandtedi.fridger.model.IngredientValues;
-import ljuboandtedi.fridger.model.MealForTheLibrary;
 import ljuboandtedi.fridger.model.Recipe;
 import ljuboandtedi.fridger.model.RecipeManager;
 

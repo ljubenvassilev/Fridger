@@ -3,6 +3,8 @@ package ljuboandtedi.fridger.activties;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -51,6 +53,7 @@ public class DrawerActivity extends AppCompatActivity {
         params.putBoolean("redirect", false);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
         String name, email, pic;
         final SharedPreferences.Editor editor = DrawerActivity.this.
                 getSharedPreferences("Fridger", Context.MODE_PRIVATE).edit();
@@ -82,7 +85,7 @@ public class DrawerActivity extends AppCompatActivity {
         }
         AccountHeader headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
-                .withHeaderBackground(R.color.darkBlue)
+                .withHeaderBackground(R.color.black)
                 .addProfiles(
                         new ProfileDrawerItem().withName(name)
                                 .withEmail(email)
@@ -100,7 +103,7 @@ public class DrawerActivity extends AppCompatActivity {
                 .withDisplayBelowStatusBar(true)
                 .withCloseOnClick(true)
                 .withAccountHeader(headerResult)
-                .withSliderBackgroundColorRes(R.color.md_black_1000)
+                .withSliderBackgroundColorRes(R.color.darkBlue)
                 .withFooterDivider(true)
                 .withStickyFooterDivider(true)
                 .withSelectedItemByPosition(selectedItem)
@@ -188,7 +191,6 @@ public class DrawerActivity extends AppCompatActivity {
 
                 )
                 .build();
-        result.addItem(new DividerDrawerItem());
         result.addStickyFooterItem(new PrimaryDrawerItem().withIdentifier(7).withName(R.string.
                 drawer_item_logout).withOnDrawerItemClickListener
                 (new Drawer.OnDrawerItemClickListener() {

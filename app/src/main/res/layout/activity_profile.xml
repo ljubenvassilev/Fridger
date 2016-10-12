@@ -42,14 +42,14 @@
                         <ImageView
                             android:id="@+id/header_cover_image"
                             android:layout_width="match_parent"
-                            android:layout_height="200dp"
+                            android:layout_height="100dp"
                             android:scaleType="centerCrop"
-                            android:background="@color/lightBlue"/>
+                            android:background="@color/black"/>
 
                         <ImageButton
                             android:id="@+id/user_profile_photo"
-                            android:layout_width="120dp"
-                            android:layout_height="120dp"
+                            android:layout_width="150dp"
+                            android:layout_height="150dp"
                             android:layout_below="@+id/header_cover_image"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="-60dp"
@@ -63,7 +63,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/header_cover_image"
-                            android:background="@android:color/black"
+                            android:background="@color/lightBlue"
                             android:elevation="4dp"
                             android:paddingBottom="24dp"
                             android:layout_weight="0.04">
@@ -74,8 +74,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerHorizontal="true"
-                                android:layout_marginTop="76dp"
-                                android:textColor="#fff"
+                                android:layout_marginTop="100dp"
+                                android:textColor="#000"
                                 android:textSize="30sp"
                                 android:textStyle="bold" />
 
@@ -86,7 +86,7 @@
                                 android:layout_below="@+id/user_profile_name"
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="12dp"
-                                android:textColor="#fff"
+                                android:textColor="#000"
                                 android:textSize="20sp" />
                         </RelativeLayout>
 
@@ -455,6 +455,7 @@
                             android:layout_height="wrap_content"
                             android:text="   Confirm   "
                             android:textSize="30sp"
+                            android:layout_marginTop="20dp"
                             android:layout_gravity="center_horizontal"
                             android:textAlignment="center"
                             android:textColorHint="@color/black"

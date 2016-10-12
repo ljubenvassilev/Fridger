@@ -23,15 +23,15 @@
                 android:layout_weight="5"
                 android:layout_height="match_parent"
                 android:background="@drawable/logo"
-                android:layout_marginRight="40dp"
+                android:layout_marginRight="60dp"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginLeft="20dp"/>
+                android:layout_marginLeft="40dp"/>
 
             <Button
                 android:id="@+id/search_button_toolbar"
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_weight="1.5"
                 android:layout_height="match_parent"
                 android:background="@drawable/search_icon"
                 android:layout_marginTop="10dp"
