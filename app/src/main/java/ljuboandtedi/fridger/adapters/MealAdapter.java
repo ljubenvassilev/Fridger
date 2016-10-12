@@ -53,8 +53,8 @@ public class MealAdapter extends ArrayAdapter {
 
         MealViewHolder(View row){
             image = (ImageView)  row.findViewById(R.id.helloText);
-            name = (TextView)    row.findViewById(R.id.meal_creator);
-            attrs = (TextView)   row.findViewById(R.id.meal_name);
+            name = (TextView)    row.findViewById(R.id.searchpic_NameOfTheRecipe1);
+            attrs = (TextView)   row.findViewById(R.id.searchpic_creator1);
         }
     }
     @Override
