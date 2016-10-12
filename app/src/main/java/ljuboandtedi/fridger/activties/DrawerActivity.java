@@ -82,7 +82,7 @@ public class DrawerActivity extends AppCompatActivity {
         }
         AccountHeader headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
-                .withHeaderBackground(R.drawable.drawer_header)
+                .withHeaderBackground(R.color.darkBlue)
                 .addProfiles(
                         new ProfileDrawerItem().withName(name)
                                 .withEmail(email)

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -12,13 +13,11 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
+        <LinearLayout
             android:id="@+id/activity_profile"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:background="@drawable/background_pale"
             tools:context="ljuboandtedi.fridger.activties.ProfileActivity">
 
 
@@ -45,7 +44,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="200dp"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/drawer_header" />
+                            android:background="@color/lightBlue"/>
 
                         <ImageButton
                             android:id="@+id/user_profile_photo"
@@ -97,17 +96,18 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="16dp">
+                        android:padding="16dp"
+                        android:background="@color/darkBlue">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Diet:"
                             android:textSize="35sp"
-                            android:textColor="@android:color/black"/>
+                            android:textColor="@color/black"/>
 
                         <CheckBox
-                            android:textColorHint="@android:color/black"
+                            android:textColorHint="@color/white"
                             android:id="@+id/profile_checkBox_vegan"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -115,7 +115,7 @@
                             android:textSize="30sp"/>
 
                         <CheckBox
-                            android:textColorHint="@android:color/black"
+                            android:textColorHint="@color/white"
                             android:id="@+id/profile_checkBox_vegetarian"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -123,7 +123,7 @@
                             android:textSize="30sp"/>
 
                         <CheckBox
-                            android:textColorHint="@android:color/black"
+                            android:textColorHint="@color/white"
                             android:id="@+id/profile_checkBox_pascetarian"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -131,7 +131,7 @@
                             android:textSize="30sp"/>
 
                         <CheckBox
-                            android:textColorHint="@android:color/black"
+                            android:textColorHint="@color/white"
                             android:id="@+id/profile_checkBox_ovoVegetarian"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -139,7 +139,7 @@
                             android:textSize="30sp"/>
 
                         <CheckBox
-                            android:textColorHint="@android:color/black"
+                            android:textColorHint="@color/white"
                             android:id="@+id/profile_checkBox_lactoVegetarian"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -147,7 +147,7 @@
                             android:textSize="30sp"/>
 
                         <CheckBox
-                            android:textColorHint="@android:color/black"
+                            android:textColorHint="@color/white"
                             android:id="@+id/profile_checkBox_paleo"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -160,10 +160,10 @@
                             android:layout_height="wrap_content"
                             android:text="Allergies:"
                             android:textSize="35sp"
-                            android:textColor="@android:color/black"/>
+                            android:textColor="@color/black"/>
 
                         <CheckBox
-                            android:textColorHint="@android:color/black"
+                            android:textColorHint="@color/white"
                             android:id="@+id/profile_checkBox_dairy"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -171,7 +171,7 @@
                             android:textSize="30sp"/>
 
                         <CheckBox
-                            android:textColorHint="@android:color/black"
+                            android:textColorHint="@color/white"
                             android:id="@+id/profile_checkBox_egg"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -179,7 +179,7 @@
                             android:textSize="30sp"/>
 
                         <CheckBox
-                            android:textColorHint="@android:color/black"
+                            android:textColorHint="@color/white"
                             android:id="@+id/profile_checkBox_gluten"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -187,7 +187,7 @@
                             android:textSize="30sp"/>
 
                         <CheckBox
-                            android:textColorHint="@android:color/black"
+                            android:textColorHint="@color/white"
                             android:id="@+id/profile_checkBox_peanut"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -195,7 +195,7 @@
                             android:textSize="30sp"/>
 
                         <CheckBox
-                            android:textColorHint="@android:color/black"
+                            android:textColorHint="@color/white"
                             android:id="@+id/profile_checkBox_seafood"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -203,7 +203,7 @@
                             android:textSize="30sp"/>
 
                         <CheckBox
-                            android:textColorHint="@android:color/black"
+                            android:textColorHint="@color/white"
                             android:id="@+id/profile_checkBox_sesame"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -211,7 +211,7 @@
                             android:textSize="30sp"/>
 
                         <CheckBox
-                            android:textColorHint="@android:color/black"
+                            android:textColorHint="@color/white"
                             android:id="@+id/profile_checkBox_soy"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -219,7 +219,7 @@
                             android:textSize="30sp"/>
 
                         <CheckBox
-                            android:textColorHint="@android:color/black"
+                            android:textColorHint="@color/white"
                             android:id="@+id/profile_checkBox_sulfite"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -227,7 +227,7 @@
                             android:textSize="30sp"/>
 
                         <CheckBox
-                            android:textColorHint="@android:color/black"
+                            android:textColorHint="@color/white"
                             android:id="@+id/profile_checkBox_treeNut"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -235,7 +235,7 @@
                             android:textSize="30sp"/>
 
                         <CheckBox
-                            android:textColorHint="@android:color/black"
+                            android:textColorHint="@color/white"
                             android:id="@+id/profile_checkBox_wheat"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -251,7 +251,7 @@
                             android:textColor="@android:color/black"/>
 
                         <CheckBox
-                            android:textColorHint="@android:color/black"
+                            android:textColorHint="@color/white"
                             android:id="@+id/profile_checkBox_american"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -259,7 +259,7 @@
                             android:textSize="30sp"/>
 
                         <CheckBox
-                            android:textColorHint="@android:color/black"
+                            android:textColorHint="@color/white"
                             android:id="@+id/profile_checkBox_italian"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -267,7 +267,7 @@
                             android:textSize="30sp"/>
 
                         <CheckBox
-                            android:textColorHint="@android:color/black"
+                            android:textColorHint="@color/white"
                             android:id="@+id/profile_checkBox_asian"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -275,7 +275,7 @@
                             android:textSize="30sp"/>
 
                         <CheckBox
-                            android:textColorHint="@android:color/black"
+                            android:textColorHint="@color/white"
                             android:id="@+id/profile_checkBox_mexican"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -283,7 +283,7 @@
                             android:textSize="30sp"/>
 
                         <CheckBox
-                            android:textColorHint="@android:color/black"
+                            android:textColorHint="@color/white"
                             android:id="@+id/profile_checkBox_southernAndSoulFood"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -291,7 +291,7 @@
                             android:textSize="30sp"/>
 
                         <CheckBox
-                            android:textColorHint="@android:color/black"
+                            android:textColorHint="@color/white"
                             android:id="@+id/profile_checkBox_french"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -299,7 +299,7 @@
                             android:textSize="30sp"/>
 
                         <CheckBox
-                            android:textColorHint="@android:color/black"
+                            android:textColorHint="@color/white"
                             android:id="@+id/profile_checkBox_southwestern"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -307,7 +307,7 @@
                             android:textSize="30sp"/>
 
                         <CheckBox
-                            android:textColorHint="@android:color/black"
+                            android:textColorHint="@color/white"
                             android:id="@+id/profile_checkBox_barbecue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -315,7 +315,7 @@
                             android:textSize="30sp"/>
 
                         <CheckBox
-                            android:textColorHint="@android:color/black"
+                            android:textColorHint="@color/white"
                             android:id="@+id/profile_checkBox_indian"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -323,7 +323,7 @@
                             android:textSize="30sp"/>
 
                         <CheckBox
-                            android:textColorHint="@android:color/black"
+                            android:textColorHint="@color/white"
                             android:id="@+id/profile_checkBox_chinese"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -331,7 +331,7 @@
                             android:textSize="30sp"/>
 
                         <CheckBox
-                            android:textColorHint="@android:color/black"
+                            android:textColorHint="@color/white"
                             android:id="@+id/profile_checkBox_cajunAndCreole"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -339,7 +339,7 @@
                             android:textSize="30sp"/>
 
                         <CheckBox
-                            android:textColorHint="@android:color/black"
+                            android:textColorHint="@color/white"
                             android:id="@+id/profile_checkBox_english"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -347,7 +347,7 @@
                             android:textSize="30sp"/>
 
                         <CheckBox
-                            android:textColorHint="@android:color/black"
+                            android:textColorHint="@color/white"
                             android:id="@+id/profile_checkBox_mediterranean"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -355,7 +355,7 @@
                             android:textSize="30sp"/>
 
                         <CheckBox
-                            android:textColorHint="@android:color/black"
+                            android:textColorHint="@color/white"
                             android:id="@+id/profile_checkBox_greek"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -363,7 +363,7 @@
                             android:textSize="30sp"/>
 
                         <CheckBox
-                            android:textColorHint="@android:color/black"
+                            android:textColorHint="@color/white"
                             android:id="@+id/profile_checkBox_spanish"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -371,7 +371,7 @@
                             android:textSize="30sp"/>
 
                         <CheckBox
-                            android:textColorHint="@android:color/black"
+                            android:textColorHint="@color/white"
                             android:id="@+id/profile_checkBox_german"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -379,7 +379,7 @@
                             android:textSize="30sp"/>
 
                         <CheckBox
-                            android:textColorHint="@android:color/black"
+                            android:textColorHint="@color/white"
                             android:id="@+id/profile_checkBox_thai"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -387,7 +387,7 @@
                             android:textSize="30sp"/>
 
                         <CheckBox
-                            android:textColorHint="@android:color/black"
+                            android:textColorHint="@color/white"
                             android:id="@+id/profile_checkBox_moroccan"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -395,7 +395,7 @@
                             android:textSize="30sp"/>
 
                         <CheckBox
-                            android:textColorHint="@android:color/black"
+                            android:textColorHint="@color/white"
                             android:id="@+id/profile_checkBox_irish"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -403,7 +403,7 @@
                             android:textSize="30sp"/>
 
                         <CheckBox
-                            android:textColorHint="@android:color/black"
+                            android:textColorHint="@color/white"
                             android:id="@+id/profile_checkBox_japanese"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -411,7 +411,7 @@
                             android:textSize="30sp"/>
 
                         <CheckBox
-                            android:textColorHint="@android:color/black"
+                            android:textColorHint="@color/white"
                             android:id="@+id/profile_checkBox_cuban"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -419,7 +419,7 @@
                             android:textSize="30sp"/>
 
                         <CheckBox
-                            android:textColorHint="@android:color/black"
+                            android:textColorHint="@color/white"
                             android:id="@+id/profile_checkBox_hawaiian"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -427,7 +427,7 @@
                             android:textSize="30sp"/>
 
                         <CheckBox
-                            android:textColorHint="@android:color/black"
+                            android:textColorHint="@color/white"
                             android:id="@+id/profile_checkBox_swedish"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -435,7 +435,7 @@
                             android:textSize="30sp"/>
 
                         <CheckBox
-                            android:textColorHint="@android:color/black"
+                            android:textColorHint="@color/white"
                             android:id="@+id/profile_checkBox_hungarian"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -443,7 +443,7 @@
                             android:textSize="30sp"/>
 
                         <CheckBox
-                            android:textColorHint="@android:color/black"
+                            android:textColorHint="@color/white"
                             android:id="@+id/profile_checkBox_portugese"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -451,11 +451,14 @@
                             android:textSize="30sp"/>
 
                         <Button
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Confirm"
+                            android:text="   Confirm   "
+                            android:textSize="30sp"
+                            android:layout_gravity="center_horizontal"
                             android:textAlignment="center"
-                            android:textColor="@android:color/black"
+                            android:textColorHint="@color/black"
+                            android:background="@drawable/profile_confirm_button"
                             android:id="@+id/profile_confirm_button"/>
 
                     </LinearLayout>
