@@ -62,26 +62,11 @@ public class IngredientsInShoppingListAdapter extends  RecyclerView.Adapter<Ingr
     @Override
     public void onBindViewHolder(MyIngredientViewHolder holder, int position) {
         final String ingredient = ingredients.get(position);
+        Log.e("stringa",ingredient);
         boolean isitSelected = ingredientsChecker.get(ingredient);
         //fill data of the VH with the data of the object
-        int cbHeight = holder.cb.getHeight();
-        ViewGroup.LayoutParams params =  holder.cb.getLayoutParams();
-        WindowManager wm = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        double width = size.x;
-        Log.e("widthScreen",width + "");
-        double height = size.y;
-        Log.e("heightScreen",height + " ");
-        double scale = width/height;
-        Log.e("scale",scale + "");
-        Log.e("height",params.height + "");
-        double newWidth = (params.height*scale);
-        Log.e("new width",""+newWidth);
-        params.width =(int) newWidth + 1;
 
-        holder.cb.setLayoutParams(params);
+
         Log.e("ingredient",ingredient);
         Log.e("selected",isitSelected + "");
         if(isitSelected){
@@ -96,14 +81,11 @@ public class IngredientsInShoppingListAdapter extends  RecyclerView.Adapter<Ingr
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     ingredientsChecker.put(ingredient,true);
-                    DatabaseHelper.getInstance(activity).addToFridge(ingredient);
-                    DatabaseHelper.getInstance(activity).removeFromShoppingList(ingredient);
+
                 }
                 if(!isChecked){
                     if(DatabaseHelper.getInstance(activity).getUserFridge(DatabaseHelper.getInstance(activity).getCurrentUser().getFacebookID()).contains(ingredient)){
                         ingredientsChecker.put(ingredient,false);
-                        DatabaseHelper.getInstance(activity).removeFromFridge(ingredient);
-                        DatabaseHelper.getInstance(activity).addToShoppingList(ingredient);
                 }
                 }
 
@@ -118,7 +100,6 @@ public class IngredientsInShoppingListAdapter extends  RecyclerView.Adapter<Ingr
          CheckBox cb;
         MyIngredientViewHolder(View row){
             super(row);
-            this.setIsRecyclable(false);
             cb = (CheckBox) row.findViewById(R.id.buyingIngredientChecked);
             ingredient = (TextView)    row.findViewById(R.id.buyingIngredient);
 
@@ -134,6 +115,7 @@ public class IngredientsInShoppingListAdapter extends  RecyclerView.Adapter<Ingr
 
                 Log.e("entryKey",entry.getKey());
                 DatabaseHelper.getInstance(activity).addToFridge(entry.getKey());
+                DatabaseHelper.getInstance(activity).removeFromShoppingList(entry.getKey());
                 Log.e("addedToFridgeInAdapter",DatabaseHelper.getInstance(activity).getUserShoppingList(DatabaseHelper.getInstance(activity).getCurrentUser().getFacebookID()).toString());
                 iter.remove();
 
@@ -150,10 +132,13 @@ public class IngredientsInShoppingListAdapter extends  RecyclerView.Adapter<Ingr
         while (iter.hasNext()) {
             Map.Entry<String,Boolean> entry = iter.next();
             DatabaseHelper.getInstance(activity).addToFridge(entry.getKey());
+            DatabaseHelper.getInstance(activity).removeFromShoppingList(entry.getKey());
             iter.remove();
             ingredients.remove(entry.getKey());
-           // ingredientsChecker.remove(entry.getKey());
+            ingredientsChecker.remove(entry.getKey());
         }
+        ingredients.clear();
+        ingredientsChecker.clear();
         notifyDataSetChanged();
     }
 

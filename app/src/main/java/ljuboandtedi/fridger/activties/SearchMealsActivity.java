@@ -1,12 +1,16 @@
 package ljuboandtedi.fridger.activties;
 
+import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -25,6 +29,7 @@ import ljuboandtedi.fridger.R;
 public class SearchMealsActivity extends DrawerActivity {
     Spinner courseSpinner;
     Spinner holidaySpinner;
+
 
     Button searchButton;
     EditText mealET;
@@ -126,6 +131,7 @@ public class SearchMealsActivity extends DrawerActivity {
 
             }
         });
+
 
     }
 

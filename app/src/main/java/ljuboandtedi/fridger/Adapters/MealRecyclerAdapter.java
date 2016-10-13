@@ -52,6 +52,11 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
         this.recipes = recipes;
         this.activity = activity;
     }
+    public void add(List<String> recipes){
+       List<String> newRecipes = new ArrayList<>();
+        newRecipes.addAll(recipes);
+        this.recipes.addAll(newRecipes);
+    }
 
 
     @Override
@@ -70,7 +75,7 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
 //        holder.mealPic.setImageResource(R.drawable.black_to_white);
 //        holder.mealPic.setAlpha(0.60f);
         new RequestTaskForRecipe(holder).execute("http://api.yummly.com/v1/api/recipe/" +recipe+ "?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd");
-
+        Log.e("raboti","asd");
         //holder.recipeNameTV.getBackground().setAlpha(34);
 
 
@@ -176,6 +181,7 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
                 Double rating = object.getDouble("rating");
                 JSONArray images = object.getJSONArray("images");
                 String bigPicUrl = images.getJSONObject(0).getString("hostedLargeUrl");
+                String smallPicUrl = images.getJSONObject(0).getString("hostedSmallUrl");
                 String id = object.getString("id");
                 String numberOfServings = object.getString("numberOfServings");
                 ArrayList<String> coursesForTheRecipe = new ArrayList<>();
@@ -183,14 +189,14 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
                 String source = sources.getString("sourceRecipeUrl");
                 String creator = sources.getString("sourceDisplayName");
                 JSONObject course = object.getJSONObject("attributes");
-                if(!course.isNull("course")) {
+                if (!course.isNull("course")) {
                     JSONArray courses = course.getJSONArray("course");
                     for (int i = 0; i < courses.length(); i++) {
                         coursesForTheRecipe.add(courses.getString(i));
                     }
                 }
-                Log.e("ccourses",coursesForTheRecipe.toString());
-                Recipe recipe = new Recipe(ingredientLinesArr, flavorsMap, nutritionsValues, nameOfRecipe, servings, totalTime, rating,bigPicUrl,id,numberOfServings,coursesForTheRecipe,source,creator,fatKCAL);
+                Log.e("ccourses", coursesForTheRecipe.toString());
+                Recipe recipe = new Recipe(ingredientLinesArr, flavorsMap, nutritionsValues, nameOfRecipe, servings, totalTime, rating, bigPicUrl, id, numberOfServings, coursesForTheRecipe, source, creator, fatKCAL,smallPicUrl);
                 holder.recipeNameTV.setText(recipe.getName());
                 holder.recipeCreator.setText(recipe.getCreator());
                 new MealRecyclerAdapter.RequestTaskForRecipe.RequestTask(holder, recipe).execute(bigPicUrl);

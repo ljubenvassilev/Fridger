@@ -16,12 +16,6 @@
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
-            <ImageView
-                android:id="@+id/recipe_info_Image"
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:scaleType="fitXY">
-            </ImageView>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:orientation="horizontal"
@@ -42,13 +36,19 @@
                     android:layout_weight="1"
                     android:id="@+id/recipe_info_Ingredients"/>
                 <TextView
-
                     android:textColor="@android:color/white"
                     android:gravity="center"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:id="@+id/recipe_info_TotalTime"/>
+            <ImageView
+                android:id="@+id/recipe_info_Image"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:scaleType="fitXY">
+            </ImageView>
+
 
             </LinearLayout>
             <CheckBox
@@ -56,137 +56,139 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/recipe_info_FavouriteButton" />
 
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_height="0dp">
+                    <LinearLayout
+                        android:background="@color/md_blue_grey_300"
+
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_weight="1.9"
+                        android:layout_marginBottom="10dp"
+                        android:layout_height="0dp">
+                        <TextView
+                            android:gravity="center"
+
+                            android:text="Ingredients"
+                            android:textColor="@color/md_black_1000"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="match_parent" />
+
+                        <TextView
+                            android:text=" ITB:"
+                            android:gravity="center"
+
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="match_parent"
+                            android:id="@+id/recipe_info_itemsToBeBought" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:orientation="vertical"
+                            android:layout_weight="1"
+                            android:layout_height="match_parent">
+
+                            <TextView
+
+                                android:id="@+id/recipe_info_servingsForTheIngredients"
+                                android:layout_width="match_parent"
+                                android:layout_weight="1.3"
+                                android:gravity="center"
+                                android:layout_height="0dp" />
+
+                            <TextView
+
+                                android:text="Servings"
+                                android:textSize="8sp"
+                                android:gravity="center"
+                                android:layout_width="match_parent"
+                                android:layout_weight="1"
+                                android:layout_height="0dp"
+                                android:id="@+id/textView3" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_weight="4"
+                        android:orientation="vertical"
+                        android:layout_height="0dp">
+                        <Button
+                            android:background="@color/md_blue_grey_300"
+
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:text="buy all"
+                            android:layout_marginBottom="10dp"
+                            android:id="@+id/recipe_info_buyALlButton"
+                            android:layout_weight="2"/>
+
+                        <android.support.v7.widget.RecyclerView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="3.69"
+                            android:id="@+id/recycleListForIngredients">
+                        </android.support.v7.widget.RecyclerView>
+                        <TextView
+                            android:background="@color/md_blue_grey_400"
+                            android:layout_width="match_parent"
+                            android:layout_weight="1.4"
+                            android:text="Continue Exploring"
+                            android:textColor="@color/md_blue_50"
+                            android:textSize="15sp"
+                            android:layout_height="0dp" />
+                        <LinearLayout
+                            android:background="@color/md_blue_grey_400"
+                            android:layout_width="match_parent"
+                            android:layout_weight="1.7"
+                            android:orientation="horizontal"
+                            android:layout_height="0dp">
+                            <TextView
+                                android:textColor="@color/md_red_50"
+                                android:textSize="15sp"
+                                android:gravity="center"
+                                android:id="@+id/recipe_info_course1"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="match_parent" />
+                            <TextView
+                                android:textColor="@color/md_red_50"
+                                android:gravity="center"
+                                android:id="@+id/recipe_info_course2"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="match_parent" />
+
+                            <TextView
+                                android:textColor="@color/md_red_50"
+                                android:gravity="center"
+                                android:id="@+id/recipe_info_course3"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="match_parent" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </ScrollView>
+
         </FrameLayout>
 
 
     </FrameLayout>
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="1">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:layout_height="0dp">
-        <LinearLayout
-            android:background="@color/md_blue_grey_300"
 
-            android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:layout_weight="1.9"
-            android:layout_marginBottom="10dp"
-            android:layout_height="0dp">
-            <TextView
-                android:gravity="center"
-
-                android:text="Ingredients"
-                android:textColor="@color/md_black_1000"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent" />
-
-            <TextView
-                android:text=" ITB:"
-                android:gravity="center"
-
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:id="@+id/recipe_info_itemsToBeBought" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:orientation="vertical"
-                android:layout_weight="1"
-                android:layout_height="match_parent">
-
-                <TextView
-
-                    android:id="@+id/recipe_info_servingsForTheIngredients"
-                    android:layout_width="match_parent"
-                    android:layout_weight="1.3"
-                    android:gravity="center"
-                    android:layout_height="0dp" />
-
-                <TextView
-
-                    android:text="Servings"
-                    android:textSize="8sp"
-                    android:gravity="center"
-                    android:layout_width="match_parent"
-                    android:layout_weight="1"
-                    android:layout_height="0dp"
-                    android:id="@+id/textView3" />
-            </LinearLayout>
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_weight="4"
-            android:orientation="vertical"
-            android:layout_height="0dp">
-            <Button
-                android:background="@color/md_blue_grey_300"
-
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:text="buy all"
-                android:layout_marginBottom="10dp"
-                android:id="@+id/recipe_info_buyALlButton"
-                android:layout_weight="2"/>
-
-            <android.support.v7.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="3.69"
-                android:id="@+id/recycleListForIngredients">
-            </android.support.v7.widget.RecyclerView>
-            <TextView
-                android:background="@color/md_blue_grey_400"
-                android:layout_width="match_parent"
-                android:layout_weight="1.4"
-                android:text="Continue Exploring"
-                android:textColor="@color/md_blue_50"
-                android:textSize="15sp"
-                android:layout_height="0dp" />
-            <LinearLayout
-                android:background="@color/md_blue_grey_400"
-                android:layout_width="match_parent"
-                android:layout_weight="1.7"
-                android:orientation="horizontal"
-                android:layout_height="0dp">
-                <TextView
-                    android:textColor="@color/md_red_50"
-                    android:textSize="15sp"
-                    android:gravity="center"
-                    android:id="@+id/recipe_info_course1"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent" />
-                <TextView
-                    android:textColor="@color/md_red_50"
-                    android:gravity="center"
-                    android:id="@+id/recipe_info_course2"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent" />
-
-                <TextView
-                    android:textColor="@color/md_red_50"
-                    android:gravity="center"
-                    android:id="@+id/recipe_info_course3"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-</ScrollView>
     <LinearLayout
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"

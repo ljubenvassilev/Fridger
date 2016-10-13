@@ -26,24 +26,43 @@ public class ShoppingListActivity extends DrawerActivity {
         super.replaceContentLayout(R.layout.activity_your_ingredients, super.CONTENT_LAYOUT_ID);
         listOfIngredients = (RecyclerView) findViewById(R.id.recycleListForIngredients);
         addToFridgeButton = (Button) findViewById(R.id.yourIngredients_addToFridgeButton);
+        removeAllButton = (Button) findViewById(R.id.yourIngredients_addAllToFridgeButton);
 
         listOfIngredients.setLayoutManager(new LinearLayoutManager(this));
         adapter = new IngredientsInShoppingListAdapter(this,DatabaseHelper.getInstance(this).getUserShoppingList(DatabaseHelper.getInstance(this).getCurrentUser().getFacebookID()));
         listOfIngredients.setAdapter(adapter);
-
+        int sizeOfShoppingList = DatabaseHelper.getInstance(ShoppingListActivity.this).getUserShoppingList(DatabaseHelper.getInstance(ShoppingListActivity.this).getCurrentUser().getFacebookID()).size();
+        if(sizeOfShoppingList == 0){
+            addToFridgeButton.setVisibility(View.GONE);
+            removeAllButton.setVisibility(View.GONE);
+        }
         addToFridgeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ShoppingListActivity.this, "Selected are now in your fridge", Toast.LENGTH_SHORT).show();
+                int sizeOfShoppingList = DatabaseHelper.getInstance(ShoppingListActivity.this).getUserShoppingList(DatabaseHelper.getInstance(ShoppingListActivity.this).getCurrentUser().getFacebookID()).size();
+                int numberOfAddedToFridgeProducts = adapter.removeSelectedProducts();
+                if(numberOfAddedToFridgeProducts == sizeOfShoppingList){
+                    Toast.makeText(ShoppingListActivity.this, "Everything was added", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+                else if(numberOfAddedToFridgeProducts > 0){
+                    Toast.makeText(ShoppingListActivity.this, "Added some ingr. to your fridge.", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(ShoppingListActivity.this, "Nothing selected", Toast.LENGTH_SHORT).show();
+                }
+                
+            }
+        });
+        removeAllButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adapter.removeAll();
+                Toast.makeText(ShoppingListActivity.this, "Everything was added to your fridge", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
 
-//        removeAllButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                adapter.removeAllProducts();
-//            }
-//        });
+
     }
 }

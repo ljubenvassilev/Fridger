@@ -20,10 +20,11 @@ public class Recipe {
     String bigPicUrl;
     String id;
     double fatKCAL;
+    String smallPicUrl;
     String numberOfServings;
     double rating;
 
-    public Recipe(ArrayList<String> ingredientLines, HashMap<String, Double> flavors,  ArrayList<IngredientValues> nutritions, String name, String servings, String timeForPrepare, double rating,String bigPicUrl,String id,String numberOfServings,ArrayList<String> courses,String source, String creator,double fatKCAL) {
+    public Recipe(ArrayList<String> ingredientLines, HashMap<String, Double> flavors,  ArrayList<IngredientValues> nutritions, String name, String servings, String timeForPrepare, double rating,String bigPicUrl,String id,String numberOfServings,ArrayList<String> courses,String source, String creator,double fatKCAL,String smallPicUrl) {
         this.ingredientLines = ingredientLines;
         this.flavors = flavors;
         this.nutritions = nutritions;
@@ -37,11 +38,16 @@ public class Recipe {
         this.courses = courses;
         this.source = source;
         this.creator = creator;
+        this.smallPicUrl = smallPicUrl;
         this.fatKCAL = fatKCAL;
     }
 
     public String getSource() {
         return source;
+    }
+
+    public String getSmallPicUrl() {
+        return smallPicUrl;
     }
 
     public String getCreator() {

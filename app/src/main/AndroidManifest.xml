@@ -49,6 +49,7 @@
         <activity android:name=".activties.YourFridgeActivity" />
         <activity android:name=".activties.SearchMealsActivity" />
         <activity android:name=".activties.NutritionsActivity" />
+        <activity android:name=".activties.SearchingActivity"></activity>
     </application>
 
 </manifest>

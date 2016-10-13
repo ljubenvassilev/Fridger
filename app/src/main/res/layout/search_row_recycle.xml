@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_marginBottom="5dp"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="70dp">
+        <TextView
+            android:text="bla"
+            android:gravity="left"
+            android:textSize="25sp"
+            android:textColor="@color/com_facebook_blue"
+            android:layout_gravity="center"
+            android:id="@+id/searching_TV"
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:layout_height="match_parent"
+            android:lines="2"/>
+        <ImageView
+            android:scaleType="fitXY"
+            android:id="@+id/searching_IV"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+</LinearLayout>

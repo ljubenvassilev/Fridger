@@ -4,17 +4,17 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-
         <CheckBox
             android:gravity="top"
-            android:layout_gravity="center"
+            android:layout_gravity="right"
             android:id="@+id/buyingIngredientChecked"
             android:layout_weight="1"
             android:layout_width="0dp"
+            android:layout_marginRight="5dp"
             android:layout_height="match_parent"/>
-
         <TextView
             android:gravity="left"
+            android:layout_marginLeft="10dp"
             android:layout_gravity="center"
             android:layout_weight="8.3"
             android:id="@+id/buyingIngredient"
@@ -23,5 +23,4 @@
             android:lines="2"
             android:textColor="@color/md_black_1000"
             android:layout_height="match_parent" />
-
 </LinearLayout>

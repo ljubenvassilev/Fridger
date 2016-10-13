@@ -1,28 +1,21 @@
 package ljuboandtedi.fridger.activties;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
-import android.view.View;
-import android.widget.Adapter;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Toast;
-
-import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -30,66 +23,55 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 import ljuboandtedi.fridger.R;
-import ljuboandtedi.fridger.adapters.MealAdapter;
 import ljuboandtedi.fridger.adapters.MealRecyclerAdapter;
+import ljuboandtedi.fridger.adapters.SearchingAdapter;
 import ljuboandtedi.fridger.model.IngredientValues;
 import ljuboandtedi.fridger.model.Recipe;
 import ljuboandtedi.fridger.model.RecipeManager;
 
-import static ljuboandtedi.fridger.model.RecipeManager.recipes;
-
-public class MainActivity extends DrawerActivity {
-
-
-    Button searchActivityButton;
-    SwipeFlingAdapterView flingContainer;
-    ArrayList<Bitmap> bitmaps;
-    ArrayList<String> recipesByName;
-    SwipeFlingAdapterView flingContainer2;
-    ArrayList<Bitmap> bitmaps2;
-    ProgressDialog myProgressDialog;
-    ArrayList<String> recipesByName2;
-
+public class SearchingActivity extends AppCompatActivity {
+    RecyclerView recListIngredients;
+    SearchingAdapter searchingAdapter;
+    EditText searchField;
+    ArrayList<String> recipes;
+    ArrayList<String> recipesSmallPics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.replaceContentLayout(R.layout.activity_main, super.CONTENT_LAYOUT_ID);
-        searchActivityButton = (Button) findViewById(R.id.intenting);
-        searchActivityButton.setOnClickListener(new View.OnClickListener() {
+        setContentView(R.layout.activity_searching);
+        recListIngredients = (RecyclerView) findViewById(R.id.recycleListForSearchings);
+        recListIngredients.setLayoutManager(new LinearLayoutManager(this));
+        recipes = new ArrayList<>();
+        recipesSmallPics = new ArrayList<>();
+        searchingAdapter = new SearchingAdapter(recipes,recipesSmallPics,this);
+        recListIngredients.setAdapter(searchingAdapter);
+        searchField = (EditText) findViewById(R.id.searching_ET);
+        searchField.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,SearchingActivity.class);
-                startActivity(intent);
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                 Log.e("changingText","asd");
+                String edittedText = searchField.getText().toString();
+                recipes.clear();
+                searchingAdapter.notifyDataSetChanged();
+                recipesSmallPics.clear();
+                searchingAdapter.notifyDataSetChanged();
+                new RequestTask().execute("http://api.yummly.com/v1/api/recipes?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd&q=" + edittedText + "&maxResult=5&start=5");
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
-        myProgressDialog = new ProgressDialog(this);
-        bitmaps = new ArrayList<>();
-        bitmaps2 = new ArrayList<>();
-        //flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame1);
-        flingContainer2 = (SwipeFlingAdapterView) findViewById(R.id.frame2);
-        recipesByName = new ArrayList<>();
-        recipesByName2 = new ArrayList<>();
-        //new RequestTaskForRelatedMeals(recipesByName,bitmaps,flingContainer).execute("http://api.yummly.com/v1/api/recipes?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd&=qpizza&maxResult=10&start=10");
-        new RequestTaskForRelatedMeals(recipesByName2,bitmaps2,flingContainer2).execute("http://api.yummly.com/v1/api/recipes?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd&q=pizza&maxResult=20&start=10");
-
     }
 
-    class RequestTaskForRelatedMeals extends AsyncTask<String, Void, String> {
-        ArrayList<String> recipes;
-        SwipeFlingAdapterView flingContainer;
-        ArrayList<Bitmap> bitmaps;
-
-        RequestTaskForRelatedMeals( ArrayList<String> recipes, ArrayList<Bitmap> bitmaps ,SwipeFlingAdapterView flingContainer){
-            this.recipes = recipes;
-            this.bitmaps = bitmaps;
-            this.flingContainer = flingContainer;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            showProgressDialog();
-        }
+    class RequestTask extends AsyncTask<String, Void, String> {
 
         @Override
         protected String doInBackground(String... params) {
@@ -112,11 +94,19 @@ public class MainActivity extends DrawerActivity {
 
         @Override
         protected void onPostExecute(String jsonX) {
+
+            Log.i("JSON", jsonX);
             try {
                 JSONObject json = new JSONObject(jsonX);
                 JSONArray matches = json.getJSONArray("matches");
 
 
+                //Takes the first JOBJ in matches!!!
+                //Atm it takes the first Soup found in the search of soups.
+                //It will be in a recycle view and it will be in an array so we can take all the soups. This is sample for the first soup.
+
+
+                //Lets try with array
                 for (int i = 0; i < matches.length(); i++) {
                     Log.i("matches", matches.length() + "");
                     String ingredientsString = "";
@@ -173,33 +163,21 @@ public class MainActivity extends DrawerActivity {
                         id = attributesInJson.getString("id");
 
                         Log.e("ID", id);
-
                     }
-                    new RequestTaskForRecipe(recipes,bitmaps,flingContainer).execute("http://api.yummly.com/v1/api/recipe/" +id+ "?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd");
 
+                    searchingAdapter.notifyDataSetChanged();
+                    new RequestTaskForRecipe().execute("http://api.yummly.com/v1/api/recipe/" + id + "?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd");
                 }
-                   // Log.e("tiqRecepti",recipesMAIN.toString());
-                    Log.e("puskamAdapter","puskamGO");
-
-
-                    //Log.e("receptite", recipes.toString());
-
-
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }
-    }class RequestTaskForRecipe extends AsyncTask<String, Void, String> {
-        ArrayList<String> recipes;
-        SwipeFlingAdapterView flingContainer;
-        ArrayList<Bitmap> bitmaps;
 
-        RequestTaskForRecipe( ArrayList<String> recipes, ArrayList<Bitmap> bitmaps ,SwipeFlingAdapterView flingContainer){
-            this.recipes = recipes;
-            this.bitmaps = bitmaps;
-            this.flingContainer = flingContainer;
         }
+    }
+
+    class RequestTaskForRecipe extends AsyncTask<String, Void, String> {
+
         @Override
         protected String doInBackground(String... params) {
             Log.e("params", params[0]);
@@ -225,6 +203,7 @@ public class MainActivity extends DrawerActivity {
 
         @Override
         protected void onPostExecute(String json) {
+
             try {
                 JSONObject object = new JSONObject(json);
                 JSONArray ingredientLines = object.getJSONArray("ingredientLines");
@@ -292,139 +271,15 @@ public class MainActivity extends DrawerActivity {
                 Log.e("ccourses", coursesForTheRecipe.toString());
                 Recipe recipe = new Recipe(ingredientLinesArr, flavorsMap, nutritionsValues, nameOfRecipe, servings, totalTime, rating, bigPicUrl, id, numberOfServings, coursesForTheRecipe, source, creator, fatKCAL,smallPicUrl);
                 RecipeManager.recipes.put(recipe.getName(),recipe);
+
                 recipes.add(recipe.getName());
-                new RequestTask(recipes,bitmaps,flingContainer).execute(recipe.getBigPicUrl());
+                searchingAdapter.notifyDataSetChanged();
+                recipesSmallPics.add(recipe.getSmallPicUrl());
+                searchingAdapter.notifyDataSetChanged();
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
-
-        class RequestTask extends AsyncTask<String, Void, Bitmap> {
-            ArrayList<String> recipes;
-            SwipeFlingAdapterView flingContainer;
-            ArrayList<Bitmap> bitmaps;
-
-            RequestTask( ArrayList<String> recipes, ArrayList<Bitmap> bitmaps ,SwipeFlingAdapterView flingContainer){
-                this.recipes = recipes;
-                this.bitmaps = bitmaps;
-                this.flingContainer = flingContainer;
-            }
-            @Override
-            protected void onPreExecute() {
-
-            }
-
-            @Override
-            protected Bitmap doInBackground(String... params) {
-                String address = params[0];
-                Bitmap bitmap = null;
-
-                try {
-                    URL url = new URL(address);
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                    connection.setRequestMethod("GET");
-                    connection.connect();
-                    InputStream is = connection.getInputStream();
-                    bitmap = BitmapFactory.decodeStream(is);
-
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                return bitmap;
-            }
-
-            @Override
-            protected void onPostExecute(Bitmap image) {
-                final ArrayList<String> replacesments = new ArrayList<>();
-                final ArrayList<Bitmap> bitmapsReplacements = new ArrayList<>();
-                bitmaps.add(image);
-                if(bitmaps.size() == 10){
-                    hideProgressDialog();
-                    final  MealAdapter mealAdapter = new MealAdapter(MainActivity.this, bitmaps);
-                    flingContainer.setAdapter(mealAdapter);
-                    mealAdapter.notifyDataSetChanged();
-                    //flingContainer.setVisibility(View.VISIBLE);
-                    //flingContainer.performClick();
-                    //flingContainer.getTopCardListener().selectLeft();
-                    flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
-                        @Override
-                        public void removeFirstObjectInAdapter() {
-                            // this is the simplest way to delete an object from the Adapter (/AdapterView)
-                            Log.d("LIST", "removed object!");
-                            bitmapsReplacements.add(mealAdapter.getItem(0));
-                            mealAdapter.remove(bitmaps.get(0));
-                            replacesments.add(recipes.get(0));
-                            recipes.remove(0);
-                            mealAdapter.notifyDataSetChanged();
-                        }
-
-                        @Override
-                        public void onLeftCardExit(Object dataObject) {
-                            //Do something on the left!
-                            //You also have access to the original object.
-                            //If you want to use it just cast it (String) dataObject
-                        }
-
-                        @Override
-                        public void onRightCardExit(Object dataObject) {
-
-                        }
-
-                        @Override
-                        public void onAdapterAboutToEmpty(int itemsInAdapter) {
-                            // Ask for more data here
-//                            al.add("XML ".concat(String.valueOf(i)));
-//                            arrayAdapter.notifyDataSetChanged();
-//                            i++;
-//                            recipes = replacesments;
-//                            bitmaps.clear();
-//                            bitmaps = bitmapsReplacements;
-//                            mealAdapter.addAll(bitmapsReplacements);
-                        }
-
-                        @Override
-                        public void onScroll(float scrollProgressPercent) {
-                            View view = flingContainer.getSelectedView();
-                            view.findViewById(R.id.item_swipe_right_indicator).setAlpha(scrollProgressPercent < 0 ? -scrollProgressPercent : 0);
-                            view.findViewById(R.id.item_swipe_left_indicator).setAlpha(scrollProgressPercent > 0 ? scrollProgressPercent : 0);
-                        }
-                        
-                    });
-                    flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClicked(int itemPosition, Object dataObject) {
-
-                            String recipeName = recipes.get(itemPosition);
-                            Intent intent = new Intent(MainActivity.this,RecipeInfoActivity.class);
-                            intent.putExtra("recipe",recipeName);
-                            startActivity(intent);
-                        }
-                    });
-
-                }
-            }
-        }
     }
-    private void showProgressDialog() {
-        if (myProgressDialog == null) {
-            myProgressDialog = new ProgressDialog(this);
-            myProgressDialog.setMessage("Loading...");
-            myProgressDialog.setIndeterminate(true);
-        }
-
-        myProgressDialog.show();
-    }
-
-    private void hideProgressDialog() {
-        if (myProgressDialog != null && myProgressDialog.isShowing()) {
-            myProgressDialog.hide();
-        }
-    }
-
 }
-
-
-

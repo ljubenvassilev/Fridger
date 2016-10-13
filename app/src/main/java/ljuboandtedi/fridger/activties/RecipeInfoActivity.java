@@ -62,7 +62,6 @@ public class RecipeInfoActivity extends DrawerActivity {
     TextView continueExploring;
     RecyclerView relatedMeals;
     private SlidingUpPanelLayout slidingLayout;
-    ArrayList<String> recipes;
     Recipe recipe;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,11 +69,7 @@ public class RecipeInfoActivity extends DrawerActivity {
         super.replaceContentLayout(R.layout.activity_recipe_info_slidingbar, super.CONTENT_LAYOUT_ID);
         iv = (ImageView) findViewById(R.id.recipe_info_Image);
 
-        recipes = new ArrayList<>();
         relatedMeals = (RecyclerView) findViewById(R.id.recycleListForRelatedMeals);
-        relatedMeals.setLayoutManager(new LinearLayoutManager(RecipeInfoActivity.this,LinearLayoutManager.HORIZONTAL,false));
-        adpterForRelatedMeals = new MealRecyclerAdapter(RecipeInfoActivity.this,recipes);
-        relatedMeals.setAdapter(adpterForRelatedMeals);
         new RequestTaskForRelatedMeals().execute("http://api.yummly.com/v1/api/recipes?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd&q=&maxResult=10&start=10");
 
         course1TV = (TextView) findViewById(R.id.recipe_info_course1);
@@ -357,7 +352,7 @@ public class RecipeInfoActivity extends DrawerActivity {
             try {
                 JSONObject json = new JSONObject(jsonX);
                 JSONArray matches = json.getJSONArray("matches");
-
+                ArrayList<String> recipes = new ArrayList<>();
 
                 //Takes the first JOBJ in matches!!!
                 //Atm it takes the first Soup found in the search of soups.
@@ -423,16 +418,22 @@ public class RecipeInfoActivity extends DrawerActivity {
                         Log.e("ID", id);
                     }
 
-                    recipes.add(id);
+                    recipes.add(0,id);
+                    Log.e("receptitezanoviq",recipes.toString());
+
                 Log.e("receptite",recipes.toString());
                 }
-
+                adpterForRelatedMeals = new MealRecyclerAdapter(RecipeInfoActivity.this,recipes);
+                adpterForRelatedMeals.notifyDataSetChanged();
+                relatedMeals.setLayoutManager(new LinearLayoutManager(RecipeInfoActivity.this,LinearLayoutManager.HORIZONTAL,false));
+                relatedMeals.setAdapter(adpterForRelatedMeals);
+                adpterForRelatedMeals.notifyDataSetChanged();
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-            adpterForRelatedMeals.notifyDataSetChanged();
+//            adpterForRelatedMeals.add(recipes);
+//            adpterForRelatedMeals.notifyDataSetChanged();
             Log.e("bqhtuk","123");
 
         }

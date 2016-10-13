@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <FrameLayout
         android:layout_below="@id/toolbar"
         android:id="@+id/frame_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
+
+        <LinearLayout
             android:id="@+id/activity_your_fridge"
             android:layout_width="match_parent"
+            android:weightSum="3"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:paddingBottom="@dimen/activity_vertical_margin"
@@ -20,26 +24,49 @@
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="@dimen/activity_vertical_margin"
             tools:context="ljuboandtedi.fridger.activties.YourFridgeActivity"
-            android:background="@drawable/background_pale">
+            >
+
             <TextView
                 android:gravity="center"
-                android:textSize="20sp"
+                android:textSize="25sp"
+                android:layout_weight="0.4"
+                android:textColor="@color/com_facebook_blue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Your Fridgeeeeee"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:id="@+id/fridge_removeButton"
-                android:textAllCaps="false"
-                android:text="Eat selected"/>
+                android:text="Your Fridge"
+                android:id="@+id/textView2" />
+
             <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/recycleListForIngredients">
             </android.support.v7.widget.RecyclerView>
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content">
+                <Button
+                    android:layout_marginRight="20dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:background="@drawable/bbbutton2"
+                    android:id="@+id/yourFridge_removeFromFridgeButton"
+                    android:text="Buy selected"/>
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@drawable/bbbutton2"
+                    android:id="@+id/yourFridge_removeAllToFridgeButton"
+                    android:text="Buy All"/>
+            </LinearLayout>
 
         </LinearLayout>
     </FrameLayout>
+</ScrollView>
+
 </RelativeLayout>
