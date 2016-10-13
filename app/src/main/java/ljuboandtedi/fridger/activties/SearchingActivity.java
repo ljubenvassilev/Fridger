@@ -29,7 +29,7 @@ import ljuboandtedi.fridger.model.IngredientValues;
 import ljuboandtedi.fridger.model.Recipe;
 import ljuboandtedi.fridger.model.RecipeManager;
 
-public class SearchingActivity extends AppCompatActivity {
+public class SearchingActivity extends DrawerActivity {
     RecyclerView recListIngredients;
     SearchingAdapter searchingAdapter;
     EditText searchField;
@@ -39,7 +39,7 @@ public class SearchingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_searching);
+        super.replaceContentLayout(R.layout.activity_searching, super.CONTENT_LAYOUT_ID);
         recListIngredients = (RecyclerView) findViewById(R.id.recycleListForSearchings);
         recListIngredients.setLayoutManager(new LinearLayoutManager(this));
         recipes = new ArrayList<>();
@@ -57,6 +57,7 @@ public class SearchingActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                  Log.e("changingText","asd");
                 String edittedText = searchField.getText().toString();
+                edittedText = edittedText.trim().replace(" ", "+");
                 recipes.clear();
                 searchingAdapter.notifyDataSetChanged();
                 recipesSmallPics.clear();

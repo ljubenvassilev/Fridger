@@ -4,14 +4,16 @@
     android:gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+
     <FrameLayout
         android:layout_below="@id/toolbar"
         android:id="@+id/frame_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
 
         <LinearLayout
             android:id="@+id/activity_your_fridge"
@@ -66,7 +68,8 @@
             </LinearLayout>
 
         </LinearLayout>
+        </ScrollView>
     </FrameLayout>
-</ScrollView>
+
 
 </RelativeLayout>
