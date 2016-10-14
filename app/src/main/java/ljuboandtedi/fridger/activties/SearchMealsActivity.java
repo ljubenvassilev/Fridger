@@ -60,25 +60,26 @@ public class SearchMealsActivity extends DrawerActivity {
         seekBarBitter.setRangeValues(0.00f, 1.00f);
 
         ArrayList<String> courses = new ArrayList<>();
-        courses.add("Choose course");
+        courses.add("Course");
         courses.add("Main Dishes");
         courses.add("Desserts");
         courses.add("Salads");
         courses.add("Breakfast and Brunch");
         courses.add("Cocktails");
 
-        final ArrayList<String> holidays = new ArrayList<>();
-        holidays.add("Choose holiday");
+        ArrayList<String> holidays = new ArrayList<>();
+        holidays.add("Holiday");
         holidays.add("Christmas");
         holidays.add("Thanksgiving");
         holidays.add("Hanukkah");
         holidays.add("Halloween");
         holidays.add("4th of July");
 
-        ArrayAdapter<String> adapterCourses = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, courses);
-        ArrayAdapter<String> adapterHolidays = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, holidays);
-        adapterHolidays.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        adapterCourses.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> adapterCourses = new ArrayAdapter<>(this, R.layout.spinner_item, courses);
+        ArrayAdapter<String> adapterHolidays = new ArrayAdapter<>(this, R.layout.spinner_item, holidays);
+
+        adapterHolidays.setDropDownViewResource(R.layout.spinner_item);
+        adapterCourses.setDropDownViewResource(R.layout.spinner_item);
 
         courseSpinner.setAdapter(adapterCourses);
         holidaySpinner.setAdapter(adapterHolidays);
@@ -107,12 +108,12 @@ public class SearchMealsActivity extends DrawerActivity {
             public void onClick(View v) {
                 String holiday = searchOptions.get("holiday");
                 String course = searchOptions.get("course");
-                if (holiday.equals("Choose holiday")) {
+                if (holiday.equals("Holiday")) {
                     holiday = "";
                 } else {
                     holiday = "&allowedHoliday[]=holiday^holiday-" + holiday.trim().replace(" ", "+");
                 }
-                if (course.equals("Choose course")) {
+                if (course.equals("Course")) {
                     course = "";
                 } else {
                     course = "&allowedCourse[]=course^course-" + course.trim().replace(" ", "+");
