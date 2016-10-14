@@ -1,20 +1,14 @@
 package ljuboandtedi.fridger.adapters;
 
 import android.app.Activity;
-import android.content.Context;
-import android.graphics.Point;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
-
-import com.uniquestudio.library.CircleCheckBox;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -31,7 +25,6 @@ import ljuboandtedi.fridger.model.DatabaseHelper;
 public class MyFridgeMealsAdapter extends  RecyclerView.Adapter<MyFridgeMealsAdapter.MyIngredientViewHolder>{
 
     private List<String> ingredients;
-    //private List<Boolean[]> checked;
     private HashMap<String,Boolean> ingredientsChecker;
     private Activity activity;
 
@@ -42,17 +35,13 @@ public class MyFridgeMealsAdapter extends  RecyclerView.Adapter<MyFridgeMealsAda
         for(String s: ingredients){
             ingredientsChecker.put(s,false);
         }
-
     }
 
     @Override
     public MyIngredientViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        //inflate xml
         LayoutInflater inflater = activity.getLayoutInflater();
-        View row = inflater.inflate(R.layout.ingredients_info_activity, parent, false);
-        //create vh
+        View row = inflater.inflate(R.layout.ingredient_row, parent, false);
         MyIngredientViewHolder vh = new MyIngredientViewHolder(row);
-        //return vh
         return vh;
     }
 
@@ -66,9 +55,6 @@ public class MyFridgeMealsAdapter extends  RecyclerView.Adapter<MyFridgeMealsAda
         final String ingredient = ingredients.get(position);
         boolean isitSelected = ingredientsChecker.get(ingredient);
 
-
-        Log.e("ingredient",ingredient);
-        Log.e("selected",isitSelected + "");
         if(isitSelected){
             holder.cb.setChecked(true);
         }
@@ -87,22 +73,19 @@ public class MyFridgeMealsAdapter extends  RecyclerView.Adapter<MyFridgeMealsAda
                         ingredientsChecker.put(ingredient,false);
                     }
                 }
-
             }
 
         });
         holder.ingredient.setText(ingredient);
-
     }
 
     class MyIngredientViewHolder extends RecyclerView.ViewHolder{
-        TextView ingredient;
-        CheckBox cb;
+        private TextView ingredient;
+        private CheckBox cb;
         MyIngredientViewHolder(View row){
             super(row);
             cb = (CheckBox) row.findViewById(R.id.buyingIngredientChecked);
             ingredient = (TextView)    row.findViewById(R.id.buyingIngredient);
-
         }
     }
     public int removeSelectedProducts(){
@@ -112,10 +95,8 @@ public class MyFridgeMealsAdapter extends  RecyclerView.Adapter<MyFridgeMealsAda
             Map.Entry<String,Boolean> entry = iter.next();
             if(entry.getValue()){
                 DatabaseHelper.getInstance(activity).removeFromFridge(entry.getKey());
-                //DatabaseHelper.getInstance(activity).addToFridge(entry.getKey());
                 iter.remove();
                 ingredients.remove(entry.getKey());
-               // ingredientsChecker.remove(entry.getKey());
                 counter++;
             }
         }
@@ -125,19 +106,14 @@ public class MyFridgeMealsAdapter extends  RecyclerView.Adapter<MyFridgeMealsAda
     public void removeAll(){
         Iterator<Map.Entry<String,Boolean>> iter = ingredientsChecker.entrySet().iterator();
         while (iter.hasNext()) {
-            Map.Entry<String,Boolean> entry = iter.next();
-            //DatabaseHelper.getInstance(activity).addToFridge(entry.getKey());
+            Map.Entry<String, Boolean> entry = iter.next();
             DatabaseHelper.getInstance(activity).removeFromFridge(entry.getKey());
             ingredients.remove(entry.getKey());
             iter.remove();
-
-           // ingredientsChecker.remove(entry.getKey());
         }
         ingredients.clear();
         ingredientsChecker.clear();
         notifyDataSetChanged();
     }
-
-
 }
 

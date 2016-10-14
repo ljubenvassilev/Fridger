@@ -35,26 +35,26 @@ import ljuboandtedi.fridger.adapters.MealRecyclerAdapter;
 import ljuboandtedi.fridger.model.IngredientValues;
 import ljuboandtedi.fridger.model.Recipe;
 import ljuboandtedi.fridger.model.RecipeManager;
+import ljuboandtedi.fridger.model.User;
 
 import static ljuboandtedi.fridger.model.RecipeManager.recipes;
 
 public class MainActivity extends DrawerActivity {
 
-
-    Button searchActivityButton;
-    SwipeFlingAdapterView flingContainer;
-    ArrayList<Bitmap> bitmaps;
-    ArrayList<String> recipesByName;
-    SwipeFlingAdapterView flingContainer2;
-    ArrayList<Bitmap> bitmaps2;
-    ProgressDialog myProgressDialog;
-    ArrayList<String> recipesByName2;
-
+    private ProgressDialog myProgressDialog;
+    private Button searchActivityButton;
+    private ArrayList<Bitmap> bitmaps2;
+    //private ArrayList<Bitmap> bitmaps;
+    private ArrayList<String> recipesByName2;
+    //private ArrayList<String> recipesByName;
+    //private SwipeFlingAdapterView flingContainer;
+    private SwipeFlingAdapterView flingContainer2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.replaceContentLayout(R.layout.activity_main, super.CONTENT_LAYOUT_ID);
+
         searchActivityButton = (Button) findViewById(R.id.intenting);
         searchActivityButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,23 +64,23 @@ public class MainActivity extends DrawerActivity {
             }
         });
         myProgressDialog = new ProgressDialog(this);
-        bitmaps = new ArrayList<>();
+
+        //bitmaps = new ArrayList<>();
         bitmaps2 = new ArrayList<>();
         //flingContainer = (SwipeFlingAdapterView) findViewById(R.id.frame1);
         flingContainer2 = (SwipeFlingAdapterView) findViewById(R.id.frame2);
-        recipesByName = new ArrayList<>();
+        //recipesByName = new ArrayList<>();
         recipesByName2 = new ArrayList<>();
         //new RequestTaskForRelatedMeals(recipesByName,bitmaps,flingContainer).execute("http://api.yummly.com/v1/api/recipes?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd&=qpizza&maxResult=10&start=10");
-        new RequestTaskForRelatedMeals(recipesByName2,bitmaps2,flingContainer2).execute("http://api.yummly.com/v1/api/recipes?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd&q=pizza&maxResult=20&start=10");
-
+        new RequestTaskForRelatedMeals(recipesByName2,bitmaps2,flingContainer2).execute("http://api.yummly.com/v1/api/recipes?_app_id="+ User.ID +"&_app_key="+ User.KEY +"&q=pizza&maxResult=20&start=10");
     }
 
-    class RequestTaskForRelatedMeals extends AsyncTask<String, Void, String> {
-        ArrayList<String> recipes;
-        SwipeFlingAdapterView flingContainer;
-        ArrayList<Bitmap> bitmaps;
+   private class RequestTaskForRelatedMeals extends AsyncTask<String, Void, String> {
+        private ArrayList<String> recipes;
+        private ArrayList<Bitmap> bitmaps;
+        private SwipeFlingAdapterView flingContainer;
 
-        RequestTaskForRelatedMeals( ArrayList<String> recipes, ArrayList<Bitmap> bitmaps ,SwipeFlingAdapterView flingContainer){
+        RequestTaskForRelatedMeals(ArrayList<String> recipes, ArrayList<Bitmap> bitmaps ,SwipeFlingAdapterView flingContainer){
             this.recipes = recipes;
             this.bitmaps = bitmaps;
             this.flingContainer = flingContainer;
@@ -116,90 +116,43 @@ public class MainActivity extends DrawerActivity {
                 JSONObject json = new JSONObject(jsonX);
                 JSONArray matches = json.getJSONArray("matches");
 
-
                 for (int i = 0; i < matches.length(); i++) {
+                    StringBuilder mealFlavors = new StringBuilder();
                     Log.i("matches", matches.length() + "");
-                    String ingredientsString = "";
-                    String recipeName = "";
-                    String flavorsString = "";
-                    String sourceOfInfo = "";
-                    String picUrl = "";
-                    int ratingInt = 0;
                     String attributes = matches.getString(i);
                     JSONObject attributesInJson = new JSONObject(attributes);
-
-                    //Takes json array for ingredients
-                    if (!attributesInJson.isNull("ingredients")) {
-                        JSONArray ingredientsInJson = attributesInJson.getJSONArray("ingredients");
-                        final int resultsLength = ingredientsInJson.length();
-                        for (int j = 0; j < resultsLength; j++) {
-                            //Appending String (Should be stringBuilder) to get info for all ingredients
-                            ingredientsString += ingredientsInJson.getString(j) + ", ";
-
-                        }
-                    }
-                    //recipeName in yummy for the meal
-                    if (!attributesInJson.isNull("recipeName")) {
-                        recipeName = attributesInJson.getString("recipeName");
-                    }
-                    if (!attributesInJson.isNull("sourceDisplayName")) {
-                        sourceOfInfo = attributesInJson.getString("sourceDisplayName");
-                    }
-                    //Rating of the recipe
-                    if (!attributesInJson.isNull("rating")) {
-                        ratingInt = attributesInJson.getInt("rating");
-                    }
-                    Log.i("flavors", i + "");
-
-                    String crappyPrefix = "null";
-                    if (attributes.startsWith("null")) {
-                        attributes = attributes.substring(crappyPrefix.length(), attributes.length());
-                    }
-
                     if (!attributesInJson.isNull("flavors")) {
-
                         JSONObject flavorsInJson = attributesInJson.getJSONObject("flavors");
-                        //Appending String (Should be stringBuilder) to get info for all flavors
-                        flavorsString += "piquant: " + flavorsInJson.getDouble("piquant");
-                        flavorsString += "\nmeaty: " + flavorsInJson.getDouble("meaty");
-                        flavorsString += "\nbitter: " + flavorsInJson.getDouble("bitter");
-                        flavorsString += "\nsweet: " + flavorsInJson.getDouble("sweet");
-                        flavorsString += "\nsour: " + flavorsInJson.getDouble("sour");
-                        flavorsString += "\nsalty: " + flavorsInJson.getDouble("salty");
+
+                        mealFlavors.append("piquant: ").append(flavorsInJson.getDouble("piquant"));
+                        mealFlavors.append("\nmeaty: ").append(flavorsInJson.getDouble("meaty"));
+                        mealFlavors.append("\nbitter: ").append(flavorsInJson.getDouble("bitter"));
+                        mealFlavors.append("\nsweet: ").append(flavorsInJson.getDouble("sweet"));
+                        mealFlavors.append("\nsour: " ).append(flavorsInJson.getDouble("sour"));
+                        mealFlavors.append("\nsalty: ").append(flavorsInJson.getDouble("salty"));
                     }
                     String id = "";
                     if (!attributesInJson.isNull("id")) {
-                        //JSONObject aboutPicture = attributesInJson.getJSONObject("id");
                         id = attributesInJson.getString("id");
-
-                        Log.e("ID", id);
-
                     }
-                    new RequestTaskForRecipe(recipes,bitmaps,flingContainer).execute("http://api.yummly.com/v1/api/recipe/" +id+ "?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd");
-
+                    new RequestTaskForRecipe(recipes,bitmaps,flingContainer).execute("http://api.yummly.com/v1/api/recipe/" +id+ "?_app_id="+ User.ID +"&_app_key=" +User.KEY);
                 }
-                   // Log.e("tiqRecepti",recipesMAIN.toString());
-                    Log.e("puskamAdapter","puskamGO");
-
-
-                    //Log.e("receptite", recipes.toString());
-
-
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
-    }class RequestTaskForRecipe extends AsyncTask<String, Void, String> {
-        ArrayList<String> recipes;
-        SwipeFlingAdapterView flingContainer;
-        ArrayList<Bitmap> bitmaps;
+    }
+    private class RequestTaskForRecipe extends AsyncTask<String, Void, String> {
+        private ArrayList<String> recipes;
+        private SwipeFlingAdapterView flingContainer;
+        private ArrayList<Bitmap> bitmaps;
 
         RequestTaskForRecipe( ArrayList<String> recipes, ArrayList<Bitmap> bitmaps ,SwipeFlingAdapterView flingContainer){
             this.recipes = recipes;
             this.bitmaps = bitmaps;
             this.flingContainer = flingContainer;
         }
+
         @Override
         protected String doInBackground(String... params) {
             Log.e("params", params[0]);
@@ -215,7 +168,6 @@ public class MainActivity extends DrawerActivity {
                 while (sc.hasNextLine()) {
                     json += (sc.nextLine());
                 }
-
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -283,27 +235,27 @@ public class MainActivity extends DrawerActivity {
                 String source = sources.getString("sourceRecipeUrl");
                 String creator = sources.getString("sourceDisplayName");
                 JSONObject course = object.getJSONObject("attributes");
+
                 if (!course.isNull("course")) {
                     JSONArray courses = course.getJSONArray("course");
                     for (int i = 0; i < courses.length(); i++) {
                         coursesForTheRecipe.add(courses.getString(i));
                     }
                 }
-                Log.e("ccourses", coursesForTheRecipe.toString());
                 Recipe recipe = new Recipe(ingredientLinesArr, flavorsMap, nutritionsValues, nameOfRecipe, servings, totalTime, rating, bigPicUrl, id, numberOfServings, coursesForTheRecipe, source, creator, fatKCAL,smallPicUrl);
                 RecipeManager.recipes.put(recipe.getName(),recipe);
                 recipes.add(recipe.getName());
-                new RequestTask(recipes,bitmaps,flingContainer).execute(recipe.getBigPicUrl());
 
+                new RequestTask(recipes,bitmaps,flingContainer).execute(recipe.getBigPicUrl());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
 
-        class RequestTask extends AsyncTask<String, Void, Bitmap> {
-            ArrayList<String> recipes;
-            SwipeFlingAdapterView flingContainer;
-            ArrayList<Bitmap> bitmaps;
+       private class RequestTask extends AsyncTask<String, Void, Bitmap> {
+           private ArrayList<String> recipes;
+           private SwipeFlingAdapterView flingContainer;
+           private ArrayList<Bitmap> bitmaps;
 
             RequestTask( ArrayList<String> recipes, ArrayList<Bitmap> bitmaps ,SwipeFlingAdapterView flingContainer){
                 this.recipes = recipes;
@@ -338,51 +290,33 @@ public class MainActivity extends DrawerActivity {
 
             @Override
             protected void onPostExecute(Bitmap image) {
-                final ArrayList<String> replacesments = new ArrayList<>();
-                final ArrayList<Bitmap> bitmapsReplacements = new ArrayList<>();
                 bitmaps.add(image);
                 if(bitmaps.size() == 10){
                     hideProgressDialog();
+
                     final  MealAdapter mealAdapter = new MealAdapter(MainActivity.this, bitmaps);
                     flingContainer.setAdapter(mealAdapter);
                     mealAdapter.notifyDataSetChanged();
-                    //flingContainer.setVisibility(View.VISIBLE);
-                    //flingContainer.performClick();
-                    //flingContainer.getTopCardListener().selectLeft();
+
                     flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
                         @Override
                         public void removeFirstObjectInAdapter() {
-                            // this is the simplest way to delete an object from the Adapter (/AdapterView)
                             Log.d("LIST", "removed object!");
-                            bitmapsReplacements.add(mealAdapter.getItem(0));
                             mealAdapter.remove(bitmaps.get(0));
-                            replacesments.add(recipes.get(0));
                             recipes.remove(0);
                             mealAdapter.notifyDataSetChanged();
                         }
 
                         @Override
                         public void onLeftCardExit(Object dataObject) {
-                            //Do something on the left!
-                            //You also have access to the original object.
-                            //If you want to use it just cast it (String) dataObject
                         }
 
                         @Override
                         public void onRightCardExit(Object dataObject) {
-
                         }
 
                         @Override
                         public void onAdapterAboutToEmpty(int itemsInAdapter) {
-                            // Ask for more data here
-//                            al.add("XML ".concat(String.valueOf(i)));
-//                            arrayAdapter.notifyDataSetChanged();
-//                            i++;
-//                            recipes = replacesments;
-//                            bitmaps.clear();
-//                            bitmaps = bitmapsReplacements;
-//                            mealAdapter.addAll(bitmapsReplacements);
                         }
 
                         @Override
@@ -391,19 +325,16 @@ public class MainActivity extends DrawerActivity {
                             view.findViewById(R.id.item_swipe_right_indicator).setAlpha(scrollProgressPercent < 0 ? -scrollProgressPercent : 0);
                             view.findViewById(R.id.item_swipe_left_indicator).setAlpha(scrollProgressPercent > 0 ? scrollProgressPercent : 0);
                         }
-                        
                     });
                     flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClicked(int itemPosition, Object dataObject) {
-
                             String recipeName = recipes.get(itemPosition);
                             Intent intent = new Intent(MainActivity.this,RecipeInfoActivity.class);
                             intent.putExtra("recipe",recipeName);
                             startActivity(intent);
                         }
                     });
-
                 }
             }
         }
@@ -414,7 +345,6 @@ public class MainActivity extends DrawerActivity {
             myProgressDialog.setMessage("Loading...");
             myProgressDialog.setIndeterminate(true);
         }
-
         myProgressDialog.show();
     }
 

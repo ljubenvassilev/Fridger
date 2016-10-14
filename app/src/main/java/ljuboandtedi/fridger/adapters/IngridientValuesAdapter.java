@@ -28,12 +28,9 @@ public class IngridientValuesAdapter extends RecyclerView.Adapter<IngridientValu
 
     @Override
     public MyIngredientViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        //inflate xml
         LayoutInflater inflater = activity.getLayoutInflater();
         View row = inflater.inflate(R.layout.activity_nutritions_row, parent, false);
-        //create vh
         IngridientValuesAdapter.MyIngredientViewHolder vh = new IngridientValuesAdapter.MyIngredientViewHolder(row);
-        //return vh
         return vh;
     }
 
@@ -42,7 +39,6 @@ public class IngridientValuesAdapter extends RecyclerView.Adapter<IngridientValu
         IngredientValues ingr = ingridients.get(position);
         holder.ingredientName.setText(ingr.getType());
         holder.ingredientValue.setText(ingr.getValue() + "");
-
     }
 
 
@@ -52,8 +48,8 @@ public class IngridientValuesAdapter extends RecyclerView.Adapter<IngridientValu
     }
 
     class MyIngredientViewHolder extends RecyclerView.ViewHolder{
-        TextView ingredientName;
-        TextView ingredientValue;
+        private TextView ingredientName;
+        private TextView ingredientValue;
         MyIngredientViewHolder(View row){
             super(row);
             ingredientName = (TextView) row.findViewById(R.id.nutritions_ingrName);

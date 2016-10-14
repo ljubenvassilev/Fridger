@@ -24,7 +24,6 @@ import ljuboandtedi.fridger.model.DatabaseHelper;
 import ljuboandtedi.fridger.model.User;
 
 public class ProfileActivity extends DrawerActivity {
-
     CheckBox vegan, vegetarian, pascetarian, ovovegetarian, lactovegetarian, paleo, dairy, egg,
             gluten, peanut, seafood, sesame, soy, sulfite, treenut, wheat, american, italian, asian,
             mexican, southernAndSoulFood, french, southwestern, barbecue, indian, chinese,

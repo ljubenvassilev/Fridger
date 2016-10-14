@@ -28,6 +28,7 @@ import ljuboandtedi.fridger.adapters.SearchingAdapter;
 import ljuboandtedi.fridger.model.IngredientValues;
 import ljuboandtedi.fridger.model.Recipe;
 import ljuboandtedi.fridger.model.RecipeManager;
+import ljuboandtedi.fridger.model.User;
 
 public class SearchingActivity extends DrawerActivity {
     RecyclerView recListIngredients;
@@ -41,9 +42,9 @@ public class SearchingActivity extends DrawerActivity {
         super.onCreate(savedInstanceState);
         super.replaceContentLayout(R.layout.activity_searching, super.CONTENT_LAYOUT_ID);
         recListIngredients = (RecyclerView) findViewById(R.id.recycleListForSearchings);
-        recListIngredients.setLayoutManager(new LinearLayoutManager(this));
         recipes = new ArrayList<>();
         recipesSmallPics = new ArrayList<>();
+        recListIngredients.setLayoutManager(new LinearLayoutManager(this));
         searchingAdapter = new SearchingAdapter(recipes,recipesSmallPics,this);
         recListIngredients.setAdapter(searchingAdapter);
         searchField = (EditText) findViewById(R.id.searching_ET);
@@ -55,7 +56,6 @@ public class SearchingActivity extends DrawerActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                 Log.e("changingText","asd");
                 String edittedText = searchField.getText().toString();
                 edittedText = edittedText.trim().replace(" ", "+");
                 recipes.clear();
@@ -67,12 +67,11 @@ public class SearchingActivity extends DrawerActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
     }
 
-    class RequestTask extends AsyncTask<String, Void, String> {
+    private class RequestTask extends AsyncTask<String, Void, String> {
 
         @Override
         protected String doInBackground(String... params) {
@@ -165,9 +164,8 @@ public class SearchingActivity extends DrawerActivity {
 
                         Log.e("ID", id);
                     }
-
                     searchingAdapter.notifyDataSetChanged();
-                    new RequestTaskForRecipe().execute("http://api.yummly.com/v1/api/recipe/" + id + "?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd");
+                    new RequestTaskForRecipe().execute("http://api.yummly.com/v1/api/recipe/" + id + "?_app_id="+ User.ID+"&_app_key="+User.KEY);
                 }
 
             } catch (JSONException e) {
@@ -204,7 +202,6 @@ public class SearchingActivity extends DrawerActivity {
 
         @Override
         protected void onPostExecute(String json) {
-
             try {
                 JSONObject object = new JSONObject(json);
                 JSONArray ingredientLines = object.getJSONArray("ingredientLines");
@@ -263,21 +260,19 @@ public class SearchingActivity extends DrawerActivity {
                 String source = sources.getString("sourceRecipeUrl");
                 String creator = sources.getString("sourceDisplayName");
                 JSONObject course = object.getJSONObject("attributes");
+
                 if (!course.isNull("course")) {
                     JSONArray courses = course.getJSONArray("course");
                     for (int i = 0; i < courses.length(); i++) {
                         coursesForTheRecipe.add(courses.getString(i));
                     }
                 }
-                Log.e("ccourses", coursesForTheRecipe.toString());
                 Recipe recipe = new Recipe(ingredientLinesArr, flavorsMap, nutritionsValues, nameOfRecipe, servings, totalTime, rating, bigPicUrl, id, numberOfServings, coursesForTheRecipe, source, creator, fatKCAL,smallPicUrl);
                 RecipeManager.recipes.put(recipe.getName(),recipe);
 
                 recipes.add(recipe.getName());
-                searchingAdapter.notifyDataSetChanged();
                 recipesSmallPics.add(recipe.getSmallPicUrl());
                 searchingAdapter.notifyDataSetChanged();
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }

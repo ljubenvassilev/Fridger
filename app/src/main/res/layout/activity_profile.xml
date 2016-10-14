@@ -20,9 +20,6 @@
             android:orientation="vertical"
             tools:context="ljuboandtedi.fridger.activties.ProfileActivity">
 
-
-
-
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -463,14 +460,8 @@
                             android:id="@+id/profile_confirm_button"/>
 
                     </LinearLayout>
-
-
                 </LinearLayout>
-
             </ScrollView>
-
         </LinearLayout>
-
     </FrameLayout>
-
 </RelativeLayout>

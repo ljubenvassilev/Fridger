@@ -49,21 +49,16 @@ public class MealAdapter extends ArrayAdapter {
     }
     class MealViewHolder{
         ImageView image;
-
-
         MealViewHolder(View row){
             image = (ImageView)  row.findViewById(R.id.helloText);
-
         }
     }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Log.e("blaaaaa","vika se");
         LayoutInflater inflater = activity.getLayoutInflater();
         View row;
         MealViewHolder vh;
         Bitmap bitmap = bitmaps.get(position);
-
         if (convertView != null) {
             row = convertView;
             vh = (MealViewHolder) row.getTag();
@@ -72,38 +67,12 @@ public class MealAdapter extends ArrayAdapter {
             vh = new MealViewHolder(row);
             row.setTag(vh);
         }
-
-        Log.e("doTukSym", "a");
-
         vh.image.setImageBitmap(bitmap);
-        //vh.image.setScaleType(ImageView.ScaleType.FIT_XY);
-
-
         return row;
     }
-    @Override
-    public Bitmap getItem(int position) {
-        // TODO Auto-generated method stub
-        return bitmaps.get(position);
-    }
+
     @Override
     public int getCount() {
-        // TODO Auto-generated method stub
         return bitmaps.size();
-    }
-
-    @Override
-    public void remove(Object object) {
-        super.remove(object);
-    }
-
-    @Override
-    public void addAll(Collection collection) {
-        super.addAll(collection);
-    }
-
-    @Override
-    public void clear() {
-        super.clear();
     }
 }

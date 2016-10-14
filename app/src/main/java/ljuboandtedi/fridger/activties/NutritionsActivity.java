@@ -19,9 +19,9 @@ public class NutritionsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nutritions);
-        listOfIngredients = (RecyclerView) findViewById(R.id.nutritions_recycleList);
         recipe = RecipeManager.recipes.get(getIntent().getStringExtra("recipe"));
-        Log.e("nutritionsInArr",recipe.getNutritions().toString());
+
+        listOfIngredients = (RecyclerView) findViewById(R.id.nutritions_recycleList);
         listOfIngredients.setLayoutManager(new LinearLayoutManager(this));
         listOfIngredients.setAdapter(new IngridientValuesAdapter(recipe.getNutritions(),this));
     }

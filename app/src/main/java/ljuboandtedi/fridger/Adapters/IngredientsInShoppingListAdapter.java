@@ -1,20 +1,14 @@
 package ljuboandtedi.fridger.adapters;
 
 import android.app.Activity;
-import android.content.Context;
-import android.graphics.Point;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
-
-import com.uniquestudio.library.CircleCheckBox;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -45,12 +39,10 @@ public class IngredientsInShoppingListAdapter extends  RecyclerView.Adapter<Ingr
 
     @Override
     public MyIngredientViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        //inflate xml
+
         LayoutInflater inflater = activity.getLayoutInflater();
-        View row = inflater.inflate(R.layout.ingredients_info_activity, parent, false);
-        //create vh
+        View row = inflater.inflate(R.layout.ingredient_row, parent, false);
         MyIngredientViewHolder vh = new MyIngredientViewHolder(row);
-        //return vh
         return vh;
     }
 
@@ -62,20 +54,14 @@ public class IngredientsInShoppingListAdapter extends  RecyclerView.Adapter<Ingr
     @Override
     public void onBindViewHolder(MyIngredientViewHolder holder, int position) {
         final String ingredient = ingredients.get(position);
-        Log.e("stringa",ingredient);
         boolean isitSelected = ingredientsChecker.get(ingredient);
-        //fill data of the VH with the data of the object
 
-
-        Log.e("ingredient",ingredient);
-        Log.e("selected",isitSelected + "");
         if(isitSelected){
             holder.cb.setChecked(true);
         }
         if(!isitSelected){
             holder.cb.setChecked(false);
         }
-
         holder.cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -86,23 +72,20 @@ public class IngredientsInShoppingListAdapter extends  RecyclerView.Adapter<Ingr
                 if(!isChecked){
                     if(DatabaseHelper.getInstance(activity).getUserFridge(DatabaseHelper.getInstance(activity).getCurrentUser().getFacebookID()).contains(ingredient)){
                         ingredientsChecker.put(ingredient,false);
+                    }
                 }
-                }
-
             }
         });
         holder.ingredient.setText(ingredient);
-
     }
 
     class MyIngredientViewHolder extends RecyclerView.ViewHolder{
-        TextView ingredient;
-         CheckBox cb;
+        private TextView ingredient;
+        private CheckBox cb;
         MyIngredientViewHolder(View row){
             super(row);
             cb = (CheckBox) row.findViewById(R.id.buyingIngredientChecked);
             ingredient = (TextView)    row.findViewById(R.id.buyingIngredient);
-
         }
     }
 
@@ -112,15 +95,10 @@ public class IngredientsInShoppingListAdapter extends  RecyclerView.Adapter<Ingr
         while (iter.hasNext()) {
             Map.Entry<String,Boolean> entry = iter.next();
             if(entry.getValue()){
-
-                Log.e("entryKey",entry.getKey());
                 DatabaseHelper.getInstance(activity).addToFridge(entry.getKey());
                 DatabaseHelper.getInstance(activity).removeFromShoppingList(entry.getKey());
-                Log.e("addedToFridgeInAdapter",DatabaseHelper.getInstance(activity).getUserShoppingList(DatabaseHelper.getInstance(activity).getCurrentUser().getFacebookID()).toString());
                 iter.remove();
-
                 ingredients.remove(entry.getKey());
-                //ingredientsChecker.remove(entry.getKey());
                 counter++;
             }
         }

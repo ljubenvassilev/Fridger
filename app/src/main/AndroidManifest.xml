@@ -41,7 +41,6 @@
         </activity>
         <activity android:name=".activties.ShowMealActivity" />
         <activity android:name=".activties.RecipeInfoActivity" />
-        <activity android:name=".activties.BuyingIngredientsActivity" />
         <activity android:name=".activties.ProfileActivity" />
         <activity android:name=".activties.ShoppingListActivity" />
         <activity android:name=".activties.DrawerActivity" />

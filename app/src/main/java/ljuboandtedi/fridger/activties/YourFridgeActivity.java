@@ -14,9 +14,9 @@ import ljuboandtedi.fridger.model.DatabaseHelper;
 
 public class YourFridgeActivity extends DrawerActivity {
     private RecyclerView listOfIngredients;
-    Button removeSelectedFromFridgeButton;
-    Button removeAll;
-    MyFridgeMealsAdapter adapter;
+    private Button removeSelectedFromFridgeButton;
+    private Button removeAll;
+    private MyFridgeMealsAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +28,6 @@ public class YourFridgeActivity extends DrawerActivity {
         removeAll.setText("Eat All");
         removeSelectedFromFridgeButton.setText("Eat Selected");
 
-
         listOfIngredients.setLayoutManager(new LinearLayoutManager(this));
         adapter = new MyFridgeMealsAdapter(this, DatabaseHelper.getInstance(this).getUserFridge(DatabaseHelper.getInstance(this).getCurrentUser().getFacebookID()));
         listOfIngredients.setAdapter(adapter);
@@ -38,6 +37,7 @@ public class YourFridgeActivity extends DrawerActivity {
             removeSelectedFromFridgeButton.setVisibility(View.GONE);
             removeAll.setVisibility(View.GONE);
         }
+
         removeSelectedFromFridgeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

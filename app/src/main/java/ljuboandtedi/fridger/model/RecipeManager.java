@@ -15,7 +15,6 @@ public class RecipeManager {
     public static RecipeManager getInstance() {
         return ourInstance;
     }
-
     private RecipeManager() {
         recipes = new HashMap<>();
     }

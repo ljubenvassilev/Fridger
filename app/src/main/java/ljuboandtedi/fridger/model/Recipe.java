@@ -8,21 +8,21 @@ import java.util.HashMap;
  */
 
 public class Recipe {
-    ArrayList<String> ingredientLines;
-    HashMap<String,Double> flavors;
-    ArrayList<IngredientValues> nutritions;
-    ArrayList<String> courses;
-    String source;
-    String name;
-    String servings;
-    String timeForPrepare;
-    String creator;
-    String bigPicUrl;
-    String id;
-    double fatKCAL;
-    String smallPicUrl;
-    String numberOfServings;
-    double rating;
+    private ArrayList<String> ingredientLines;
+    private HashMap<String,Double> flavors;
+    private ArrayList<IngredientValues> nutritions;
+    private ArrayList<String> courses;
+    private String source;
+    private String name;
+    private String servings;
+    private String timeForPrepare;
+    private String creator;
+    private String bigPicUrl;
+    private String id;
+    private double fatKCAL;
+    private String smallPicUrl;
+    private String numberOfServings;
+    private double rating;
 
     public Recipe(ArrayList<String> ingredientLines, HashMap<String, Double> flavors,  ArrayList<IngredientValues> nutritions, String name, String servings, String timeForPrepare, double rating,String bigPicUrl,String id,String numberOfServings,ArrayList<String> courses,String source, String creator,double fatKCAL,String smallPicUrl) {
         this.ingredientLines = ingredientLines;

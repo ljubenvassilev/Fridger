@@ -25,12 +25,11 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 import ljuboandtedi.fridger.R;
+import ljuboandtedi.fridger.model.User;
 
 public class SearchMealsActivity extends DrawerActivity {
     Spinner courseSpinner;
     Spinner holidaySpinner;
-
-
     Button searchButton;
     EditText mealET;
     RangeSeekBar<Float> seekBarSweet;
@@ -38,6 +37,7 @@ public class SearchMealsActivity extends DrawerActivity {
     RangeSeekBar<Float> seekBarSour;
     RangeSeekBar<Float> seekBarBitter;
     RangeSeekBar<Float> seekBarPiquant;
+    final HashMap<String,String> searchOptions = new HashMap<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,8 +58,6 @@ public class SearchMealsActivity extends DrawerActivity {
         seekBarPiquant.setRangeValues(0.00f, 1.00f);
         seekBarBitter.setRangeValues(0.00f, 1.00f);
 
-
-
         ArrayList<String> courses = new ArrayList<>();
         courses.add("Choose course");
         courses.add("Main Dishes");
@@ -75,67 +73,59 @@ public class SearchMealsActivity extends DrawerActivity {
         holidays.add("Hanukkah");
         holidays.add("Halloween");
         holidays.add("4th of July");
-        final HashMap<String,String> searchOptions = new HashMap<>();
-        ArrayAdapter<String> adapterCourses = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,courses);
-        ArrayAdapter<String> adapterHolidays = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,holidays);
+
+        ArrayAdapter<String> adapterCourses = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, courses);
+        ArrayAdapter<String> adapterHolidays = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, holidays);
+
         adapterHolidays.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         adapterCourses.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
         courseSpinner.setAdapter(adapterCourses);
         holidaySpinner.setAdapter(adapterHolidays);
         courseSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                searchOptions.put("course",parent.getSelectedItem().toString());
+                searchOptions.put("course", parent.getSelectedItem().toString());
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
         holidaySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                searchOptions.put("holiday",parent.getSelectedItem().toString());
-                //&allowedHoliday[]=holiday^holiday-thanksgiving
+                searchOptions.put("holiday", parent.getSelectedItem().toString());
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
-
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String holiday = searchOptions.get("holiday");
                 String course = searchOptions.get("course");
-
-                if(holiday.equals("Choose holiday")){
+                if (holiday.equals("Choose holiday")) {
                     holiday = "";
+                } else {
+                    holiday = "&allowedHoliday[]=holiday^holiday-" + holiday.trim().replace(" ", "+");
                 }
-                else{
-                    holiday = "&allowedHoliday[]=holiday^holiday-" + holiday.trim().replace(" ","+");
-                }
-                if(course.equals("Choose course")){
+                if (course.equals("Choose course")) {
                     course = "";
-                }
-                else{
-                    course = "&allowedCourse[]=course^course-"+course.trim().replace(" ","+");
+                } else {
+                    course = "&allowedCourse[]=course^course-" + course.trim().replace(" ", "+");
                 }
                 seekBarBitter.getSelectedMaxValue();
                 seekBarBitter.getSelectedMinValue();
-               final String whatToSearch = mealET.getText().toString().trim().replace(" ", "+");
-                new SearchMealsActivity.RequestTask().execute("http://api.yummly.com/v1/api/recipes?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd&q=" + whatToSearch + course + holiday +"&maxResult=40&start=10");
-
+                final String whatToSearch = mealET.getText().toString().trim().replace(" ", "+");
+                new SearchMealsActivity.RequestTask().execute("http://api.yummly.com/v1/api/recipes?_app_id="+ User.ID+"&_app_key="+User.KEY+"&q=" + whatToSearch + course + holiday + "&maxResult=40&start=10");
             }
         });
-
-
     }
 
-    class RequestTask extends AsyncTask<String, Void, String> {
+    private class RequestTask extends AsyncTask<String, Void, String> {
 
         @Override
         protected String doInBackground(String... params) {
@@ -155,16 +145,11 @@ public class SearchMealsActivity extends DrawerActivity {
             }
             return json;
         }
-
         @Override
         protected void onPostExecute(String json) {
             Intent intent = new Intent(SearchMealsActivity.this, ShowMealActivity.class);
             intent.putExtra("json", json);
             startActivity(intent);
-
-            Log.i("JSON",json);
         }
     }
-
-
 }

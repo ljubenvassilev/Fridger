@@ -5,8 +5,8 @@ package ljuboandtedi.fridger.model;
  */
 
 public class IngredientValues {
-    String type;
-    double value;
+    private String type;
+    private double value;
 
     public IngredientValues(String type, double value) {
         this.type = type;
@@ -16,7 +16,6 @@ public class IngredientValues {
     public String getType() {
         return type;
     }
-
     public double getValue() {
         return value;
     }

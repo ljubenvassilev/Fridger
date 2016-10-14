@@ -3,74 +3,65 @@
     android:gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <FrameLayout
         android:layout_below="@id/toolbar"
         android:id="@+id/frame_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/activity_your_ingredients"
-        android:layout_width="match_parent"
-        android:weightSum="3"
-        android:orientation="vertical"
-        android:layout_height="match_parent"
-
-        android:paddingBottom="30dp"
-        android:paddingLeft="50dp"
-        android:paddingRight="50dp"
-        android:paddingTop="35dp"
-        tools:context="ljuboandtedi.fridger.activties.ShoppingListActivity"
-        android:background="@drawable/background_list">
-        <TextView
-            android:layout_marginTop="40dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.4"
-            android:layout_alignParentTop="true"
-            android:gravity="center"
-            android:text="Shopping List"
-            android:textSize="30sp"
-            android:textColor="@color/darkBlue"/>
-
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:id="@+id/recycleListForIngredients">
-
-
-        </android.support.v7.widget.RecyclerView>
-        <LinearLayout
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="80dp">
-            <Button
-                android:layout_marginRight="20dp"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:background="@drawable/bbbutton2"
-                android:id="@+id/yourIngredients_addToFridgeButton"
-                android:text="Buy selected"/>
-            <Button
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:background="@drawable/bbbutton2"
-                android:id="@+id/yourIngredients_addAllToFridgeButton"
-                android:text="Buy All"/>
-        </LinearLayout>
-
-
-    </LinearLayout>
-</ScrollView>
-
+          <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        xmlns:tools="http://schemas.android.com/tools"
+                        android:id="@+id/activity_your_ingredients"
+                        android:layout_width="match_parent"
+                        android:weightSum="3"
+                        android:orientation="vertical"
+                        android:layout_height="match_parent"
+                        android:paddingBottom="30dp"
+                        android:paddingLeft="50dp"
+                        android:paddingRight="50dp"
+                        android:paddingTop="35dp"
+                        tools:context="ljuboandtedi.fridger.activties.ShoppingListActivity"
+                        android:background="@drawable/background_list">
+                        <TextView
+                            android:layout_marginTop="40dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.4"
+                            android:layout_alignParentTop="true"
+                            android:gravity="center"
+                            android:text="Shopping List"
+                            android:textSize="30sp"
+                            android:textColor="@color/darkBlue"/>
+                        <android.support.v7.widget.RecyclerView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/recycleListForIngredients">
+                        </android.support.v7.widget.RecyclerView>
+                        <LinearLayout
+                            android:layout_marginTop="20dp"
+                            android:layout_width="match_parent"
+                                android:layout_height="80dp">
+                                <Button
+                                    android:layout_marginRight="20dp"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:layout_gravity="center"
+                                    android:background="@drawable/bbbutton2"
+                                    android:id="@+id/yourIngredients_addToFridgeButton"
+                                    android:text="Buy selected"/>
+                                <Button
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center"
+                                    android:background="@drawable/bbbutton2"
+                                    android:id="@+id/yourIngredients_addAllToFridgeButton"
+                                    android:text="Buy All"/>
+                            </LinearLayout>
+                    </LinearLayout>
+                </ScrollView>
     </FrameLayout>
 </RelativeLayout>

@@ -31,24 +31,19 @@ import ljuboandtedi.fridger.model.RecipeManager;
 public class SearchingAdapter extends  RecyclerView.Adapter<SearchingAdapter.MyIngredientViewHolder> {
     private List<String> ingridients;
     private List<String> ingridientsPic;
-
     private Activity activity;
 
     public SearchingAdapter(List<String> ingridients,List<String> ingridientsPic, Activity activity) {
         this.ingridients = ingridients;
         this.ingridientsPic = ingridientsPic;
         this.activity = activity;
-
     }
 
     @Override
     public SearchingAdapter.MyIngredientViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        //inflate xml
         LayoutInflater inflater = activity.getLayoutInflater();
         View row = inflater.inflate(R.layout.search_row_recycle, parent, false);
-        //create vh
         MyIngredientViewHolder vh = new MyIngredientViewHolder(row);
-        //return vh
         return vh;
     }
 
@@ -56,11 +51,9 @@ public class SearchingAdapter extends  RecyclerView.Adapter<SearchingAdapter.MyI
     public void onBindViewHolder(MyIngredientViewHolder holder, int position) {
         String ingr = ingridients.get(position);
         String ingrPic = ingridientsPic.get(position);
-
         holder.ingredientValue.setText(ingr);
         holder.ingridientSmallIV.setImageResource(R.drawable.below_shadow);
         new  RequestTask(holder,ingr).execute(ingrPic);
-
     }
 
 
@@ -72,13 +65,10 @@ public class SearchingAdapter extends  RecyclerView.Adapter<SearchingAdapter.MyI
     class MyIngredientViewHolder extends RecyclerView.ViewHolder{
         TextView ingredientValue;
         ImageView ingridientSmallIV;
-
         MyIngredientViewHolder(View row){
             super(row);
-
             ingredientValue = (TextView)    row.findViewById(R.id.searching_TV);
             ingridientSmallIV = (ImageView) row.findViewById(R.id.searching_IV);
-
         }
     }
     private class RequestTask extends AsyncTask<String, Void, Bitmap> {
@@ -107,20 +97,15 @@ public class SearchingAdapter extends  RecyclerView.Adapter<SearchingAdapter.MyI
                 InputStream is = connection.getInputStream();
                 bitmap = BitmapFactory.decodeStream(is);
 
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
             return bitmap;
         }
 
         @Override
         protected void onPostExecute(Bitmap image) {
-
             holder.ingridientSmallIV.setImageBitmap(image);
-//            holder.overlay.setBackgroundResource(R.color.transparent);
-//            holder.overlay.setImageResource(R.drawable.gradient);
             holder.ingridientSmallIV.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

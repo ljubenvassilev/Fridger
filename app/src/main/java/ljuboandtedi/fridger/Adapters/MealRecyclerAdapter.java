@@ -35,6 +35,7 @@ import ljuboandtedi.fridger.activties.RecipeInfoActivity;
 import ljuboandtedi.fridger.model.IngredientValues;
 import ljuboandtedi.fridger.model.Recipe;
 import ljuboandtedi.fridger.model.RecipeManager;
+import ljuboandtedi.fridger.model.User;
 
 
 /**
@@ -42,7 +43,6 @@ import ljuboandtedi.fridger.model.RecipeManager;
  */
 
 public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdapter.MyMealViewHolder> {
-
 
     private List<String> recipes;
     private Activity activity;
@@ -58,7 +58,6 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
         this.recipes.addAll(newRecipes);
     }
 
-
     @Override
     public MealRecyclerAdapter.MyMealViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = activity.getLayoutInflater();
@@ -70,15 +69,8 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
     @Override
     public void onBindViewHolder(MealRecyclerAdapter.MyMealViewHolder holder, int position) {
         final String recipe = recipes.get(position);
-
         holder.mealPic.setImageDrawable(null);
-//        holder.mealPic.setImageResource(R.drawable.black_to_white);
-//        holder.mealPic.setAlpha(0.60f);
-        new RequestTaskForRecipe(holder).execute("http://api.yummly.com/v1/api/recipe/" +recipe+ "?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd");
-        Log.e("raboti","asd");
-        //holder.recipeNameTV.getBackground().setAlpha(34);
-
-
+        new RequestTaskForRecipe(holder).execute("http://api.yummly.com/v1/api/recipe/" +recipe+ "?_app_id="+User.ID+"&_app_key="+User.KEY);
     }
 
     @Override
@@ -86,10 +78,10 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
         return recipes.size();
     }
     class MyMealViewHolder extends RecyclerView.ViewHolder {
-        TextView recipeNameTV;
-        TextView recipeCreator;
-        ImageView mealPic;
-        ImageView overlay;
+        private TextView recipeNameTV;
+        private TextView recipeCreator;
+        private ImageView mealPic;
+        private ImageView overlay;
 
         MyMealViewHolder(View row){
             super(row);
@@ -207,15 +199,14 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
         }
         private class RequestTask extends AsyncTask<String, Void, Bitmap> {
 
-            MyMealViewHolder holder;
-            Recipe recipe;
+            private MyMealViewHolder holder;
+            private Recipe recipe;
             RequestTask(MealRecyclerAdapter.MyMealViewHolder holder, Recipe recipe){
                 this.holder = holder;
                 this.recipe = recipe;
             }
             @Override
             protected void onPreExecute() {
-
             }
 
             @Override
@@ -254,10 +245,7 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
                     }
                 });
             }
-
         }
     }
-
-
 }
 

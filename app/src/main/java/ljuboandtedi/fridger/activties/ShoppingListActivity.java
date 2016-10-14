@@ -15,8 +15,8 @@ import ljuboandtedi.fridger.model.DatabaseHelper;
 
 public class ShoppingListActivity extends DrawerActivity {
     private RecyclerView listOfIngredients;
-    Button addToFridgeButton;
-    Button removeAllButton;
+    private Button addToFridgeButton;
+    private Button removeAllButton;
     private IngredientsInShoppingListAdapter adapter;
 
 
@@ -31,7 +31,8 @@ public class ShoppingListActivity extends DrawerActivity {
         listOfIngredients.setLayoutManager(new LinearLayoutManager(this));
         adapter = new IngredientsInShoppingListAdapter(this,DatabaseHelper.getInstance(this).getUserShoppingList(DatabaseHelper.getInstance(this).getCurrentUser().getFacebookID()));
         listOfIngredients.setAdapter(adapter);
-        int sizeOfShoppingList = DatabaseHelper.getInstance(ShoppingListActivity.this).getUserShoppingList(DatabaseHelper.getInstance(ShoppingListActivity.this).getCurrentUser().getFacebookID()).size();
+
+        final int sizeOfShoppingList = DatabaseHelper.getInstance(ShoppingListActivity.this).getUserShoppingList(DatabaseHelper.getInstance(ShoppingListActivity.this).getCurrentUser().getFacebookID()).size();
         if(sizeOfShoppingList == 0){
             addToFridgeButton.setVisibility(View.GONE);
             removeAllButton.setVisibility(View.GONE);
@@ -39,7 +40,6 @@ public class ShoppingListActivity extends DrawerActivity {
         addToFridgeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int sizeOfShoppingList = DatabaseHelper.getInstance(ShoppingListActivity.this).getUserShoppingList(DatabaseHelper.getInstance(ShoppingListActivity.this).getCurrentUser().getFacebookID()).size();
                 int numberOfAddedToFridgeProducts = adapter.removeSelectedProducts();
                 if(numberOfAddedToFridgeProducts == sizeOfShoppingList){
                     Toast.makeText(ShoppingListActivity.this, "Everything was added", Toast.LENGTH_SHORT).show();
