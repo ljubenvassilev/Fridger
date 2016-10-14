@@ -135,7 +135,7 @@ public class MainActivity extends DrawerActivity {
                     if (!attributesInJson.isNull("id")) {
                         id = attributesInJson.getString("id");
                     }
-                    new RequestTaskForRecipe(recipes,bitmaps,flingContainer).execute("http://api.yummly.com/v1/api/recipe/" +id+ "?_app_id="+ User.ID +"&_app_key=" +User.KEY);
+                    new RequestTaskForRecipe(recipes,bitmaps,flingContainer).execute("http://api.yummly.com/v1/api/recipe/" +id+ "?_"+getResources().getString(R.string.api));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

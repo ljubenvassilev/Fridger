@@ -7,8 +7,6 @@ import java.util.Collections;
  * Created by Ljuben Vassilev on 9/25/2016.
  */
 public class User {
-    public static final String ID = "19ff7314";
-    public static final String KEY = "8bdb64c8c177c7e770c8ce0d000263fd";
     User(String facebookID, String preferences, ArrayList<String> fridge, ArrayList<String> shoppingList, ArrayList<String> favouriteMeals){
         this.fridge = new ArrayList<>();
         this.fridge.addAll(fridge);
