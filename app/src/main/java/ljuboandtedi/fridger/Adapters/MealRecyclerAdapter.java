@@ -37,6 +37,8 @@ import ljuboandtedi.fridger.model.Recipe;
 import ljuboandtedi.fridger.model.RecipeManager;
 import ljuboandtedi.fridger.model.User;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
+
 
 /**
  * Created by NoLight on 25.9.2016 г..
@@ -70,7 +72,7 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
     public void onBindViewHolder(MealRecyclerAdapter.MyMealViewHolder holder, int position) {
         final String recipe = recipes.get(position);
         holder.mealPic.setImageDrawable(null);
-        new RequestTaskForRecipe(holder).execute("http://api.yummly.com/v1/api/recipe/" +recipe+ "?_app_id="+User.ID+"&_app_key="+User.KEY);
+        new RequestTaskForRecipe(holder).execute("http://api.yummly.com/v1/api/recipe/" +recipe+ "?_"+getApplicationContext().getResources().getString(R.string.api));
     }
 
     @Override

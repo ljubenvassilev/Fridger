@@ -120,7 +120,7 @@ public class SearchMealsActivity extends DrawerActivity {
                 seekBarBitter.getSelectedMaxValue();
                 seekBarBitter.getSelectedMinValue();
                 final String whatToSearch = mealET.getText().toString().trim().replace(" ", "+");
-                new SearchMealsActivity.RequestTask().execute("http://api.yummly.com/v1/api/recipes?_app_id="+ User.ID+"&_app_key="+User.KEY+"&q=" + whatToSearch + course + holiday + "&maxResult=40&start=10");
+                new SearchMealsActivity.RequestTask().execute("http://api.yummly.com/v1/api/recipes?_"+getResources().getString(R.string.api)+"&q=" + whatToSearch + course + holiday + "&maxResult=40&start=10");
             }
         });
     }

@@ -247,10 +247,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (res != null)
             res.moveToFirst();
         if(res.getString(1).equalsIgnoreCase("YES")) prefs+="&allowedDiet[]=386^Vegan";
-        if(res.getString(2).equalsIgnoreCase("YES")) prefs+="&allowedDiet[]=387^Lacto-ovo vegetarian";
+        if(res.getString(2).equalsIgnoreCase("YES")) prefs+="&allowedDiet[]=387^Lacto-ovo%20vegetarian";
         if(res.getString(3).equalsIgnoreCase("YES")) prefs+="&allowedDiet[]=390^Pescetarian";
-        if(res.getString(4).equalsIgnoreCase("YES")) prefs+="&allowedDiet[]=389^Ovo vegetarian";
-        if(res.getString(5).equalsIgnoreCase("YES")) prefs+="&allowedDiet[]=388^Lacto vegetarian";
+        if(res.getString(4).equalsIgnoreCase("YES")) prefs+="&allowedDiet[]=389^Ovo%20vegetarian";
+        if(res.getString(5).equalsIgnoreCase("YES")) prefs+="&allowedDiet[]=388^Lacto%20vegetarian";
         if(res.getString(6).equalsIgnoreCase("YES")) prefs+="&allowedDiet[]=403^Paleo";
         if(res.getString(7).equalsIgnoreCase("YES")) prefs+="&allowedAllergy[]=396^Dairy-Free";
         if(res.getString(8).equalsIgnoreCase("YES")) prefs+="&allowedAllergy[]=397^Egg-Free";
@@ -260,7 +260,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if(res.getString(12).equalsIgnoreCase("YES")) prefs+="&allowedAllergy[]=399^Sesame-Free";
         if(res.getString(13).equalsIgnoreCase("YES")) prefs+="&allowedAllergy[]=400^Soy-Free";
         if(res.getString(14).equalsIgnoreCase("YES")) prefs+="&allowedAllergy[]=401^Sulfite-Free";
-        if(res.getString(15).equalsIgnoreCase("YES")) prefs+="&allowedAllergy[]=395^Tree Nut-Free";
+        if(res.getString(15).equalsIgnoreCase("YES")) prefs+="&allowedAllergy[]=395^Tree%20Nut-Free";
         if(res.getString(16).equalsIgnoreCase("YES")) prefs+="&allowedAllergy[]=392^Wheat-Free";
         if(res.getString(17).equalsIgnoreCase("YES")) prefs+="&allowedCuisine[]=cuisine^cuisine-american";
         if(res.getString(18).equalsIgnoreCase("YES")) prefs+="&allowedCuisine[]=cuisine^cuisine-italian";

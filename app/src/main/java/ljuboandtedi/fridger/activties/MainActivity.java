@@ -72,7 +72,7 @@ public class MainActivity extends DrawerActivity {
         //recipesByName = new ArrayList<>();
         recipesByName2 = new ArrayList<>();
         //new RequestTaskForRelatedMeals(recipesByName,bitmaps,flingContainer).execute("http://api.yummly.com/v1/api/recipes?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd&=qpizza&maxResult=10&start=10");
-        new RequestTaskForRelatedMeals(recipesByName2,bitmaps2,flingContainer2).execute("http://api.yummly.com/v1/api/recipes?_app_id="+ User.ID +"&_app_key="+ User.KEY +"&q=pizza&maxResult=20&start=10");
+        new RequestTaskForRelatedMeals(recipesByName2,bitmaps2,flingContainer2).execute("http://api.yummly.com/v1/api/recipes?_"+getResources().getString(R.string.api)+"&q=pizza&maxResult=20&start=10");        Log.d("apito", getResources().getString(R.string.api));
     }
 
    private class RequestTaskForRelatedMeals extends AsyncTask<String, Void, String> {

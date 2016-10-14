@@ -74,7 +74,7 @@ public class RecipeInfoActivity extends DrawerActivity {
         new RequestTask().execute(recipe.getBigPicUrl());
 
         relatedMeals = (RecyclerView) findViewById(R.id.recycleListForRelatedMeals);
-        new RequestTaskForRelatedMeals().execute("http://api.yummly.com/v1/api/recipes?_app_id="+ User.ID+"&_app_key="+User.KEY+"&q=&maxResult=15&start=10");
+        new RequestTaskForRelatedMeals().execute("http://api.yummly.com/v1/api/recipes?_"+getResources().getString(R.string.api)+"&q=&maxResult=15&start=10");
 
         course1TV = (TextView) findViewById(R.id.recipe_info_course1);
         course2TV = (TextView) findViewById(R.id.recipe_info_course2);
@@ -151,19 +151,19 @@ public class RecipeInfoActivity extends DrawerActivity {
         course1TV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new RequestTaskForTheCourses().execute("http://api.yummly.com/v1/api/recipes?_app_id="+User.ID+"&_app_key="+User.KEY+"&q=" + courseOfTV1 + "&maxResult=40&start=10");
+                new RequestTaskForTheCourses().execute("http://api.yummly.com/v1/api/recipes?_"+getResources().getString(R.string.api)+"&q=" + courseOfTV1 + "&maxResult=40&start=10");
             }
         });
         course2TV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new RequestTaskForTheCourses().execute("http://api.yummly.com/v1/api/recipes?_app_id="+User.ID+"&_app_key="+User.KEY+"&q=" + courseOfTV2 + "&maxResult=40&start=10");
+                new RequestTaskForTheCourses().execute("http://api.yummly.com/v1/api/recipes?_"+getResources().getString(R.string.api)+"&q=" + courseOfTV2 + "&maxResult=40&start=10");
             }
         });
         course3TV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new RequestTaskForTheCourses().execute("http://api.yummly.com/v1/api/recipes?_app_id="+User.ID+"&_app_key="+User.KEY+"&q=" + courseOfTV3 + "&maxResult=40&start=10");
+                new RequestTaskForTheCourses().execute("http://api.yummly.com/v1/api/recipes?_"+getResources().getString(R.string.api)+"&q=" + courseOfTV3 + "&maxResult=40&start=10");
             }
         });
 

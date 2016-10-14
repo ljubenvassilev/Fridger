@@ -30,6 +30,8 @@ import ljuboandtedi.fridger.model.Recipe;
 import ljuboandtedi.fridger.model.RecipeManager;
 import ljuboandtedi.fridger.model.User;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
+
 public class SearchingActivity extends DrawerActivity {
     RecyclerView recListIngredients;
     SearchingAdapter searchingAdapter;
@@ -165,7 +167,7 @@ public class SearchingActivity extends DrawerActivity {
                         Log.e("ID", id);
                     }
                     searchingAdapter.notifyDataSetChanged();
-                    new RequestTaskForRecipe().execute("http://api.yummly.com/v1/api/recipe/" + id + "?_app_id="+ User.ID+"&_app_key="+User.KEY);
+                    new RequestTaskForRecipe().execute("http://api.yummly.com/v1/api/recipe/" + id + "?_"+getResources().getString(R.string.api));
                 }
 
             } catch (JSONException e) {
