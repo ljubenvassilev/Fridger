@@ -220,7 +220,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         users.put(userId, tempUser);
     }
 
-    public boolean userExists(String userID) {
+    private boolean userExists(String userID) {
         Cursor cursor = getWritableDatabase().rawQuery("Select * from " + USERS_TABLE +
                 " where ID = " + userID, null);
         if(cursor.getCount() <= 0){

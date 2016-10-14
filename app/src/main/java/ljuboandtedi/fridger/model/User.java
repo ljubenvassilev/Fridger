@@ -1,7 +1,11 @@
 package ljuboandtedi.fridger.model;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.Collections;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
  * Created by Ljuben Vassilev on 9/25/2016.
@@ -43,6 +47,37 @@ public class User {
     public ArrayList<String> getFavouriteMeals() {
         return (ArrayList<String>) Collections.unmodifiableList(favouriteMeals);
     }
+
+    public void addToFridge(String ingredient) {
+        fridge.add(ingredient);
+        DatabaseHelper.getInstance(getApplicationContext()).addToFridge(ingredient);
+    }
+
+    public void addToShoppingList(String ingredient) {
+        shoppingList.add(ingredient);
+        DatabaseHelper.getInstance(getApplicationContext()).addToShoppingList(ingredient);
+    }
+
+    public void addToFavoriteMeeals(String meal) {
+        shoppingList.add(meal);
+        DatabaseHelper.getInstance(getApplicationContext()).addToFavoriteMeals(meal);
+    }
+
+    public void removeFromFridge(String ingredient) {
+        fridge.remove(ingredient);
+        DatabaseHelper.getInstance(getApplicationContext()).removeFromFridge(ingredient);
+    }
+
+    public void removeFromShoppingList(String ingredient) {
+        shoppingList.remove(ingredient);
+        DatabaseHelper.getInstance(getApplicationContext()).removeFromShoppingList(ingredient);
+    }
+
+    public void removeFromFavoriteMeeals(String meal) {
+        shoppingList.remove(meal);
+        DatabaseHelper.getInstance(getApplicationContext()).removeFromFavoriteMeals(meal);
+    }
+
 
     void setFridge(ArrayList<String> fridge) {
         this.fridge = fridge;
