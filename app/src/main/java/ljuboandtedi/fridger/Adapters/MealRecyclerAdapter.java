@@ -63,7 +63,7 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
     @Override
     public MealRecyclerAdapter.MyMealViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = activity.getLayoutInflater();
-        View row = inflater.inflate(R.layout.activity_searchpic, parent, false);
+        View row = inflater.inflate(R.layout.picture_recycleview_row, parent, false);
         MyMealViewHolder vh = new MyMealViewHolder(row);
         return vh;
     }

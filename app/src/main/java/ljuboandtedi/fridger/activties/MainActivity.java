@@ -50,6 +50,7 @@ public class MainActivity extends DrawerActivity {
     //private SwipeFlingAdapterView flingContainer;
     private SwipeFlingAdapterView flingContainer2;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -279,7 +280,6 @@ public class MainActivity extends DrawerActivity {
                     connection.connect();
                     InputStream is = connection.getInputStream();
                     bitmap = BitmapFactory.decodeStream(is);
-
 
                 } catch (IOException e) {
                     e.printStackTrace();

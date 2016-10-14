@@ -33,11 +33,11 @@ import ljuboandtedi.fridger.model.User;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class SearchingActivity extends DrawerActivity {
-    RecyclerView recListIngredients;
-    SearchingAdapter searchingAdapter;
-    EditText searchField;
-    ArrayList<String> recipes;
-    ArrayList<String> recipesSmallPics;
+    private RecyclerView recListIngredients;
+    private SearchingAdapter searchingAdapter;
+    private EditText searchField;
+    private ArrayList<String> recipes;
+    private ArrayList<String> recipesSmallPics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +55,6 @@ public class SearchingActivity extends DrawerActivity {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String edittedText = searchField.getText().toString();
@@ -97,87 +96,39 @@ public class SearchingActivity extends DrawerActivity {
         @Override
         protected void onPostExecute(String jsonX) {
 
-            Log.i("JSON", jsonX);
             try {
                 JSONObject json = new JSONObject(jsonX);
                 JSONArray matches = json.getJSONArray("matches");
 
-
-                //Takes the first JOBJ in matches!!!
-                //Atm it takes the first Soup found in the search of soups.
-                //It will be in a recycle view and it will be in an array so we can take all the soups. This is sample for the first soup.
-
-
-                //Lets try with array
                 for (int i = 0; i < matches.length(); i++) {
+                    StringBuilder mealFlavors = new StringBuilder();
                     Log.i("matches", matches.length() + "");
-                    String ingredientsString = "";
-                    String recipeName = "";
-                    String flavorsString = "";
-                    String sourceOfInfo = "";
-                    String picUrl = "";
-                    int ratingInt = 0;
                     String attributes = matches.getString(i);
                     JSONObject attributesInJson = new JSONObject(attributes);
-
-                    //Takes json array for ingredients
-                    if (!attributesInJson.isNull("ingredients")) {
-                        JSONArray ingredientsInJson = attributesInJson.getJSONArray("ingredients");
-                        final int resultsLength = ingredientsInJson.length();
-                        for (int j = 0; j < resultsLength; j++) {
-                            //Appending String (Should be stringBuilder) to get info for all ingredients
-                            ingredientsString += ingredientsInJson.getString(j) + ", ";
-
-                        }
-                    }
-                    //recipeName in yummy for the meal
-                    if (!attributesInJson.isNull("recipeName")) {
-                        recipeName = attributesInJson.getString("recipeName");
-                    }
-                    if (!attributesInJson.isNull("sourceDisplayName")) {
-                        sourceOfInfo = attributesInJson.getString("sourceDisplayName");
-                    }
-                    //Rating of the recipe
-                    if (!attributesInJson.isNull("rating")) {
-                        ratingInt = attributesInJson.getInt("rating");
-                    }
-                    Log.i("flavors", i + "");
-
-                    String crappyPrefix = "null";
-                    if (attributes.startsWith("null")) {
-                        attributes = attributes.substring(crappyPrefix.length(), attributes.length());
-                    }
-
                     if (!attributesInJson.isNull("flavors")) {
-
                         JSONObject flavorsInJson = attributesInJson.getJSONObject("flavors");
-                        //Appending String (Should be stringBuilder) to get info for all flavors
-                        flavorsString += "piquant: " + flavorsInJson.getDouble("piquant");
-                        flavorsString += "\nmeaty: " + flavorsInJson.getDouble("meaty");
-                        flavorsString += "\nbitter: " + flavorsInJson.getDouble("bitter");
-                        flavorsString += "\nsweet: " + flavorsInJson.getDouble("sweet");
-                        flavorsString += "\nsour: " + flavorsInJson.getDouble("sour");
-                        flavorsString += "\nsalty: " + flavorsInJson.getDouble("salty");
+
+                        mealFlavors.append("piquant: ").append(flavorsInJson.getDouble("piquant"));
+                        mealFlavors.append("\nmeaty: ").append(flavorsInJson.getDouble("meaty"));
+                        mealFlavors.append("\nbitter: ").append(flavorsInJson.getDouble("bitter"));
+                        mealFlavors.append("\nsweet: ").append(flavorsInJson.getDouble("sweet"));
+                        mealFlavors.append("\nsour: " ).append(flavorsInJson.getDouble("sour"));
+                        mealFlavors.append("\nsalty: ").append(flavorsInJson.getDouble("salty"));
                     }
                     String id = "";
                     if (!attributesInJson.isNull("id")) {
-                        //JSONObject aboutPicture = attributesInJson.getJSONObject("id");
                         id = attributesInJson.getString("id");
-
-                        Log.e("ID", id);
                     }
                     searchingAdapter.notifyDataSetChanged();
                     new RequestTaskForRecipe().execute("http://api.yummly.com/v1/api/recipe/" + id + "?_"+getResources().getString(R.string.api));
                 }
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
         }
     }
 
-    class RequestTaskForRecipe extends AsyncTask<String, Void, String> {
+    private class RequestTaskForRecipe extends AsyncTask<String, Void, String> {
 
         @Override
         protected String doInBackground(String... params) {

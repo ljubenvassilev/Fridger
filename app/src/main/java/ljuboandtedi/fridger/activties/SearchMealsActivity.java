@@ -28,16 +28,17 @@ import ljuboandtedi.fridger.R;
 import ljuboandtedi.fridger.model.User;
 
 public class SearchMealsActivity extends DrawerActivity {
-    Spinner courseSpinner;
-    Spinner holidaySpinner;
-    Button searchButton;
-    EditText mealET;
-    RangeSeekBar<Float> seekBarSweet;
-    RangeSeekBar<Float> seekBarMeaty;
-    RangeSeekBar<Float> seekBarSour;
-    RangeSeekBar<Float> seekBarBitter;
-    RangeSeekBar<Float> seekBarPiquant;
-    final HashMap<String,String> searchOptions = new HashMap<>();
+    private Spinner courseSpinner;
+    private Spinner holidaySpinner;
+    private Button searchButton;
+    private EditText mealET;
+    private RangeSeekBar<Float> seekBarSweet;
+    private RangeSeekBar<Float> seekBarMeaty;
+    private RangeSeekBar<Float> seekBarSour;
+    private RangeSeekBar<Float> seekBarBitter;
+    private RangeSeekBar<Float> seekBarPiquant;
+    private final HashMap<String,String> searchOptions = new HashMap<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,7 +77,6 @@ public class SearchMealsActivity extends DrawerActivity {
 
         ArrayAdapter<String> adapterCourses = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, courses);
         ArrayAdapter<String> adapterHolidays = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, holidays);
-
         adapterHolidays.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         adapterCourses.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -120,7 +120,7 @@ public class SearchMealsActivity extends DrawerActivity {
                 seekBarBitter.getSelectedMaxValue();
                 seekBarBitter.getSelectedMinValue();
                 final String whatToSearch = mealET.getText().toString().trim().replace(" ", "+");
-                new SearchMealsActivity.RequestTask().execute("http://api.yummly.com/v1/api/recipes?_"+getResources().getString(R.string.api)+"&q=" + whatToSearch + course + holiday + "&maxResult=40&start=10");
+                new SearchMealsActivity.RequestTask().execute("http://api.yummly.com/v1/api/recipes?_"+getResources().getString(R.string.api)+"&q=" + whatToSearch + course + holiday + user.getPreferences() +"&maxResult=40&start=10");
             }
         });
     }
