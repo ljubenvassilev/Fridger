@@ -3,68 +3,106 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center"
     android:orientation="vertical"
-    android:weightSum="10"
-    android:alpha="40"
-    android:background="@drawable/bbmainmenu2"
+    android:background="@color/black"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:textSize="30sp"
-    android:typeface="serif"
-    android:textColor="@color/com_facebook_blue"
-    android:gravity="center"
-    android:text="Check out some of the most popular meals for today"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="20dp"
+        android:textSize="35sp"
+        android:typeface="serif"
+        android:textColor="@color/lightBlue"
+        android:gravity="center"
+        android:text="Meals of the day:"/>
 
-
-
-
-        <!--<TextView-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_weight="3"-->
-            <!--android:typeface="serif"-->
-            <!--android:textColor="@color/com_facebook_blue"-->
-            <!--android:textSize="40sp"-->
-            <!--android:gravity="center"-->
-            <!--android:text="Some of our best MainDishes"-->
-            <!--android:id="@+id/textView2" />-->
-
-
-
-
-        <!--<TextView-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_weight="3"-->
-            <!--android:typeface="serif"-->
-            <!--android:textSize="30sp"-->
-            <!--android:textColor="@color/com_facebook_blue"-->
-            <!--android:text="and some of our best Desserts"-->
-            <!--android:id="@+id/textView1" />-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8">
 
         <com.lorentzos.flingswipe.SwipeFlingAdapterView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_weight="8.77"
             android:id="@+id/frame2"
             app:rotation_degrees="16"
             app:max_visible="20"
             app:min_adapter_stack="1" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@color/black"/>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="9"
+                android:background="@drawable/gradient"
+                android:id="@+id/imageView" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:orientation="horizontal"
+                android:background="@color/black">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_height="match_parent"
+                    android:text="Add to my meals"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="5"
+                    android:layout_height="match_parent"
+                    android:text="SWIPE"
+                    android:textScaleX="1.5"
+                    android:textColor="@color/lightBlue"
+                    android:textSize="30sp"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:layout_height="match_parent"
+                    android:text="Right for next"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:gravity="center"/>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
     <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:typeface="serif"
-                android:textColor="@color/com_facebook_blue"
-                android:alpha="50"
-                android:layout_gravity="bottom|center"
-                android:background="@drawable/profile_confirm_button"
-                android:text="Checkout Our Fridger Search Beta"
-                android:id="@+id/intenting"/>
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginBottom="25dp"
+        android:textColor="@color/darkBlue"
+        android:layout_gravity="bottom|center"
+        android:background="@drawable/profile_confirm_button"
+        android:text="   Live Search   "
+        android:textSize="30sp"
+        android:typeface="serif"
+        android:id="@+id/intenting"/>
 
 </LinearLayout>

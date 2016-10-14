@@ -5,8 +5,8 @@
     <string name="drawer_item_home">Home</string>
     <string name="drawer_item_profile">Profile</string>
     <string name="drawer_item_search">Search</string>
-    <string name="drawer_item_fridge">MyFridge</string>
-    <string name="drawer_item_favorite">Favorite</string>
+    <string name="drawer_item_fridge">My Fridge</string>
+    <string name="drawer_item_favorite">My Meals</string>
     <string name="drawer_item_list">Shopping List</string>
     <string name="drawer_item_logout">Logout</string>
 </resources>
