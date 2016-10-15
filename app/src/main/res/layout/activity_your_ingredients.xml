@@ -3,11 +3,13 @@
     android:gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <FrameLayout
-        android:layout_below="@id/toolbar"
         android:id="@+id/frame_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
           <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -19,8 +21,8 @@
                         android:orientation="vertical"
                         android:layout_height="match_parent"
                         android:paddingBottom="30dp"
-                        android:paddingLeft="50dp"
-                        android:paddingRight="50dp"
+                        android:paddingLeft="30dp"
+                        android:paddingRight="30dp"
                         android:paddingTop="35dp"
                         tools:context="ljuboandtedi.fridger.activties.ShoppingListActivity"
                         android:background="@drawable/background_list">
@@ -40,26 +42,28 @@
                             android:id="@+id/recycleListForIngredients">
                         </android.support.v7.widget.RecyclerView>
                         <LinearLayout
-                            android:layout_marginTop="20dp"
+                            android:layout_margin="20dp"
                             android:layout_width="match_parent"
-                                android:layout_height="80dp">
+                                android:layout_height="wrap_content">
                                 <Button
                                     android:layout_marginRight="20dp"
                                     android:layout_width="0dp"
                                     android:layout_height="match_parent"
                                     android:layout_weight="1"
                                     android:layout_gravity="center"
-                                    android:background="@drawable/bbbutton2"
+                                    android:background="@drawable/profile_confirm_button"
                                     android:id="@+id/yourIngredients_addToFridgeButton"
-                                    android:text="Buy selected"/>
+                                    android:text="Buy selected"
+                                    android:textSize="15sp"/>
                                 <Button
                                     android:layout_width="0dp"
                                     android:layout_weight="1"
                                     android:layout_height="match_parent"
                                     android:layout_gravity="center"
-                                    android:background="@drawable/bbbutton2"
+                                    android:background="@drawable/profile_confirm_button"
                                     android:id="@+id/yourIngredients_addAllToFridgeButton"
-                                    android:text="Buy All"/>
+                                    android:text="Buy All"
+                                    android:textSize="15sp"/>
                             </LinearLayout>
                     </LinearLayout>
                 </ScrollView>

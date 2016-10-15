@@ -84,6 +84,7 @@ public class IngredientsRecyclerAdapter extends  RecyclerView.Adapter<Ingredient
             super(row);
             cb = (CheckBox) row.findViewById(R.id.buyingIngredientChecked);
             ingredient = (TextView)    row.findViewById(R.id.buyingIngredient);
+            ingredient.setSelected(true);
         }
     }
     public int removeSelectedProducts(){

@@ -83,6 +83,7 @@ public class MyFridgeMealsAdapter extends  RecyclerView.Adapter<MyFridgeMealsAda
             super(row);
             cb = (CheckBox) row.findViewById(R.id.buyingIngredientChecked);
             ingredient = (TextView)    row.findViewById(R.id.buyingIngredient);
+            ingredient.setSelected(true);
         }
     }
     public int removeSelectedProducts(){

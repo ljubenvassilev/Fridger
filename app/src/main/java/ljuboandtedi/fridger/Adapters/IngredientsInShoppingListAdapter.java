@@ -84,6 +84,7 @@ public class IngredientsInShoppingListAdapter extends  RecyclerView.Adapter<Ingr
             super(row);
             cb = (CheckBox) row.findViewById(R.id.buyingIngredientChecked);
             ingredient = (TextView)    row.findViewById(R.id.buyingIngredient);
+            ingredient.setSelected(true);
         }
     }
 

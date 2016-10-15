@@ -11,7 +11,8 @@
         android:layout_height="match_parent">
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@drawable/background_pale">
         <LinearLayout
             android:id="@+id/activity_your_fridge"
             android:layout_width="match_parent"
@@ -26,16 +27,18 @@
             >
             <TextView
                 android:gravity="center"
-                android:textSize="25sp"
+                android:textSize="45sp"
                 android:layout_weight="0.4"
-                android:textColor="@color/com_facebook_blue"
+                android:textColor="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Your Fridge"
-                android:id="@+id/textView2" />
+                android:id="@+id/textView2"
+                />
             <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/transparent"
                 android:id="@+id/recycleListForIngredients">
             </android.support.v7.widget.RecyclerView>
             <LinearLayout
@@ -48,17 +51,23 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:layout_gravity="center"
-                    android:background="@drawable/bbbutton2"
+                    android:background="@drawable/profile_confirm_button"
                     android:id="@+id/yourFridge_removeFromFridgeButton"
-                    android:text="Buy selected"/>
+                    android:text="Eat selected"
+                    android:textSize="20dp"
+                    android:elevation="5dp"
+                    android:textColor="@color/black"/>
                 <Button
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:background="@drawable/bbbutton2"
+                    android:background="@drawable/profile_confirm_button"
                     android:id="@+id/yourFridge_removeAllToFridgeButton"
-                    android:text="Buy All"/>
+                    android:text="Eat All"
+                    android:textSize="20sp"
+                    android:elevation="5dp"
+                    android:textColor="@color/black"/>
             </LinearLayout>
         </LinearLayout>
         </ScrollView>
