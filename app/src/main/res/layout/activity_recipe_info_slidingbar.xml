@@ -20,6 +20,7 @@
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <FrameLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="fill_parent"
@@ -49,7 +50,6 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:id="@+id/recipe_info_Ingredients"/>
-
                     <TextView
                         android:textColor="@android:color/white"
                         android:gravity="center"
@@ -62,7 +62,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/recipe_info_FavouriteButton" />
-
                 <ImageView
                     android:id="@+id/recipe_info_Image"
                     android:layout_height="match_parent"
@@ -106,6 +105,7 @@
             </LinearLayout>
 
             <ScrollView
+
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1">
@@ -156,12 +156,13 @@
                         android:layout_weight="4"
                         android:orientation="vertical"
                         android:layout_height="0dp">
-                        <android.support.v7.widget.RecyclerView
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="3.69"
-                            android:id="@+id/recycleListForIngredients">
-                        </android.support.v7.widget.RecyclerView>
+                      <ListView
+                          android:layout_width="match_parent"
+                          android:layout_weight="4"
+                          android:layout_height="0dp"
+                          android:id="@+id/recycleListForIngredients">
+
+                      </ListView>
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:orientation="horizontal"

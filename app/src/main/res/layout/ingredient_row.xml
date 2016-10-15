@@ -38,6 +38,6 @@
             android:marqueeRepeatLimit="-1"
             android:scrollHorizontally="true"
             android:layout_height="match_parent"
-            android:singleLine="true"/>
+            />
 </LinearLayout>
 </android.support.v7.widget.CardView>

@@ -45,7 +45,7 @@ public class MealAdapter extends ArrayAdapter {
     public MealAdapter(Activity activity, List bitmaps) {
         super(activity,R.layout.meal_row, bitmaps);
         this.bitmaps = bitmaps;
-        this.activity =activity;
+        this.activity = activity;
     }
     class MealViewHolder{
         ImageView image;

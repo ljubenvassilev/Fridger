@@ -8,12 +8,15 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.DragEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +35,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import ljuboandtedi.fridger.R;
+import ljuboandtedi.fridger.adapters.IngredientListAdapter;
 import ljuboandtedi.fridger.adapters.IngredientsRecyclerAdapter;
 import ljuboandtedi.fridger.adapters.MealRecyclerAdapter;
 import ljuboandtedi.fridger.model.DatabaseHelper;
@@ -57,7 +61,7 @@ public class RecipeInfoActivity extends DrawerActivity {
     private Button viewNutritions;
     private Button hideIngredients;
     private Button showHideIngredients;
-    private RecyclerView ingredientsList;
+    private ListView ingredientsList;
     private IngredientsRecyclerAdapter adapter;
     private MealRecyclerAdapter adpterForRelatedMeals;
     private TextView continueExploring;
@@ -212,9 +216,30 @@ public class RecipeInfoActivity extends DrawerActivity {
 
             }
         });
-        ingredientsList = (RecyclerView) findViewById(R.id.recycleListForIngredients);
-        ingredientsList.setLayoutManager(new LinearLayoutManager(this));
-        ingredientsList.setAdapter(adapter);
+        ingredientsList = (ListView) findViewById(R.id.recycleListForIngredients);
+        IngredientListAdapter ingredientListAdapter= new IngredientListAdapter(this,recipe.getIngredientLines());
+        ingredientsList.setAdapter(ingredientListAdapter);
+        ingredientsList.setOnTouchListener(new ListView.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int action = event.getAction();
+                switch (action) {
+                    case MotionEvent.ACTION_DOWN:
+                        // Disallow ScrollView to intercept touch events.
+                        v.getParent().requestDisallowInterceptTouchEvent(true);
+                        break;
+
+                    case MotionEvent.ACTION_UP:
+                        // Allow ScrollView to intercept touch events.
+                        v.getParent().requestDisallowInterceptTouchEvent(false);
+                        break;
+                }
+
+                // Handle ListView touch events.
+                v.onTouchEvent(event);
+                return true;
+            }
+        });
     }
 
     private View.OnClickListener onShowListener() {
@@ -223,6 +248,7 @@ public class RecipeInfoActivity extends DrawerActivity {
             public void onClick(View v) {
                 slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
                 showHideIngredients.setVisibility(View.GONE);
+                slidingLayout.setEnabled(false);
             }
         };
     }

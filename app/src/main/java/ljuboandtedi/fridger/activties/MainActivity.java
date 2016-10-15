@@ -145,7 +145,7 @@ public class MainActivity extends DrawerActivity {
                         id = attributesInJson.getString("id");
                     }
                     recipeIds.add(id);
-                   // mElasticDownloadView.setProgress(30);
+
                     new RequestTaskForRecipe(recipes,bitmaps,flingContainer,recipeIds).execute("http://api.yummly.com/v1/api/recipe/" +id+ "?_"+getResources().getString(R.string.api));
                 }
             } catch (JSONException e) {
@@ -231,7 +231,6 @@ public class MainActivity extends DrawerActivity {
                         IngredientValues ingrValue = new IngredientValues(nutrition.getString("description"), nutrition.getDouble("value"));
                         nutritionsValues.add(ingrValue);
                     }
-                  //  mElasticDownloadView.setProgress(40);
                 }
 
                 String nameOfRecipe = object.getString("name");
@@ -266,7 +265,6 @@ public class MainActivity extends DrawerActivity {
             }
             mElasticDownloadView.setProgress(100);
 
-
         }
 
        private class RequestTask extends AsyncTask<String, Void, Bitmap> {
@@ -283,8 +281,6 @@ public class MainActivity extends DrawerActivity {
             }
             @Override
             protected void onPreExecute() {
-               // mElasticDownloadView.setProgress(99);
-
             }
 
             @Override
@@ -310,12 +306,12 @@ public class MainActivity extends DrawerActivity {
             @Override
             protected void onPostExecute(Bitmap image) {
 
-
                 bitmaps.add(image);
-                if(bitmaps.size() == 10){
+                if(bitmaps.size() == 20){
                     mElasticDownloadView.success();
                     mElasticDownloadView.setVisibility(View.GONE);
                    // mElasticDownloadView.success();
+                    Log.e("bitmapovete",bitmaps.toString());
                     final  MealAdapter mealAdapter = new MealAdapter(MainActivity.this, bitmaps);
 
                     flingContainer.setAdapter(mealAdapter);
@@ -369,21 +365,6 @@ public class MainActivity extends DrawerActivity {
             }
         }
     }
-    private void showProgressDialog() {
-        if (myProgressDialog == null) {
-            myProgressDialog = new ProgressDialog(this);
-            myProgressDialog.setMessage("Loading...");
-            myProgressDialog.setIndeterminate(true);
-        }
-        myProgressDialog.show();
-    }
-
-    private void hideProgressDialog() {
-        if (myProgressDialog != null && myProgressDialog.isShowing()) {
-            myProgressDialog.hide();
-        }
-    }
-
 }
 
 
