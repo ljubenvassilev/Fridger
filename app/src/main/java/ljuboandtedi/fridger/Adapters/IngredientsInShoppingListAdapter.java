@@ -70,9 +70,7 @@ public class IngredientsInShoppingListAdapter extends  RecyclerView.Adapter<Ingr
 
                 }
                 if(!isChecked){
-                    if(DatabaseHelper.getInstance(activity).getUserFridge(DatabaseHelper.getInstance(activity).getCurrentUser().getFacebookID()).contains(ingredient)){
                         ingredientsChecker.put(ingredient,false);
-                    }
                 }
             }
         });

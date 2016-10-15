@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,6 +25,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
+
+import it.michelelacorte.elasticprogressbar.ElasticDownloadView;
+import it.michelelacorte.elasticprogressbar.OptionView;
 import ljuboandtedi.fridger.R;
 import ljuboandtedi.fridger.adapters.MealAdapter;
 import ljuboandtedi.fridger.adapters.MealRecyclerAdapter;
@@ -45,12 +49,17 @@ public class MainActivity extends DrawerActivity {
     //private ArrayList<String> recipesByName;
     //private SwipeFlingAdapterView flingContainer;
     private SwipeFlingAdapterView flingContainer2;
-
+    private ElasticDownloadView mElasticDownloadView;
+    public static int counter = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         super.replaceContentLayout(R.layout.activity_main, super.CONTENT_LAYOUT_ID);
+        mElasticDownloadView = (ElasticDownloadView) findViewById(R.id.elastic_download_view);
+        mElasticDownloadView.startIntro();
+        mElasticDownloadView.setProgress(5);
 
         searchActivityButton = (Button) findViewById(R.id.intenting);
         searchActivityButton.setOnClickListener(new View.OnClickListener() {
@@ -60,7 +69,7 @@ public class MainActivity extends DrawerActivity {
                 startActivity(intent);
             }
         });
-        myProgressDialog = new ProgressDialog(this);
+        //myProgressDialog = new ProgressDialog(this);
 
         //bitmaps = new ArrayList<>();
         bitmaps2 = new ArrayList<>();
@@ -69,10 +78,12 @@ public class MainActivity extends DrawerActivity {
         //recipesByName = new ArrayList<>();
         recipesByName2 = new ArrayList<>();
         //new RequestTaskForRelatedMeals(recipesByName,bitmaps,flingContainer).execute("http://api.yummly.com/v1/api/recipes?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd&=qpizza&maxResult=10&start=10");
+        mElasticDownloadView.setProgress(50);
         new RequestTaskForRelatedMeals(recipesByName2,bitmaps2,flingContainer2).execute("http://api.yummly.com/v1/api/recipes?_"+getResources().getString(R.string.api)+"&q=pizza&maxResult=20&start=10");        Log.d("apito", getResources().getString(R.string.api));
+
     }
 
-   private class RequestTaskForRelatedMeals extends AsyncTask<String, Void, String> {
+   private class RequestTaskForRelatedMeals extends AsyncTask<String, String, String> {
         private ArrayList<String> recipes;
         private ArrayList<Bitmap> bitmaps;
         private SwipeFlingAdapterView flingContainer;
@@ -86,9 +97,8 @@ public class MainActivity extends DrawerActivity {
 
         @Override
         protected void onPreExecute() {
-            showProgressDialog();
+            //showProgressDialog();
         }
-
         @Override
         protected String doInBackground(String... params) {
             String address = params[0];
@@ -110,6 +120,7 @@ public class MainActivity extends DrawerActivity {
 
         @Override
         protected void onPostExecute(String jsonX) {
+//            mElasticDownloadView.setProgress(20);
             try {
                 JSONObject json = new JSONObject(jsonX);
                 JSONArray matches = json.getJSONArray("matches");
@@ -134,6 +145,7 @@ public class MainActivity extends DrawerActivity {
                         id = attributesInJson.getString("id");
                     }
                     recipeIds.add(id);
+                   // mElasticDownloadView.setProgress(30);
                     new RequestTaskForRecipe(recipes,bitmaps,flingContainer,recipeIds).execute("http://api.yummly.com/v1/api/recipe/" +id+ "?_"+getResources().getString(R.string.api));
                 }
             } catch (JSONException e) {
@@ -219,6 +231,7 @@ public class MainActivity extends DrawerActivity {
                         IngredientValues ingrValue = new IngredientValues(nutrition.getString("description"), nutrition.getDouble("value"));
                         nutritionsValues.add(ingrValue);
                     }
+                  //  mElasticDownloadView.setProgress(40);
                 }
 
                 String nameOfRecipe = object.getString("name");
@@ -246,10 +259,14 @@ public class MainActivity extends DrawerActivity {
                 RecipeManager.recipes.put(recipe.getName(),recipe);
                 recipes.add(recipe.getName());
 
+              // mElasticDownloadView.setProgress(50);
                 new RequestTask(recipes,bitmaps,flingContainer,recipeIds).execute(recipe.getBigPicUrl());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+            mElasticDownloadView.setProgress(100);
+
+
         }
 
        private class RequestTask extends AsyncTask<String, Void, Bitmap> {
@@ -266,6 +283,7 @@ public class MainActivity extends DrawerActivity {
             }
             @Override
             protected void onPreExecute() {
+               // mElasticDownloadView.setProgress(99);
 
             }
 
@@ -291,14 +309,21 @@ public class MainActivity extends DrawerActivity {
 
             @Override
             protected void onPostExecute(Bitmap image) {
+
+
                 bitmaps.add(image);
                 if(bitmaps.size() == 10){
-                    hideProgressDialog();
-
+                    mElasticDownloadView.success();
+                    mElasticDownloadView.setVisibility(View.GONE);
+                   // mElasticDownloadView.success();
                     final  MealAdapter mealAdapter = new MealAdapter(MainActivity.this, bitmaps);
+
                     flingContainer.setAdapter(mealAdapter);
                     mealAdapter.notifyDataSetChanged();
 
+//                   if(mElasticDownloadView.isAnimationFinished()){
+//                       mElasticDownloadView.setVisibility(View.GONE);
+//                   }
                     flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
                         @Override
                         public void removeFirstObjectInAdapter() {

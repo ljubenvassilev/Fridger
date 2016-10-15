@@ -67,16 +67,10 @@ public class IngredientsRecyclerAdapter extends  RecyclerView.Adapter<Ingredient
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    holder.cb.setBackgroundColor(Color.blue(200));
-                    holder.ingredient.setBackgroundColor(Color.blue(200));
                     ingredientsChecker.put(ingredient,true);
                 }
                 if(!isChecked){
-                    holder.cb.setBackgroundColor(Color.WHITE);
-                    holder.ingredient.setBackgroundColor(Color.WHITE);
-                    if(DatabaseHelper.getInstance(activity).getUserShoppingList(DatabaseHelper.getInstance(activity).getCurrentUser().getFacebookID()).contains(ingredient)){
                         ingredientsChecker.put(ingredient,false);
-                    }
                 }
             }
         });

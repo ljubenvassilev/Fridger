@@ -68,10 +68,7 @@ public class MyFridgeMealsAdapter extends  RecyclerView.Adapter<MyFridgeMealsAda
                     ingredientsChecker.put(ingredient,true);
                 }
                 if(!isChecked){
-                    if(DatabaseHelper.getInstance(activity).getUserFridge(DatabaseHelper.getInstance(activity).getCurrentUser().getFacebookID()).contains(ingredient)){
-
-                        ingredientsChecker.put(ingredient,false);
-                    }
+                    ingredientsChecker.put(ingredient,false);
                 }
             }
 
