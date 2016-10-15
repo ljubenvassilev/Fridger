@@ -110,7 +110,7 @@ public class WelcomeActivity extends AppCompatActivity {
         return accessToken != null;
     }
 
-    public void initiateLogin(Profile currentProfile){
+    public void initiateLogin(final Profile currentProfile){
         final SharedPreferences.Editor editor = WelcomeActivity.this.
                 getSharedPreferences("Fridger", Context.MODE_PRIVATE).edit();
         editor.putString("name", currentProfile.getName());
@@ -129,6 +129,7 @@ public class WelcomeActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
+                editor.putString("current", currentProfile.getId());
                 editor.apply();
                 startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
                 finish();

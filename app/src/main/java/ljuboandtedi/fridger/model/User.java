@@ -37,15 +37,15 @@ public class User {
     public String getPreferences(){return this.preferences;}
 
     public ArrayList<String> getFridge() {
-        return (ArrayList<String>) Collections.unmodifiableList(fridge);
+        return fridge;
     }
 
     public ArrayList<String> getShoppingList() {
-        return (ArrayList<String>) Collections.unmodifiableList(shoppingList);
+        return shoppingList;
     }
 
     public ArrayList<String> getFavouriteMeals() {
-        return (ArrayList<String>) Collections.unmodifiableList(favouriteMeals);
+        return favouriteMeals;
     }
 
     public void addToFridge(String ingredient) {
