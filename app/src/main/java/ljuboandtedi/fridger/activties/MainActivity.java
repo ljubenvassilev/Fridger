@@ -8,13 +8,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Adapter;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.Toast;
 
+import android.widget.Button;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import org.json.JSONArray;
@@ -37,6 +32,7 @@ import ljuboandtedi.fridger.model.Recipe;
 import ljuboandtedi.fridger.model.RecipeManager;
 import ljuboandtedi.fridger.model.User;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
 import static ljuboandtedi.fridger.model.RecipeManager.recipes;
 
 public class MainActivity extends DrawerActivity {
@@ -80,11 +76,12 @@ public class MainActivity extends DrawerActivity {
         private ArrayList<String> recipes;
         private ArrayList<Bitmap> bitmaps;
         private SwipeFlingAdapterView flingContainer;
-
+        private ArrayList<String> recipeIds;
         RequestTaskForRelatedMeals(ArrayList<String> recipes, ArrayList<Bitmap> bitmaps ,SwipeFlingAdapterView flingContainer){
             this.recipes = recipes;
             this.bitmaps = bitmaps;
             this.flingContainer = flingContainer;
+            this.recipeIds = new ArrayList<>();
         }
 
         @Override
@@ -136,7 +133,8 @@ public class MainActivity extends DrawerActivity {
                     if (!attributesInJson.isNull("id")) {
                         id = attributesInJson.getString("id");
                     }
-                    new RequestTaskForRecipe(recipes,bitmaps,flingContainer).execute("http://api.yummly.com/v1/api/recipe/" +id+ "?_"+getResources().getString(R.string.api));
+                    recipeIds.add(id);
+                    new RequestTaskForRecipe(recipes,bitmaps,flingContainer,recipeIds).execute("http://api.yummly.com/v1/api/recipe/" +id+ "?_"+getResources().getString(R.string.api));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -147,11 +145,12 @@ public class MainActivity extends DrawerActivity {
         private ArrayList<String> recipes;
         private SwipeFlingAdapterView flingContainer;
         private ArrayList<Bitmap> bitmaps;
-
-        RequestTaskForRecipe( ArrayList<String> recipes, ArrayList<Bitmap> bitmaps ,SwipeFlingAdapterView flingContainer){
+        private ArrayList<String> recipeIds;
+        RequestTaskForRecipe(ArrayList<String> recipes, ArrayList<Bitmap> bitmaps ,SwipeFlingAdapterView flingContainer,ArrayList<String> recipeIds){
             this.recipes = recipes;
             this.bitmaps = bitmaps;
             this.flingContainer = flingContainer;
+            this.recipeIds = recipeIds;
         }
 
         @Override
@@ -247,7 +246,7 @@ public class MainActivity extends DrawerActivity {
                 RecipeManager.recipes.put(recipe.getName(),recipe);
                 recipes.add(recipe.getName());
 
-                new RequestTask(recipes,bitmaps,flingContainer).execute(recipe.getBigPicUrl());
+                new RequestTask(recipes,bitmaps,flingContainer,recipeIds).execute(recipe.getBigPicUrl());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -257,11 +256,13 @@ public class MainActivity extends DrawerActivity {
            private ArrayList<String> recipes;
            private SwipeFlingAdapterView flingContainer;
            private ArrayList<Bitmap> bitmaps;
-
-            RequestTask( ArrayList<String> recipes, ArrayList<Bitmap> bitmaps ,SwipeFlingAdapterView flingContainer){
+           private ArrayList<String> recipeIds;
+           private String removedRecipe = "";
+            RequestTask( ArrayList<String> recipes, ArrayList<Bitmap> bitmaps ,SwipeFlingAdapterView flingContainer,ArrayList<String> recipeIds){
                 this.recipes = recipes;
                 this.bitmaps = bitmaps;
                 this.flingContainer = flingContainer;
+                this.recipeIds = recipeIds;
             }
             @Override
             protected void onPreExecute() {
@@ -304,11 +305,15 @@ public class MainActivity extends DrawerActivity {
                             Log.d("LIST", "removed object!");
                             mealAdapter.remove(bitmaps.get(0));
                             recipes.remove(0);
+                            removedRecipe = recipeIds.get(0);
+                            recipeIds.remove(0);
                             mealAdapter.notifyDataSetChanged();
                         }
 
                         @Override
                         public void onLeftCardExit(Object dataObject) {
+                            user.addToFavoriteMeeals(removedRecipe);
+                            Log.e("kvovkarvam","http://api.yummly.com/v1/api/recipe/" + removedRecipe+ "?_"+getApplicationContext().getResources().getString(R.string.api));
                         }
 
                         @Override
