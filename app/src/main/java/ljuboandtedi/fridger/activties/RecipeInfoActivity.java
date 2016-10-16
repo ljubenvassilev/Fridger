@@ -61,7 +61,7 @@ public class RecipeInfoActivity extends DrawerActivity {
     private Button viewNutritions;
     private Button hideIngredients;
     private Button showHideIngredients;
-    private ListView ingredientsList;
+    private RecyclerView ingredientsList;
     private IngredientsRecyclerAdapter adapter;
     private MealRecyclerAdapter adpterForRelatedMeals;
     private TextView continueExploring;
@@ -216,31 +216,10 @@ public class RecipeInfoActivity extends DrawerActivity {
 
             }
         });
-        ingredientsList = (ListView) findViewById(R.id.recycleListForIngredients);
-        IngredientListAdapter ingredientListAdapter= new IngredientListAdapter(this,recipe.getIngredientLines());
+        ingredientsList = (RecyclerView) findViewById(R.id.recycleListForIngredients);
+        IngredientsRecyclerAdapter ingredientListAdapter= new IngredientsRecyclerAdapter(RecipeInfoActivity.this,recipe.getIngredientLines());
+        ingredientsList.setLayoutManager(new LinearLayoutManager(this));
         ingredientsList.setAdapter(ingredientListAdapter);
-        Utility.setListViewHeightBasedOnChildren(ingredientsList);
-        ingredientsList.setOnTouchListener(new ListView.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                int action = event.getAction();
-                switch (action) {
-                    case MotionEvent.ACTION_DOWN:
-                        // Disallow ScrollView to intercept touch events.
-                        v.getParent().requestDisallowInterceptTouchEvent(true);
-                        break;
-
-                    case MotionEvent.ACTION_UP:
-                        // Allow ScrollView to intercept touch events.
-                        v.getParent().requestDisallowInterceptTouchEvent(false);
-                        break;
-                }
-
-                // Handle ListView touch events.
-                v.onTouchEvent(event);
-                return true;
-            }
-        });
     }
 
     private View.OnClickListener onShowListener() {
