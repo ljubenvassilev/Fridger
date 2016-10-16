@@ -23,7 +23,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public static DatabaseHelper getInstance(Context context){
-        if (ourInstance==null){ourInstance=new DatabaseHelper(context);}
+        if (ourInstance==null){ourInstance
+                =
+                new DatabaseHelper(context);}
         return ourInstance;
     }
 

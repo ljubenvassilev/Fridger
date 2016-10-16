@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -80,7 +81,7 @@ public class FavouriteMealsAdapter extends  RecyclerView.Adapter<FavouriteMealsA
         private TextView recipeCreator;
         private ImageView mealPic;
         private ImageView overlay;
-        private TextView remover;
+        private ImageButton remover;
 
         MyFavouriteMealViewHolder(View row){
             super(row);
@@ -88,7 +89,7 @@ public class FavouriteMealsAdapter extends  RecyclerView.Adapter<FavouriteMealsA
             mealPic = (ImageView) row.findViewById(R.id.searchpic_Image);
             recipeCreator = (TextView) row.findViewById(R.id.searchpic_creator);
             overlay = (ImageView) row.findViewById(R.id.overlay);
-            remover = (TextView) row.findViewById(R.id.favouritemeal_recycle_row_remover);
+            remover = (ImageButton) row.findViewById(R.id.favouritemeal_recycle_row_remover);
         }
     }
     class RequestTaskForRecipe extends AsyncTask<String, Void, String> {
@@ -233,12 +234,10 @@ public class FavouriteMealsAdapter extends  RecyclerView.Adapter<FavouriteMealsA
             @Override
             protected void onPostExecute(Bitmap image) {
                 RecipeManager.recipes.put(recipe.getName(),recipe);
-                holder.remover.setText("remove me");
                 holder.remover.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         DatabaseHelper.getInstance(activity).removeFromFavoriteMeals(recipe.getId());
-                        Log.e("recipeE",recipe.getId());
                         DatabaseHelper.getInstance(activity).getUserFavoriteMeals(DatabaseHelper.getInstance(activity).getCurrentUser().getFacebookID());
                         Log.e("receptiteVfav",DatabaseHelper.getInstance(activity).getUserFavoriteMeals(DatabaseHelper.getInstance(activity).getCurrentUser().getFacebookID()).toString());
                         recipes.remove(recipe.getId());

@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import ljuboandtedi.fridger.widget.CollectionWidget;
@@ -22,6 +23,8 @@ public class ShoppingListActivity extends DrawerActivity {
     private RecyclerView listOfIngredients;
     private Button addToFridgeButton;
     private Button removeAllButton;
+    private Button addSpecIngredient;
+    private EditText specialIngredient;
     private IngredientsInShoppingListAdapter adapter;
 
 
@@ -32,7 +35,8 @@ public class ShoppingListActivity extends DrawerActivity {
         listOfIngredients = (RecyclerView) findViewById(R.id.recycleListForIngredients);
         addToFridgeButton = (Button) findViewById(R.id.yourIngredients_addToFridgeButton);
         removeAllButton = (Button) findViewById(R.id.yourIngredients_addAllToFridgeButton);
-
+        addSpecIngredient = (Button) findViewById(R.id.shoppingList_AddSpecIngredientButton);
+        specialIngredient = (EditText) findViewById(R.id.shoppingList_SpecificIngredient);
         listOfIngredients.setLayoutManager(new LinearLayoutManager(this));
         adapter = new IngredientsInShoppingListAdapter(this,DatabaseHelper.getInstance(this).getUserShoppingList(DatabaseHelper.getInstance(this).getCurrentUser().getFacebookID()));
         listOfIngredients.setAdapter(adapter);
@@ -68,6 +72,20 @@ public class ShoppingListActivity extends DrawerActivity {
                 Toast.makeText(ShoppingListActivity.this, "Everything was added to your fridge", Toast.LENGTH_SHORT).show();
                 updateWidget();
                 finish();
+            }
+        });
+        addSpecIngredient.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String specificIngredient = specialIngredient.getText().toString();
+                if(!specificIngredient.isEmpty() || !(specificIngredient.length() < 3)){
+                    if(!adapter.isItAdded(specificIngredient)){
+                        Toast.makeText(ShoppingListActivity.this, "Invalid input", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        Toast.makeText(ShoppingListActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
         });
     }

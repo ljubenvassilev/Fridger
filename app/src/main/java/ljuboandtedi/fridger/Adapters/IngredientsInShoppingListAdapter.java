@@ -112,6 +112,16 @@ public class IngredientsInShoppingListAdapter extends  RecyclerView.Adapter<Ingr
 //        updateWidgets();
         return counter;
     }
+    public boolean isItAdded(String ingredient){
+        if(ingredients.contains(ingredient)){
+            return false;
+        }
+        ingredients.add(ingredient);
+        ingredientsChecker.put(ingredient,false);
+        notifyDataSetChanged();
+        return true;
+
+    }
     public void removeAll(){
         Iterator<Map.Entry<String,Boolean>> iter = ingredientsChecker.entrySet().iterator();
         while (iter.hasNext()) {

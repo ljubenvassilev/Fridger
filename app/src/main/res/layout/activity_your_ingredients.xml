@@ -36,6 +36,27 @@
                             android:text="Shopping List"
                             android:textSize="30sp"
                             android:textColor="@color/darkBlue"/>
+                        <LinearLayout
+                            android:layout_weight="0.3"
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp">
+                            <EditText
+                                android:id="@+id/shoppingList_SpecificIngredient"
+                                android:hint="Add specific ingredient?"
+                                android:lines="1"
+                                android:textSize="18sp"
+                                android:layout_weight="3"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent" />
+                            <Button
+                                android:id="@+id/shoppingList_AddSpecIngredientButton"
+                                android:text="ADD"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="match_parent" />
+                        </LinearLayout>
+
                         <android.support.v7.widget.RecyclerView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

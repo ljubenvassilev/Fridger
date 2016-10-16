@@ -1,16 +1,21 @@
 package ljuboandtedi.fridger.activties;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
 import android.widget.Button;
+import android.widget.Toast;
+
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
 import org.json.JSONArray;
@@ -60,7 +65,11 @@ public class MainActivity extends DrawerActivity {
         mElasticDownloadView = (ElasticDownloadView) findViewById(R.id.elastic_download_view);
         mElasticDownloadView.startIntro();
         mElasticDownloadView.setProgress(5);
-
+        if(!isNetworkAvailable()){
+            mElasticDownloadView.fail();
+            Toast.makeText(this, "Please connect to i-net", Toast.LENGTH_SHORT).show();
+            System.exit(0);
+        }
         searchActivityButton = (Button) findViewById(R.id.intenting);
         searchActivityButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,6 +90,12 @@ public class MainActivity extends DrawerActivity {
         mElasticDownloadView.setProgress(50);
         new RequestTaskForRelatedMeals(recipesByName2,bitmaps2,flingContainer2).execute("http://api.yummly.com/v1/api/recipes?_"+getResources().getString(R.string.api)+"&q=pizza&maxResult=20&start=10");        Log.d("apito", getResources().getString(R.string.api));
 
+    }
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
    private class RequestTaskForRelatedMeals extends AsyncTask<String, String, String> {
