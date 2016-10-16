@@ -1,11 +1,7 @@
 package ljuboandtedi.fridger.activties;
 
 import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,7 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import ljuboandtedi.fridger.widget.CollectionWidget;
+import ljuboandtedi.fridger.widget.Widget;
 import ljuboandtedi.fridger.adapters.IngredientsInShoppingListAdapter;
 import ljuboandtedi.fridger.R;
 import ljuboandtedi.fridger.model.DatabaseHelper;
@@ -92,11 +88,11 @@ public class ShoppingListActivity extends DrawerActivity {
 
     private void updateWidget(){
 //        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getApplicationContext());
-//        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(getApplicationContext(), CollectionWidget.class));
+//        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(getApplicationContext(), Widget.class));
 //        if (appWidgetIds.length > 0) {
-//            new CollectionWidget().onEnabled(getApplicationContext());
+//            new Widget().onEnabled(getApplicationContext());
 //        }
-        Intent intent = new Intent(this,CollectionWidget.class);
+        Intent intent = new Intent(this,Widget.class);
         intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
         int[] ids = {getSharedPreferences("Fridger",MODE_PRIVATE).getInt("widget",0)};
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,ids);

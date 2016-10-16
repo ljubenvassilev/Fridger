@@ -1,4 +1,4 @@
-package ljuboandtedi.fridger;
+package ljuboandtedi.fridger.tools;
 
 import android.app.Application;
 import android.content.Context;
@@ -11,6 +11,8 @@ import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerUIUtils;
+
+import ljuboandtedi.fridger.R;
 
 /**
  * Created by ljubo on 10/8/2016.

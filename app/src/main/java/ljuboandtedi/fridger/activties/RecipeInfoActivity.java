@@ -50,23 +50,16 @@ public class RecipeInfoActivity extends DrawerActivity {
     private TextView caloriesTV;
     private TextView totalTime;
     private TextView ingredients;
-    private TextView servingsForTheIngredients;
-    private TextView itb;
     private Button course1TV;
     private Button course2TV;
     private Button course3TV;
     private ImageButton favouriteImageButton;
-    private Button buyCheckedButton;
-    private Button buyALlButton;
     private Button ingridientsInNewActivity;
     private Button viewDirections;
     private Button viewNutritions;
     private ImageButton hideIngredients;
     private ImageButton showHideIngredients;
-    private RecyclerView ingredientsList;
-    private IngredientsRecyclerAdapter adapter;
     private MealRecyclerAdapter adpterForRelatedMeals;
-    private TextView continueExploring;
     private RecyclerView relatedMeals;
     private SlidingUpPanelLayout slidingLayout;
     private Recipe recipe;
@@ -85,7 +78,6 @@ public class RecipeInfoActivity extends DrawerActivity {
         course1TV = (Button) findViewById(R.id.recipe_info_course1);
         course2TV = (Button) findViewById(R.id.recipe_info_course2);
         course3TV = (Button) findViewById(R.id.recipe_info_course3);
-        continueExploring = (TextView) findViewById(R.id.recipe_info_continueExploring);
         if(recipe.getCourses().size() == 1){
             course1TV.setText(recipe.getCourses().get(0));
             course2TV.setVisibility(View.GONE);
@@ -95,7 +87,6 @@ public class RecipeInfoActivity extends DrawerActivity {
             course1TV.setVisibility(View.GONE);
             course2TV.setVisibility(View.GONE);
             course3TV.setVisibility(View.GONE);
-            continueExploring.setVisibility(View.GONE);
         }
         else if(recipe.getCourses().size() == 2){
             course1TV.setText(recipe.getCourses().get(0));

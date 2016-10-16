@@ -1,4 +1,4 @@
-package ljuboandtedi.fridger.activties;
+package ljuboandtedi.fridger.tools;
 
 import android.view.View;
 import android.view.ViewGroup;
