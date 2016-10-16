@@ -219,6 +219,7 @@ public class RecipeInfoActivity extends DrawerActivity {
         ingredientsList = (ListView) findViewById(R.id.recycleListForIngredients);
         IngredientListAdapter ingredientListAdapter= new IngredientListAdapter(this,recipe.getIngredientLines());
         ingredientsList.setAdapter(ingredientListAdapter);
+        Utility.setListViewHeightBasedOnChildren(ingredientsList);
         ingredientsList.setOnTouchListener(new ListView.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -248,7 +249,7 @@ public class RecipeInfoActivity extends DrawerActivity {
             public void onClick(View v) {
                 slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
                 showHideIngredients.setVisibility(View.GONE);
-                slidingLayout.setEnabled(false);
+
             }
         };
     }

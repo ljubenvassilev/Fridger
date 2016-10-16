@@ -9,6 +9,7 @@ import java.util.List;
 
 
 import ljuboandtedi.fridger.R;
+import ljuboandtedi.fridger.adapters.FavouriteMealsAdapter;
 import ljuboandtedi.fridger.model.DatabaseHelper;
 import ljuboandtedi.fridger.model.RecipeManager;
 
@@ -21,6 +22,6 @@ public class FavouriteMealsActivity extends DrawerActivity {
         listOfMeals = (RecyclerView) findViewById(R.id.recycleList);
 
         listOfMeals.setLayoutManager(new LinearLayoutManager(this));
-        listOfMeals.setAdapter(new ljuboandtedi.fridger.adapters.MealRecyclerAdapter(FavouriteMealsActivity.this, DatabaseHelper.getInstance(FavouriteMealsActivity.this).getUserFavoriteMeals(DatabaseHelper.getInstance(FavouriteMealsActivity.this).getCurrentUser().getFacebookID())));
+        listOfMeals.setAdapter(new FavouriteMealsAdapter(FavouriteMealsActivity.this, DatabaseHelper.getInstance(FavouriteMealsActivity.this).getUserFavoriteMeals(DatabaseHelper.getInstance(FavouriteMealsActivity.this).getCurrentUser().getFacebookID())));
     }
 }

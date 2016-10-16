@@ -1,9 +1,5 @@
 package ljuboandtedi.fridger.adapters;
 
-/**
- * Created by NoLight on 25.9.2016 г..
- */
-
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -31,70 +27,73 @@ import java.util.List;
 import java.util.Scanner;
 
 import ljuboandtedi.fridger.R;
+import ljuboandtedi.fridger.activties.FavouriteMealsActivity;
 import ljuboandtedi.fridger.activties.RecipeInfoActivity;
+import ljuboandtedi.fridger.model.DatabaseHelper;
 import ljuboandtedi.fridger.model.IngredientValues;
 import ljuboandtedi.fridger.model.Recipe;
 import ljuboandtedi.fridger.model.RecipeManager;
-import ljuboandtedi.fridger.model.User;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
-
 /**
- * Created by NoLight on 25.9.2016 г..
+ * Created by NoLight on 16.10.2016 г..
  */
 
-public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdapter.MyMealViewHolder> {
+public class FavouriteMealsAdapter extends  RecyclerView.Adapter<FavouriteMealsAdapter.MyFavouriteMealViewHolder> {
 
     private List<String> recipes;
     private Activity activity;
 
-    public MealRecyclerAdapter(Activity activity, List recipes) {
+    public FavouriteMealsAdapter(Activity activity, List recipes) {
         this.recipes = recipes;
         this.activity = activity;
     }
     public void add(List<String> recipes){
-       List<String> newRecipes = new ArrayList<>();
+        List<String> newRecipes = new ArrayList<>();
         newRecipes.addAll(recipes);
         this.recipes.addAll(newRecipes);
     }
 
     @Override
-    public MealRecyclerAdapter.MyMealViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public FavouriteMealsAdapter.MyFavouriteMealViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = activity.getLayoutInflater();
-        View row = inflater.inflate(R.layout.picture_recycleview_row, parent, false);
-        MyMealViewHolder vh = new MyMealViewHolder(row);
+        View row = inflater.inflate(R.layout.favouritemeal_recycle_row, parent, false);
+        FavouriteMealsAdapter.MyFavouriteMealViewHolder vh = new FavouriteMealsAdapter.MyFavouriteMealViewHolder(row);
         return vh;
     }
 
     @Override
-    public void onBindViewHolder(MealRecyclerAdapter.MyMealViewHolder holder, int position) {
+    public void onBindViewHolder(FavouriteMealsAdapter.MyFavouriteMealViewHolder holder, int position) {
         final String recipe = recipes.get(position);
         holder.mealPic.setImageDrawable(null);
-        new RequestTaskForRecipe(holder).execute("http://api.yummly.com/v1/api/recipe/" +recipe+ "?_"+getApplicationContext().getResources().getString(R.string.api));
+
+        new FavouriteMealsAdapter.RequestTaskForRecipe(holder).execute("http://api.yummly.com/v1/api/recipe/" +recipe+ "?_"+getApplicationContext().getResources().getString(R.string.api));
     }
 
     @Override
     public int getItemCount() {
         return recipes.size();
     }
-    class MyMealViewHolder extends RecyclerView.ViewHolder {
+    class MyFavouriteMealViewHolder extends RecyclerView.ViewHolder {
         private TextView recipeNameTV;
         private TextView recipeCreator;
         private ImageView mealPic;
         private ImageView overlay;
+        private TextView remover;
 
-        MyMealViewHolder(View row){
+        MyFavouriteMealViewHolder(View row){
             super(row);
             recipeNameTV = (TextView) row.findViewById(R.id.searchpic_NameOfTheRecipe);
             mealPic = (ImageView) row.findViewById(R.id.searchpic_Image);
             recipeCreator = (TextView) row.findViewById(R.id.searchpic_creator);
             overlay = (ImageView) row.findViewById(R.id.overlay);
+            remover = (TextView) row.findViewById(R.id.favouritemeal_recycle_row_remover);
         }
     }
     class RequestTaskForRecipe extends AsyncTask<String, Void, String> {
-        MyMealViewHolder holder;
-        RequestTaskForRecipe(MealRecyclerAdapter.MyMealViewHolder holder){
+        MyFavouriteMealViewHolder holder;
+        RequestTaskForRecipe(MyFavouriteMealViewHolder holder){
             this.holder = holder;
         }
 
@@ -192,7 +191,7 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
                 Recipe recipe = new Recipe(ingredientLinesArr, flavorsMap, nutritionsValues, nameOfRecipe, servings, totalTime, rating, bigPicUrl, id, numberOfServings, coursesForTheRecipe, source, creator, fatKCAL,smallPicUrl);
                 holder.recipeNameTV.setText(recipe.getName());
                 holder.recipeCreator.setText(recipe.getCreator());
-                new MealRecyclerAdapter.RequestTaskForRecipe.RequestTask(holder, recipe).execute(bigPicUrl);
+                new FavouriteMealsAdapter.RequestTaskForRecipe.RequestTask(holder, recipe).execute(bigPicUrl);
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -200,9 +199,9 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
         }
         private class RequestTask extends AsyncTask<String, Void, Bitmap> {
 
-            private MyMealViewHolder holder;
+            private MyFavouriteMealViewHolder holder;
             private Recipe recipe;
-            RequestTask(MealRecyclerAdapter.MyMealViewHolder holder, Recipe recipe){
+            RequestTask(MyFavouriteMealViewHolder holder, Recipe recipe){
                 this.holder = holder;
                 this.recipe = recipe;
             }
@@ -234,6 +233,18 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
             @Override
             protected void onPostExecute(Bitmap image) {
                 RecipeManager.recipes.put(recipe.getName(),recipe);
+                holder.remover.setText("remove me");
+                holder.remover.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        DatabaseHelper.getInstance(activity).removeFromFavoriteMeals(recipe.getId());
+                        Log.e("recipeE",recipe.getId());
+                        DatabaseHelper.getInstance(activity).getUserFavoriteMeals(DatabaseHelper.getInstance(activity).getCurrentUser().getFacebookID());
+                        Log.e("receptiteVfav",DatabaseHelper.getInstance(activity).getUserFavoriteMeals(DatabaseHelper.getInstance(activity).getCurrentUser().getFacebookID()).toString());
+                        recipes.remove(recipe.getId());
+                        notifyDataSetChanged();
+                    }
+                });
                 holder.mealPic.setImageBitmap(image);
                 holder.overlay.setBackgroundResource(R.color.transparent);
                 holder.overlay.setImageResource(R.drawable.gradient);
@@ -245,8 +256,9 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
                         activity.startActivity(intent);
                     }
                 });
+
             }
         }
     }
-}
 
+}
