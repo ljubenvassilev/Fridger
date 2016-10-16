@@ -2,11 +2,11 @@
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     android:initialKeyguardLayout="@layout/collection_widget"
     android:initialLayout="@layout/collection_widget"
+    android:widgetCategory="keyguard|home_screen"
     android:minHeight="110dp"
     android:minWidth="180dp"
     android:previewImage="@drawable/background_welcome"
     android:resizeMode="horizontal|vertical"
-    android:updatePeriodMillis="0"
-    android:widgetCategory="home_screen">
+    android:updatePeriodMillis="0">
 
 </appwidget-provider>

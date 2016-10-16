@@ -113,7 +113,6 @@ public class WelcomeActivity extends AppCompatActivity {
     public void initiateLogin(final Profile currentProfile){
         final SharedPreferences.Editor editor = WelcomeActivity.this.
                 getSharedPreferences("Fridger", Context.MODE_PRIVATE).edit();
-        editor.putString("name", currentProfile.getName());
         editor.putString("pic",currentProfile.getProfilePictureUri(150,150).toString());
         Bundle params = new Bundle();
         params.putString("fields","email");

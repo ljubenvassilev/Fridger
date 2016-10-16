@@ -40,9 +40,7 @@ public class User {
         return fridge;
     }
 
-    public ArrayList<String> getShoppingList() {
-        return shoppingList;
-    }
+    public ArrayList<String> getShoppingList() { return shoppingList; }
 
     public ArrayList<String> getFavouriteMeals() {
         return favouriteMeals;

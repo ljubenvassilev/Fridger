@@ -6,13 +6,15 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.RemoteViews;
 
 import ljuboandtedi.fridger.R;
 import ljuboandtedi.fridger.activties.WelcomeActivity;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
  * Implementation of App Widget functionality.
@@ -21,11 +23,15 @@ public class CollectionWidget extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        Log.d("widget",String.valueOf(appWidgetIds.length));
+        Log.d("widget",String.valueOf(appWidgetIds[0]));
+        SharedPreferences.Editor editor =  getApplicationContext().
+                getSharedPreferences("Fridger", Context.MODE_PRIVATE).edit();
+        editor.putInt("widget", appWidgetIds[0]).commit();
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.collection_widget);
         views.setRemoteAdapter(R.id.widget_list, new Intent(context, WidgetService.class));
         Intent intent = new Intent(context,WelcomeActivity.class);
-        views.setOnClickPendingIntent(R.id.widget,PendingIntent.getActivity(context,0,intent,0));
+        views.setOnClickPendingIntent(R.id.widget,PendingIntent
+                .getActivity(context,0,intent,PendingIntent.FLAG_UPDATE_CURRENT));
         ComponentName thisWidget = new ComponentName(context, CollectionWidget.class);
         AppWidgetManager.getInstance(context).updateAppWidget(thisWidget, views);
         super.onUpdate(context, appWidgetManager, appWidgetIds);
@@ -44,13 +50,5 @@ public class CollectionWidget extends AppWidgetProvider {
                 }
             }
         }
-        super.onReceive(context, intent);
     }
-
-    @Override
-    public void onEnabled(Context context) { }
-
-    @Override
-    public void onDisabled(Context context) { }
 }
-

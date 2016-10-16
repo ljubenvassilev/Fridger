@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ljuboandtedi.fridger">
-
     <uses-permission android:name="android.permission.INTERNET" />
-
     <application
         android:name=".CustomApplication"
         android:allowBackup="true"
@@ -14,7 +12,6 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -48,30 +45,18 @@
         <activity android:name=".activties.YourFridgeActivity" />
         <activity android:name=".activties.SearchMealsActivity" />
         <activity android:name=".activties.NutritionsActivity" />
-        <activity android:name=".activties.SearchingActivity"></activity>
-<!-- We'll need to add two entries to our manifest for our collection view widget -->
-
-        <!-- 1. The broadcast receiver that refers to our widget. This needs the
-                intent-filter android.appwidget.action.APPWIDGET_UPDATE and the
-                meta-data for our XML widget configuration -->
+        <activity android:name=".activties.SearchingActivity" />
         <receiver android:name=".widget.CollectionWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="ACTION.WIDGET.UPDATE.FROM.ACTIVITY"/>
                 <action android:name="ACTION_WIDGET_UPDATE_FROM_ALARM"/>
-                <!--<action android:name="ACTION_WIDGET_UPDATE_FROM_WIDGET"/>-->
             </intent-filter>
-
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/collection_widget_info" />
         </receiver>
-
-        <!-- 2. The service that will send our collection data to our widget. It needs the
-                permission android.permission.BIND_REMOTEVIEWS -->
         <service android:name=".widget.WidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
-
     </application>
-
 </manifest>
