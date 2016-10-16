@@ -32,7 +32,7 @@ import ljuboandtedi.fridger.model.User;
 
 public class DrawerActivity extends AppCompatActivity {
 
-    User user;
+    protected User user;
     Toolbar toolbar;
     Drawer result;
     Button search;
