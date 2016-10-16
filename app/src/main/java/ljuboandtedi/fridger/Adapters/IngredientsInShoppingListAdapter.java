@@ -6,7 +6,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +20,7 @@ import java.util.Map;
 
 import ljuboandtedi.fridger.R;
 import ljuboandtedi.fridger.model.DatabaseHelper;
-import ljuboandtedi.fridger.widget.CollectionWidget;
+import ljuboandtedi.fridger.widget.Widget;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -140,10 +139,10 @@ public class IngredientsInShoppingListAdapter extends  RecyclerView.Adapter<Ingr
 
     private void updateWidgets() {
         Context context = getApplicationContext();
-        Intent intent = new Intent(context.getApplicationContext(), CollectionWidget.class);
+        Intent intent = new Intent(context.getApplicationContext(), Widget.class);
         intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
         AppWidgetManager widgetManager = AppWidgetManager.getInstance(context);
-        int[] ids = widgetManager.getAppWidgetIds(new ComponentName(context, CollectionWidget.class));
+        int[] ids = widgetManager.getAppWidgetIds(new ComponentName(context, Widget.class));
         widgetManager.notifyAppWidgetViewDataChanged(ids, android.R.id.list);
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
         context.sendBroadcast(intent);
