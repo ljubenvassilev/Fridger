@@ -22,35 +22,26 @@ import static com.facebook.FacebookSdk.getApplicationContext;
  * WidgetDataProvider acts as the adapter for the collection view widget,
  * providing RemoteViews to the widget in the getViewAt method.
  */
-public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory {
-
-    private static final String TAG = "WidgetDataProvider";
+class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory {
 
     List<String> mCollection = new ArrayList<>();
     Context mContext = null;
 
-    public WidgetDataProvider(Context context, Intent intent) {
-        mContext = context;
-    }
+    WidgetDataProvider(Context context, Intent intent) { mContext = context; }
 
-    @Override
-    public void onCreate() {
-        initData();
-    }
-
-    @Override
-    public void onDataSetChanged() {
-        initData();
-    }
-
-    @Override
-    public void onDestroy() {
-
-    }
-
-    @Override
-    public int getCount() {
-        return mCollection.size();
+    private void initData() {
+        mCollection=new ArrayList<>();
+        FacebookSdk.sdkInitialize(mContext);
+        SharedPreferences sharedPreferences = getApplicationContext().
+                getSharedPreferences("Fridger",Context.MODE_PRIVATE);
+        String user = sharedPreferences.getString("current","");
+        Log.d("widget",user);
+        if(user.length()>0){
+            DatabaseHelper.getInstance(mContext).initUsers(user);
+            List<String> list = DatabaseHelper.getInstance(mContext).getCurrentUser()
+                    .getShoppingList();
+            mCollection.addAll(list);
+        }
     }
 
     @Override
@@ -59,6 +50,20 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
                 android.R.layout.simple_list_item_1);
         view.setTextViewText(android.R.id.text1, mCollection.get(position));
         return view;
+    }
+
+    @Override
+    public void onCreate() { initData(); }
+
+    @Override
+    public void onDataSetChanged() { initData(); }
+
+    @Override
+    public void onDestroy() {}
+
+    @Override
+    public int getCount() {
+        return mCollection.size();
     }
 
     @Override
@@ -80,20 +85,4 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
     public boolean hasStableIds() {
         return true;
     }
-
-    private void initData() {
-        mCollection=new ArrayList<>();
-        FacebookSdk.sdkInitialize(mContext);
-        SharedPreferences sharedPreferences = getApplicationContext().
-                getSharedPreferences("Fridger",Context.MODE_PRIVATE);
-        String user = sharedPreferences.getString("current","");
-        Log.d("widget",user);
-        if(user.length()>0){
-            DatabaseHelper.getInstance(mContext).initUsers(user);
-            List<String> list = DatabaseHelper.getInstance(mContext).getCurrentUser()
-                    .getShoppingList();
-            mCollection.addAll(list);
-        }
-    }
-
 }

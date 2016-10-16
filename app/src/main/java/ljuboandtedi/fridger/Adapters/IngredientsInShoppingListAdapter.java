@@ -1,6 +1,10 @@
 package ljuboandtedi.fridger.adapters;
 
 import android.app.Activity;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +21,9 @@ import java.util.Map;
 
 import ljuboandtedi.fridger.R;
 import ljuboandtedi.fridger.model.DatabaseHelper;
+import ljuboandtedi.fridger.widget.CollectionWidget;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
  * Created by NoLight on 28.9.2016 г..
@@ -102,6 +109,7 @@ public class IngredientsInShoppingListAdapter extends  RecyclerView.Adapter<Ingr
             }
         }
         notifyDataSetChanged();
+//        updateWidgets();
         return counter;
     }
     public void removeAll(){
@@ -117,6 +125,18 @@ public class IngredientsInShoppingListAdapter extends  RecyclerView.Adapter<Ingr
         ingredients.clear();
         ingredientsChecker.clear();
         notifyDataSetChanged();
+//        updateWidgets();
+    }
+
+    private void updateWidgets() {
+        Context context = getApplicationContext();
+        Intent intent = new Intent(context.getApplicationContext(), CollectionWidget.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        AppWidgetManager widgetManager = AppWidgetManager.getInstance(context);
+        int[] ids = widgetManager.getAppWidgetIds(new ComponentName(context, CollectionWidget.class));
+        widgetManager.notifyAppWidgetViewDataChanged(ids, android.R.id.list);
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+        context.sendBroadcast(intent);
     }
 
 }
