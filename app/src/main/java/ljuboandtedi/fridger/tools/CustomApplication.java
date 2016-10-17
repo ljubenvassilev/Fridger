@@ -1,9 +1,12 @@
 package ljuboandtedi.fridger.tools;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Bundle;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -22,7 +25,12 @@ public class CustomApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        registerActivityLifecycleCallbacks(new ActivityLifecycleAdapter() {
+            @Override
+            public void onActivityCreated(Activity a, Bundle savedInstanceState) {
+                a.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            }
+        });
         /*
         //initialize and create the image loader logic
         DrawerImageLoader.init(new AbstractDrawerImageLoader() {

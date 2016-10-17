@@ -129,6 +129,7 @@ public class WelcomeActivity extends AppCompatActivity {
                     }
                 }
                 editor.putString("current", currentProfile.getId());
+                editor.putString("name", currentProfile.getName());
                 editor.apply();
                 startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
                 finish();
