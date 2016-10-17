@@ -35,12 +35,14 @@
                     android:id="@+id/seachMeals_mealToSearch"
                     android:layout_weight="3"
                     android:hint="Enter search here"
+                    android:textSize="20sp"
                     android:textColorHint="@color/lightBlue"
                     android:gravity="center"
+                    android:textColor="@color/white"
                     android:layout_height="match_parent"
+                    android:singleLine="true"
                     android:lines="1"
-                    android:maxLines="1"
-                    android:imeOptions="actionDone"/>
+                    android:maxLines="1"/>
 
             </LinearLayout>
             <LinearLayout

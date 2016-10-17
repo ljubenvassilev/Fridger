@@ -10,6 +10,4 @@
     <string name="drawer_item_list">Shopping List</string>
     <string name="drawer_item_logout">Logout</string>
     <string name="api">app_id=f389c11f&amp;_app_key=22d636557ba55c9c9402f80a1af84b78</string>
-    <string name="appwidget_text">EXAMPLE</string>
-    <string name="add_widget">Add widget</string>
 </resources>

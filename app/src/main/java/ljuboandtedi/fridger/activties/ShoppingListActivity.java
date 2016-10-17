@@ -48,12 +48,10 @@ public class ShoppingListActivity extends DrawerActivity {
                 int numberOfAddedToFridgeProducts = adapter.removeSelectedProducts();
                 if(numberOfAddedToFridgeProducts == sizeOfShoppingList){
                     Toast.makeText(ShoppingListActivity.this, "Everything was added", Toast.LENGTH_SHORT).show();
-                    updateWidget();
                     finish();
                 }
                 else if(numberOfAddedToFridgeProducts > 0){
                     Toast.makeText(ShoppingListActivity.this, "Added some ingr. to your fridge.", Toast.LENGTH_SHORT).show();
-                    updateWidget();
                 }
                 else{
                     Toast.makeText(ShoppingListActivity.this, "Nothing selected", Toast.LENGTH_SHORT).show();
@@ -66,14 +64,13 @@ public class ShoppingListActivity extends DrawerActivity {
             public void onClick(View v) {
                 adapter.removeAll();
                 Toast.makeText(ShoppingListActivity.this, "Everything was added to your fridge", Toast.LENGTH_SHORT).show();
-                updateWidget();
                 finish();
             }
         });
         addSpecIngredient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String specificIngredient = specialIngredient.getText().toString();
+                String specificIngredient = specialIngredient.getText().toString().trim();
                 if(!specificIngredient.isEmpty() || !(specificIngredient.length() < 3)){
                     if(!adapter.isItAdded(specificIngredient)){
                         Toast.makeText(ShoppingListActivity.this, "Invalid input", Toast.LENGTH_SHORT).show();
@@ -84,18 +81,5 @@ public class ShoppingListActivity extends DrawerActivity {
                 }
             }
         });
-    }
-
-    private void updateWidget(){
-//        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getApplicationContext());
-//        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(getApplicationContext(), Widget.class));
-//        if (appWidgetIds.length > 0) {
-//            new Widget().onEnabled(getApplicationContext());
-//        }
-        Intent intent = new Intent(this,Widget.class);
-        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-        int[] ids = {getSharedPreferences("Fridger",MODE_PRIVATE).getInt("widget",0)};
-        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,ids);
-        sendBroadcast(intent);
     }
 }

@@ -54,10 +54,9 @@ public class WelcomeActivity extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         if(!isNetworkAvailable()){
-            //mElasticDownloadView.fail();
             Toast.makeText(this, "Please connect to i-net,if you want ot use the app.", Toast.LENGTH_SHORT).show();
 
-        };
+        }
         if(!isConnected(this)) buildDialog(this).show();
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
@@ -143,8 +142,7 @@ public class WelcomeActivity extends AppCompatActivity {
             android.net.NetworkInfo wifi = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
             android.net.NetworkInfo mobile = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 
-            if((mobile != null && mobile.isConnectedOrConnecting()) || (wifi != null && wifi.isConnectedOrConnecting())) return true;
-            else return false;
+            return (mobile != null && mobile.isConnectedOrConnecting()) || (wifi != null && wifi.isConnectedOrConnecting());
         } else return false;
     }
 
