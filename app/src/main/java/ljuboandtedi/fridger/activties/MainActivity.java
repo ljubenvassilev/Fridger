@@ -65,11 +65,7 @@ public class MainActivity extends DrawerActivity {
         mElasticDownloadView = (ElasticDownloadView) findViewById(R.id.elastic_download_view);
         mElasticDownloadView.startIntro();
         mElasticDownloadView.setProgress(5);
-        if(!isNetworkAvailable()){
-            mElasticDownloadView.fail();
-            Toast.makeText(this, "Please connect to i-net", Toast.LENGTH_SHORT).show();
-            System.exit(0);
-        }
+
         searchActivityButton = (Button) findViewById(R.id.intenting);
         searchActivityButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,12 +86,6 @@ public class MainActivity extends DrawerActivity {
         mElasticDownloadView.setProgress(50);
         new RequestTaskForRelatedMeals(recipesByName2,bitmaps2,flingContainer2).execute("http://api.yummly.com/v1/api/recipes?_"+getResources().getString(R.string.api)+"&q=pizza&maxResult=20&start=10");        Log.d("apito", getResources().getString(R.string.api));
 
-    }
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
    private class RequestTaskForRelatedMeals extends AsyncTask<String, String, String> {
