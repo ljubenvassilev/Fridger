@@ -82,6 +82,7 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
         holder.recipeNameTV.setText("");
         holder.recipeCreator.setText("");
         new RequestTaskForRecipe(holder).execute("http://api.yummly.com/v1/api/recipe/" +recipe+ "?_"+getApplicationContext().getResources().getString(R.string.api));
+        Log.e("taska","http://api.yummly.com/v1/api/recipe/" +recipe+ "?_"+getApplicationContext().getResources().getString(R.string.api));
     }
 
     @Override
@@ -138,7 +139,6 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
                 JSONObject object = new JSONObject(json);
                 JSONArray ingredientLines = object.getJSONArray("ingredientLines");
                 ArrayList<String> ingredientLinesArr = new ArrayList<>();
-                //object.getJSONObject("criteria");
                 for (int i = 0; i < ingredientLines.length(); i++) {
                     ingredientLinesArr.add(ingredientLines.getString(i));
                 }
@@ -166,6 +166,7 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
                     }
                 }
                 JSONArray nutritions = object.getJSONArray("nutritionEstimates");
+
                 ArrayList<IngredientValues> nutritionsValues = new ArrayList<>();
                 double fatKCAL = 0.0;
                 for (int i = 0; i < nutritions.length(); i++) {
@@ -173,8 +174,10 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
                     if(nutrition.getString("attribute").equals("FAT_KCAL")){
                         fatKCAL = nutrition.getDouble("value");
                     }
-                    else{
+                    else if(!Character.isDigit(nutrition.getString("description").charAt(0))){
+                        Log.e("NQMAKAK",nutrition.getString("description"));
                         IngredientValues ingrValue = new IngredientValues(nutrition.getString("description"),nutrition.getDouble("value"));
+                        Log.e("DESCR",ingrValue.getType()+ " " + ingrValue.getValue());
                         nutritionsValues.add(ingrValue);
                     }
                 }

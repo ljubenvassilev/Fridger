@@ -40,7 +40,6 @@
                     android:gravity="center"
                     android:textColor="@color/white"
                     android:layout_height="match_parent"
-                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                     android:lines="1"
                     android:maxLines="1"/>
 

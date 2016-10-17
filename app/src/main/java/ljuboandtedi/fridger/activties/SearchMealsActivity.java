@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,11 +26,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
-
 import ljuboandtedi.fridger.R;
-import ljuboandtedi.fridger.model.User;
 
 public class SearchMealsActivity extends DrawerActivity {
+
     private Spinner courseSpinner;
     private Spinner holidaySpinner;
     private Button searchButton;
@@ -136,6 +137,7 @@ public class SearchMealsActivity extends DrawerActivity {
                 String piquantness = "&flavor.piquant.min="+seekBarPiquant.getSelectedMinValue()
                         + "&flavor.piquant.max=" + seekBarPiquant.getSelectedMinValue();
                 Log.e("floatite",piquantness);
+
                 String meatyness = "&flavor.meaty.min="+seekBarMeaty.getSelectedMinValue()
                         + "&flavor.meaty.max=" + seekBarMeaty.getSelectedMinValue();
 

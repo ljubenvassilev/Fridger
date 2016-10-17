@@ -160,12 +160,11 @@ public class FavouriteMealsAdapter extends  RecyclerView.Adapter<FavouriteMealsA
                 double fatKCAL = 0.0;
                 for (int i = 0; i < nutritions.length(); i++) {
                     JSONObject nutrition = nutritions.getJSONObject(i);
-                    if(nutrition.getString("attribute").equals("FAT_KCAL")){
+                    if(nutrition.getString("attribute").equals("Energy")){
                         fatKCAL = nutrition.getDouble("value");
                     }
-                    else{
-                        IngredientValues ingrValue = new IngredientValues(nutrition
-                                .getString("description"),nutrition.getDouble("value"));
+                    else if(!nutrition.getString("description").startsWith("1")){
+                        IngredientValues ingrValue = new IngredientValues(nutrition.getString("description"),nutrition.getDouble("value"));
                         nutritionsValues.add(ingrValue);
                     }
                 }
