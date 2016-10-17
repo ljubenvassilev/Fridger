@@ -11,7 +11,6 @@ import java.util.HashMap;
 public class RecipeManager {
     private static RecipeManager ourInstance = new RecipeManager();
     public static HashMap<String, Recipe> recipes;
-    public static ArrayList<String> test = new ArrayList<>();
     public static RecipeManager getInstance() {
         return ourInstance;
     }

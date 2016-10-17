@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +36,8 @@ public class RecipeIngredientsInfo extends AppCompatActivity {
     private IngredientsRecyclerAdapter ingredientListAdapter;
     private Button buySelected;
     private Button buyAll;
+    private TextView recipeCreator;
+    private RatingBar rating;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,13 +48,16 @@ public class RecipeIngredientsInfo extends AppCompatActivity {
         recipeIngredients = (RecyclerView) findViewById(R.id.recipeIngredients_recipeIngredientsRecycle);
         recipeIngredients.setLayoutManager(new LinearLayoutManager(this));
         recipeName = (TextView) findViewById(R.id.recipeIngredients_recipeName);
+        recipeCreator = (TextView) findViewById(R.id.ingredients_creator);
+        rating = (RatingBar) findViewById(R.id.rating);
 
         recipe = RecipeManager.recipes.get(getIntent().getStringExtra("recipe"));
         recipeName.setText(recipe.getName());
-
+        recipeCreator.setText(recipe.getCreator());
+        Log.d("rating",String.valueOf(recipe.getRating()));
+        rating.setRating((float) recipe.getRating()-1);
         new RequestTask().execute(recipe.getBigPicUrl());
 
-        recipeName = (TextView) findViewById(R.id.recipeIngredients_recipeName);
         ingredientListAdapter = new IngredientsRecyclerAdapter(RecipeIngredientsInfo.this,recipe.getIngredientLines());
         recipeIngredients.setAdapter(ingredientListAdapter);
         buySelected.setOnClickListener(new View.OnClickListener() {

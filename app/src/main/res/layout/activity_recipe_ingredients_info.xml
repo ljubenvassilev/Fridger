@@ -9,22 +9,52 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/darkBlue"
     tools:context="ljuboandtedi.fridger.activties.RecipeIngredientsInfo">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_weight="1"
-    android:layout_height="0dp">
+
     <TextView
         android:id="@+id/recipeIngredients_recipeName"
-        android:layout_width="0dp"
-        android:layout_weight="2"
-        android:layout_height="match_parent" />
-    <ImageView
-        android:id="@+id/recipeIngredients_recipeImage"
-        android:layout_width="0dp"
-        android:layout_weight="1.76"
-        android:layout_height="match_parent" />
-</LinearLayout>
+        android:layout_width="match_parent"
+        android:textSize="35sp"
+        android:textColor="@color/white"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="0dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="bottom">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="4"
+                android:id="@+id/ingredients_creator"
+                android:textSize="25sp"
+                android:lines="2"
+                android:textColor="@color/white"/>
+
+            <RatingBar
+                android:numStars="5"
+                android:id="@+id/rating"
+                android:isIndicator="true"
+                android:stepSize="0.5"
+                android:max="5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/recipeIngredients_recipeImage"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_weight="3"
@@ -34,23 +64,31 @@
             android:id="@+id/recipeIngredients_recipeIngredientsRecycle"
             android:layout_width="match_parent"
             android:layout_weight="1"
-            android:layout_height="0dp">
+            android:layout_height="0dp"
+            android:background="@color/white"
+            android:layout_margin="5dp">
 
         </android.support.v7.widget.RecyclerView>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_weight="0.2"
+            android:layout_weight="0.15"
             android:layout_height="0dp">
             <Button
                 android:id="@+id/recipeIngredients_buySelectedButton"
                 android:layout_width="0dp"
                 android:layout_marginRight="10dp"
+                android:background="@drawable/profile_confirm_button"
                 android:layout_weight="1"
+                android:textSize="20sp"
+                android:text="Buy Selected"
                 android:layout_height="match_parent" />
             <Button
                 android:id="@+id/recipeIngredients_buyAlldButton"
                 android:layout_marginLeft="10dp"
+                android:background="@drawable/profile_confirm_button"
                 android:layout_width="0dp"
+                android:text="Buy All"
+                android:textSize="20sp"
                 android:layout_weight="1"
                 android:layout_height="match_parent" />
         </LinearLayout>
