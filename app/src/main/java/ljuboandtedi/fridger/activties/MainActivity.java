@@ -338,12 +338,17 @@ public class MainActivity extends DrawerActivity {
 
                         @Override
                         public void onLeftCardExit(Object dataObject) {
-                            user.addToFavoriteMeeals(removedRecipe);
-                            Log.e("kvovkarvam","http://api.yummly.com/v1/api/recipe/" + removedRecipe+ "?_"+getApplicationContext().getResources().getString(R.string.api));
+
                         }
 
                         @Override
                         public void onRightCardExit(Object dataObject) {
+
+                            Log.e("kvovkarvam","http://api.yummly.com/v1/api/recipe/" + removedRecipe+ "?_"+getApplicationContext().getResources().getString(R.string.api));
+
+                            if(!user.getFavouriteMeals().contains(removedRecipe)){
+                                user.addToFavoriteMeeals(removedRecipe);
+                            }
                         }
 
                         @Override
