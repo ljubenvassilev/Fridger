@@ -1,7 +1,5 @@
 package ljuboandtedi.fridger.activties;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -19,9 +17,7 @@ import ljuboandtedi.fridger.R;
 
 public class ShowMealActivity extends DrawerActivity {
 
-    private Bitmap mealPic;
     private RecyclerView listOfMeals;
-    private String bigPicUrl = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +28,6 @@ public class ShowMealActivity extends DrawerActivity {
 
         List<String> recipes = new ArrayList<>();
         String info = getIntent().getStringExtra("json");
-        String searchInfo = "";
-        if(getIntent().getStringExtra("json") != null){
-            searchInfo = getIntent().getStringExtra("json");
-        }
         try {
             JSONObject json = new JSONObject(info);
             JSONArray matches = json.getJSONArray("matches");
@@ -67,7 +59,6 @@ public class ShowMealActivity extends DrawerActivity {
 
         listOfMeals.setLayoutManager(new LinearLayoutManager(this));
         listOfMeals.setAdapter(new ljuboandtedi.fridger.adapters.MealRecyclerAdapter(this, recipes));
-        listOfMeals.setItemAnimator(new SlideInUpAnimator(new OvershootInterpolator(1f)));
     }
 
 }

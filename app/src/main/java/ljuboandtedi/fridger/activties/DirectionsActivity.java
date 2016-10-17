@@ -1,7 +1,6 @@
 package ljuboandtedi.fridger.activties;
 
 import android.os.Bundle;
-import android.app.Activity;
 import android.webkit.WebView;
 
 import ljuboandtedi.fridger.R;

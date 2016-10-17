@@ -1,8 +1,6 @@
 package ljuboandtedi.fridger.activties;
 
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,18 +19,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import ljuboandtedi.fridger.R;
-import ljuboandtedi.fridger.adapters.MealRecyclerAdapter;
 import ljuboandtedi.fridger.adapters.SearchingAdapter;
 import ljuboandtedi.fridger.model.IngredientValues;
 import ljuboandtedi.fridger.model.Recipe;
 import ljuboandtedi.fridger.model.RecipeManager;
-import ljuboandtedi.fridger.model.User;
-
-import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class SearchingActivity extends DrawerActivity {
     private RecyclerView recListIngredients;
@@ -66,12 +58,12 @@ public class SearchingActivity extends DrawerActivity {
                 searchingAdapter.notifyDataSetChanged();
                 recipesSmallPics.clear();
                 searchingAdapter.notifyDataSetChanged();
-                new RequestTask().execute("http://api.yummly.com/v1/api/recipes?_app_id=19ff7314&_app_key=8bdb64c8c177c7e770c8ce0d000263fd&q=" + edittedText + "&maxResult=5&start=5");
+                new RequestTask().execute("http://api.yummly.com/v1/api/recipes?_"+getResources()
+                        .getString(R.string.api)+"&q=" + edittedText + "&maxResult=5&start=5");
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-            }
+            public void afterTextChanged(Editable s) {}
         });
     }
 
@@ -121,7 +113,8 @@ public class SearchingActivity extends DrawerActivity {
                         id = attributesInJson.getString("id");
                     }
                     searchingAdapter.notifyDataSetChanged();
-                    new RequestTaskForRecipe().execute("http://api.yummly.com/v1/api/recipe/" + id + "?_"+getResources().getString(R.string.api));
+                    new RequestTaskForRecipe().execute("http://api.yummly.com/v1/api/recipe/" + id
+                            + "?_"+getResources().getString(R.string.api));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -194,7 +187,8 @@ public class SearchingActivity extends DrawerActivity {
                     if (nutrition.getString("attribute").equals("FAT_KCAL")) {
                         fatKCAL = nutrition.getDouble("value");
                     } else {
-                        IngredientValues ingrValue = new IngredientValues(nutrition.getString("description"), nutrition.getDouble("value"));
+                        IngredientValues ingrValue = new IngredientValues(nutrition
+                                .getString("description"), nutrition.getDouble("value"));
                         nutritionsValues.add(ingrValue);
                     }
                 }
@@ -220,9 +214,10 @@ public class SearchingActivity extends DrawerActivity {
                         coursesForTheRecipe.add(courses.getString(i));
                     }
                 }
-                Recipe recipe = new Recipe(ingredientLinesArr, flavorsMap, nutritionsValues, nameOfRecipe, servings, totalTime, rating, bigPicUrl, id, numberOfServings, coursesForTheRecipe, source, creator, fatKCAL,smallPicUrl);
+                Recipe recipe = new Recipe(ingredientLinesArr, flavorsMap, nutritionsValues,
+                        nameOfRecipe, servings, totalTime, rating, bigPicUrl, id, numberOfServings,
+                        coursesForTheRecipe, source, creator, fatKCAL,smallPicUrl);
                 RecipeManager.recipes.put(recipe.getName(),recipe);
-
                 recipes.add(recipe.getName());
                 recipesSmallPics.add(recipe.getSmallPicUrl());
                 searchingAdapter.notifyDataSetChanged();

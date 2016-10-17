@@ -69,7 +69,8 @@ public class FavouriteMealsAdapter extends  RecyclerView.Adapter<FavouriteMealsA
         final String recipe = recipes.get(position);
         holder.mealPic.setImageDrawable(null);
 
-        new FavouriteMealsAdapter.RequestTaskForRecipe(holder).execute("http://api.yummly.com/v1/api/recipe/" +recipe+ "?_"+getApplicationContext().getResources().getString(R.string.api));
+        new FavouriteMealsAdapter.RequestTaskForRecipe(holder).execute("http://api.yummly.com/v1/api/recipe/"
+                +recipe+ "?_"+getApplicationContext().getResources().getString(R.string.api));
     }
 
     @Override
@@ -163,7 +164,8 @@ public class FavouriteMealsAdapter extends  RecyclerView.Adapter<FavouriteMealsA
                         fatKCAL = nutrition.getDouble("value");
                     }
                     else{
-                        IngredientValues ingrValue = new IngredientValues(nutrition.getString("description"),nutrition.getDouble("value"));
+                        IngredientValues ingrValue = new IngredientValues(nutrition
+                                .getString("description"),nutrition.getDouble("value"));
                         nutritionsValues.add(ingrValue);
                     }
                 }
@@ -189,7 +191,9 @@ public class FavouriteMealsAdapter extends  RecyclerView.Adapter<FavouriteMealsA
                     }
                 }
                 Log.e("ccourses", coursesForTheRecipe.toString());
-                Recipe recipe = new Recipe(ingredientLinesArr, flavorsMap, nutritionsValues, nameOfRecipe, servings, totalTime, rating, bigPicUrl, id, numberOfServings, coursesForTheRecipe, source, creator, fatKCAL,smallPicUrl);
+                Recipe recipe = new Recipe(ingredientLinesArr, flavorsMap, nutritionsValues,
+                        nameOfRecipe, servings, totalTime, rating, bigPicUrl, id, numberOfServings,
+                        coursesForTheRecipe, source, creator, fatKCAL,smallPicUrl);
                 holder.recipeNameTV.setText(recipe.getName());
                 holder.recipeCreator.setText(recipe.getCreator());
                 new FavouriteMealsAdapter.RequestTaskForRecipe.RequestTask(holder, recipe).execute(bigPicUrl);
@@ -238,8 +242,8 @@ public class FavouriteMealsAdapter extends  RecyclerView.Adapter<FavouriteMealsA
                     @Override
                     public void onClick(View v) {
                         DatabaseHelper.getInstance(activity).removeFromFavoriteMeals(recipe.getId());
-                        DatabaseHelper.getInstance(activity).getUserFavoriteMeals(DatabaseHelper.getInstance(activity).getCurrentUser().getFacebookID());
-                        Log.e("receptiteVfav",DatabaseHelper.getInstance(activity).getUserFavoriteMeals(DatabaseHelper.getInstance(activity).getCurrentUser().getFacebookID()).toString());
+                        DatabaseHelper.getInstance(activity).getUserFavoriteMeals(DatabaseHelper
+                                .getInstance(activity).getCurrentUser().getFacebookID());
                         recipes.remove(recipe.getId());
                         notifyDataSetChanged();
                     }

@@ -32,8 +32,7 @@ public class IngridientValuesAdapter extends RecyclerView.Adapter<IngridientValu
     public MyIngredientViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = activity.getLayoutInflater();
         View row = inflater.inflate(R.layout.activity_nutritions_row, parent, false);
-        IngridientValuesAdapter.MyIngredientViewHolder vh = new IngridientValuesAdapter.MyIngredientViewHolder(row);
-        return vh;
+        return new MyIngredientViewHolder(row);
     }
 
     @Override

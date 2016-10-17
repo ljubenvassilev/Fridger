@@ -1,9 +1,6 @@
 package ljuboandtedi.fridger.model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-
-
 
 /**
  * Created by NoLight on 2.10.2016 г..

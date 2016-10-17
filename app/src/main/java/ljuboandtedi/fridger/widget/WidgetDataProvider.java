@@ -8,20 +8,14 @@ import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import com.facebook.FacebookSdk;
-import com.facebook.Profile;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import ljuboandtedi.fridger.activties.DrawerActivity;
 import ljuboandtedi.fridger.model.DatabaseHelper;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
-/**
- * WidgetDataProvider acts as the adapter for the collection view widget,
- * providing RemoteViews to the widget in the getViewAt method.
- */
 class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory {
 
     List<String> mCollection = new ArrayList<>();

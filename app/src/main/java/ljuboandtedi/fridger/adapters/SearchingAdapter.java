@@ -43,8 +43,7 @@ public class SearchingAdapter extends  RecyclerView.Adapter<SearchingAdapter.MyI
     public SearchingAdapter.MyIngredientViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = activity.getLayoutInflater();
         View row = inflater.inflate(R.layout.search_row_recycle, parent, false);
-        MyIngredientViewHolder vh = new MyIngredientViewHolder(row);
-        return vh;
+        return new MyIngredientViewHolder(row);
     }
 
     @Override
@@ -67,7 +66,7 @@ public class SearchingAdapter extends  RecyclerView.Adapter<SearchingAdapter.MyI
         ImageView ingridientSmallIV;
         MyIngredientViewHolder(View row){
             super(row);
-            ingredientValue = (TextView)    row.findViewById(R.id.searching_TV);
+            ingredientValue = (TextView) row.findViewById(R.id.searching_TV);
             ingridientSmallIV = (ImageView) row.findViewById(R.id.searching_IV);
         }
     }
@@ -78,10 +77,6 @@ public class SearchingAdapter extends  RecyclerView.Adapter<SearchingAdapter.MyI
         RequestTask(MyIngredientViewHolder holder, String recipeName){
             this.holder = holder;
             this.recipeName = recipeName;
-        }
-        @Override
-        protected void onPreExecute() {
-
         }
 
         @Override

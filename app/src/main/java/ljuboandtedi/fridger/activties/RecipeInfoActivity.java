@@ -75,8 +75,9 @@ public class RecipeInfoActivity extends DrawerActivity {
         new RequestTask().execute(recipe.getBigPicUrl());
         relatedMeals = (RecyclerView) findViewById(R.id.recycleListForRelatedMeals);
         searchInfo = getIntent().getStringExtra("search");
-        new RequestTaskForRelatedMeals().execute("http://api.yummly.com/v1/api/recipes?_"+getResources().getString(R.string.api)+"&q="+searchInfo+"&maxResult=15&start=10");
-        Log.e("kvoTursq","http://api.yummly.com/v1/api/recipes?_"+getResources().getString(R.string.api)+"&q="+searchInfo+"&maxResult=15&start=10");
+        new RequestTaskForRelatedMeals().execute("http://api.yummly.com/v1/api/recipes?_"
+                +getResources().getString(R.string.api)+"&q="
+                +searchInfo+"&maxResult=15&start=10");
         course1TV = (Button) findViewById(R.id.recipe_info_course1);
         course2TV = (Button) findViewById(R.id.recipe_info_course2);
         course3TV = (Button) findViewById(R.id.recipe_info_course3);
@@ -100,18 +101,21 @@ public class RecipeInfoActivity extends DrawerActivity {
             course2TV.setText(recipe.getCourses().get(1));
             course3TV.setText(recipe.getCourses().get(2));
         }
-        final String courseOfTV1 = "&allowedCourse[]=course^course-" + course1TV.getText().toString().trim().replace(" ","+");
-        final String courseOfTV2 = "&allowedCourse[]=course^course-" + course2TV.getText().toString().trim().replace(" ","+");
-        final String courseOfTV3 = "&allowedCourse[]=course^course-" + course3TV.getText().toString().trim().replace(" ","+");
+        final String courseOfTV1 = "&allowedCourse[]=course^course-" + course1TV.getText()
+                .toString().trim().replace(" ","+");
+        final String courseOfTV2 = "&allowedCourse[]=course^course-" + course2TV.getText()
+                .toString().trim().replace(" ","+");
+        final String courseOfTV3 = "&allowedCourse[]=course^course-" + course3TV.getText()
+                .toString().trim().replace(" ","+");
 
         String query = getSharedPreferences("Fridger", Context.MODE_PRIVATE).getString("lastSearch","");
         if(query.isEmpty()){
-            new RequestTaskForRelatedMeals().execute("http://api.yummly.com/v1/api/recipes?_"+getResources().getString(R.string.api)+"&q=&maxResult=15&start=10");
+            new RequestTaskForRelatedMeals().execute("http://api.yummly.com/v1/api/recipes?_"+
+                    getResources().getString(R.string.api)+"&q=&maxResult=15&start=10");
         } else {
             new RequestTaskForRelatedMeals().execute(query);
         }
 
-        //set layout slide listener
         slidingLayout = (SlidingUpPanelLayout)findViewById(R.id.sliding_layout);
         slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
         ingridientsInNewActivity= (Button) findViewById(R.id.recipe_info_showIngredientsActivity);
@@ -170,47 +174,61 @@ public class RecipeInfoActivity extends DrawerActivity {
         course1TV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new RequestTaskForTheCourses().execute("http://api.yummly.com/v1/api/recipes?_"+getResources().getString(R.string.api)+"&q=" + courseOfTV1 + "&maxResult=40&start=10");
+                new RequestTaskForTheCourses().execute("http://api.yummly.com/v1/api/recipes?_"
+                        +getResources().getString(R.string.api)+"&q="
+                        + courseOfTV1 + "&maxResult=40&start=10");
             }
         });
         course2TV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new RequestTaskForTheCourses().execute("http://api.yummly.com/v1/api/recipes?_"+getResources().getString(R.string.api)+"&q=" + courseOfTV2 + "&maxResult=40&start=10");
+                new RequestTaskForTheCourses().execute("http://api.yummly.com/v1/api/recipes?_"
+                        +getResources().getString(R.string.api)+"&q="
+                        + courseOfTV2 + "&maxResult=40&start=10");
             }
         });
         course3TV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new RequestTaskForTheCourses().execute("http://api.yummly.com/v1/api/recipes?_"+getResources().getString(R.string.api)+"&q=" + courseOfTV3 + "&maxResult=40&start=10");
+                new RequestTaskForTheCourses().execute("http://api.yummly.com/v1/api/recipes?_"
+                        +getResources().getString(R.string.api)+"&q="
+                        + courseOfTV3 + "&maxResult=40&start=10");
             }
         });
 
 
         ingredients.setText(recipe.getIngredientLines().size() + " Ingredients");
-        isItFavourite = DatabaseHelper.getInstance(RecipeInfoActivity.this).getUserFavoriteMeals(DatabaseHelper.getInstance(RecipeInfoActivity.this).getCurrentUser().getFacebookID()).contains(recipe.getId());
-        if(isItFavourite){
-            favouriteImageButton.setImageResource(R.drawable.star_light);
-        }
+        isItFavourite = DatabaseHelper.getInstance(RecipeInfoActivity.this)
+                .getUserFavoriteMeals(DatabaseHelper.getInstance(RecipeInfoActivity.this)
+                        .getCurrentUser().getFacebookID()).contains(recipe.getId());
+        if(isItFavourite){ favouriteImageButton.setImageResource(R.drawable.star_light); }
         favouriteImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(isItFavourite){
                     favouriteImageButton.setImageResource(R.drawable.star_dark);
-                    DatabaseHelper.getInstance(RecipeInfoActivity.this).removeFromFavoriteMeals(recipe.getId());
+                    DatabaseHelper.getInstance(RecipeInfoActivity.this)
+                            .removeFromFavoriteMeals(recipe.getId());
                     isItFavourite = false;
-                    Toast.makeText(RecipeInfoActivity.this, "Removed from MyMeals", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RecipeInfoActivity.this, "Removed from MyMeals",
+                            Toast.LENGTH_SHORT).show();
                 }
-                 if (DatabaseHelper.getInstance(RecipeInfoActivity.this).getUserFavoriteMeals(DatabaseHelper.getInstance(RecipeInfoActivity.this).getCurrentUser().getFacebookID()).contains(recipe.getId())) {
-                    DatabaseHelper.getInstance(RecipeInfoActivity.this).removeFromFavoriteMeals(recipe.getId());
+                 if (DatabaseHelper.getInstance(RecipeInfoActivity.this)
+                         .getUserFavoriteMeals(DatabaseHelper.getInstance(RecipeInfoActivity.this)
+                                 .getCurrentUser().getFacebookID()).contains(recipe.getId())) {
+                    DatabaseHelper.getInstance(RecipeInfoActivity.this)
+                            .removeFromFavoriteMeals(recipe.getId());
                      favouriteImageButton.setImageResource(R.drawable.star_dark);
-                     Toast.makeText(RecipeInfoActivity.this, "Removed from MyMeals", Toast.LENGTH_SHORT).show();
+                     Toast.makeText(RecipeInfoActivity.this, "Removed from MyMeals",
+                             Toast.LENGTH_SHORT).show();
 
                  }
                 else{
-                     Toast.makeText(RecipeInfoActivity.this, "Added to MyMeals", Toast.LENGTH_SHORT).show();
+                     Toast.makeText(RecipeInfoActivity.this, "Added to MyMeals",
+                             Toast.LENGTH_SHORT).show();
                      favouriteImageButton.setImageResource(R.drawable.star_light);
-                     DatabaseHelper.getInstance(RecipeInfoActivity.this).addToFavoriteMeals(recipe.getId());
+                     DatabaseHelper.getInstance(RecipeInfoActivity.this)
+                             .addToFavoriteMeals(recipe.getId());
                  }
             }
         });
@@ -223,7 +241,6 @@ public class RecipeInfoActivity extends DrawerActivity {
             public void onClick(View v) {
                 slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
                 showHideIngredients.setVisibility(View.GONE);
-
             }
         };
     }
@@ -237,11 +254,6 @@ public class RecipeInfoActivity extends DrawerActivity {
         };
     }
     private class RequestTask extends AsyncTask<String, Void, Bitmap> {
-
-        @Override
-        protected void onPreExecute() {
-
-        }
 
         @Override
         protected Bitmap doInBackground(String... params) {
@@ -342,17 +354,15 @@ public class RecipeInfoActivity extends DrawerActivity {
                         mealFlavors.append("\nsalty: ").append(flavorsInJson.getDouble("salty"));
                     }
                     String id = "";
-                    if (!attributesInJson.isNull("id")) {
-                        id = attributesInJson.getString("id");
-                    }
+                    if (!attributesInJson.isNull("id")) { id = attributesInJson.getString("id"); }
                     recipes.add(id);
-                    }
-                    adpterForRelatedMeals = new MealRecyclerAdapter(RecipeInfoActivity.this,recipes);
-                    adpterForRelatedMeals.notifyDataSetChanged();
-
-                    relatedMeals.setLayoutManager(new LinearLayoutManager(RecipeInfoActivity.this,LinearLayoutManager.HORIZONTAL,false));
-                    relatedMeals.setAdapter(adpterForRelatedMeals);
-                    adpterForRelatedMeals.notifyDataSetChanged();
+                }
+                adpterForRelatedMeals = new MealRecyclerAdapter(RecipeInfoActivity.this,recipes);
+                adpterForRelatedMeals.notifyDataSetChanged();
+                relatedMeals.setLayoutManager(new LinearLayoutManager(RecipeInfoActivity.this,
+                        LinearLayoutManager.HORIZONTAL,false));
+                relatedMeals.setAdapter(adpterForRelatedMeals);
+                adpterForRelatedMeals.notifyDataSetChanged();
             } catch (JSONException e) {
                 e.printStackTrace();
             }

@@ -1,8 +1,6 @@
 package ljuboandtedi.fridger.adapters;
 
 import android.app.Activity;
-import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,30 +79,4 @@ public class IngredientListAdapter extends ArrayAdapter {
         vh.ingredient.setText(ingredient);
         return row;
     }
-    public int removeSelectedProducts(){
-        int counter = 0;
-        Iterator<Map.Entry<String,Boolean>> iter = ingredientsChecker.entrySet().iterator();
-        while (iter.hasNext()) {
-            Map.Entry<String,Boolean> entry = iter.next();
-            if(entry.getValue()){
-                DatabaseHelper.getInstance(activity).addToShoppingList(entry.getKey());
-                iter.remove();
-                ingredients.remove(entry.getKey());
-                counter++;
-            }
-        }
-        notifyDataSetChanged();
-        return counter;
-    }
-    public void removeAll(){
-        Iterator<Map.Entry<String,Boolean>> iter = ingredientsChecker.entrySet().iterator();
-        while (iter.hasNext()) {
-            Map.Entry<String,Boolean> entry = iter.next();
-            DatabaseHelper.getInstance(activity).addToShoppingList(entry.getKey());
-            iter.remove();
-            ingredients.remove(entry.getKey());
-        }
-        notifyDataSetChanged();
-    }
-
 }

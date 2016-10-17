@@ -1,6 +1,5 @@
 package ljuboandtedi.fridger.activties;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,10 +28,13 @@ public class YourFridgeActivity extends DrawerActivity {
         removeSelectedFromFridgeButton.setText("Eat Selected");
 
         listOfIngredients.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new MyFridgeMealsAdapter(this, DatabaseHelper.getInstance(this).getUserFridge(DatabaseHelper.getInstance(this).getCurrentUser().getFacebookID()));
+        adapter = new MyFridgeMealsAdapter(this, DatabaseHelper.getInstance(this)
+                .getUserFridge(DatabaseHelper.getInstance(this).getCurrentUser().getFacebookID()));
         listOfIngredients.setAdapter(adapter);
 
-        int sizeOfFridgeProducts = DatabaseHelper.getInstance(YourFridgeActivity.this).getUserFridge(DatabaseHelper.getInstance(YourFridgeActivity.this).getCurrentUser().getFacebookID()).size();
+        int sizeOfFridgeProducts = DatabaseHelper.getInstance(YourFridgeActivity.this)
+                .getUserFridge(DatabaseHelper.getInstance(YourFridgeActivity.this).getCurrentUser()
+                        .getFacebookID()).size();
         if (sizeOfFridgeProducts == 0) {
             removeSelectedFromFridgeButton.setVisibility(View.GONE);
             removeAll.setVisibility(View.GONE);
@@ -41,7 +43,9 @@ public class YourFridgeActivity extends DrawerActivity {
         removeSelectedFromFridgeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int sizeOfFridgeProducts = DatabaseHelper.getInstance(YourFridgeActivity.this).getUserFridge(DatabaseHelper.getInstance(YourFridgeActivity.this).getCurrentUser().getFacebookID()).size();
+                int sizeOfFridgeProducts = DatabaseHelper.getInstance(YourFridgeActivity.this)
+                        .getUserFridge(DatabaseHelper.getInstance(YourFridgeActivity.this)
+                                .getCurrentUser().getFacebookID()).size();
                 int numberOfRemovedFromFridgeProducts = adapter.removeSelectedProducts();
                 if (numberOfRemovedFromFridgeProducts == sizeOfFridgeProducts) {
                     Toast.makeText(YourFridgeActivity.this, "Empty Fridge.", Toast.LENGTH_SHORT).show();
@@ -58,7 +62,8 @@ public class YourFridgeActivity extends DrawerActivity {
             @Override
             public void onClick(View v) {
                 adapter.removeAll();
-                Toast.makeText(YourFridgeActivity.this, "Everything was removed to your fridge, it is empty.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(YourFridgeActivity.this, "Everything was removed to your fridge, it is empty.",
+                        Toast.LENGTH_SHORT).show();
                 removeSelectedFromFridgeButton.setVisibility(View.GONE);
                 removeAll.setVisibility(View.GONE);
             }

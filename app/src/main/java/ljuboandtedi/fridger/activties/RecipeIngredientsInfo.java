@@ -54,26 +54,29 @@ public class RecipeIngredientsInfo extends AppCompatActivity {
         recipe = RecipeManager.recipes.get(getIntent().getStringExtra("recipe"));
         recipeName.setText(recipe.getName());
         recipeCreator.setText(recipe.getCreator());
-        Log.d("rating",String.valueOf(recipe.getRating()));
         rating.setRating((float) recipe.getRating()-1);
         new RequestTask().execute(recipe.getBigPicUrl());
 
-        ingredientListAdapter = new IngredientsRecyclerAdapter(RecipeIngredientsInfo.this,recipe.getIngredientLines());
+        ingredientListAdapter = new IngredientsRecyclerAdapter(RecipeIngredientsInfo.this,
+                recipe.getIngredientLines());
         recipeIngredients.setAdapter(ingredientListAdapter);
         buySelected.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int numberOfPurchases = ingredientListAdapter.removeSelectedProducts();
                 if (numberOfPurchases > 0) {
-                    Toast.makeText(RecipeIngredientsInfo.this,numberOfPurchases + "Ingr. added to your SList", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RecipeIngredientsInfo.this,numberOfPurchases
+                            + "Ingr. added to your SList", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(RecipeIngredientsInfo.this, "Nothing selected", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RecipeIngredientsInfo.this, "Nothing selected",
+                            Toast.LENGTH_SHORT).show();
                 }
                 if(ingredientListAdapter.getItemCount() == 0){
                     recipeIngredients.setVisibility(View.INVISIBLE);
                     buyAll.setVisibility(View.GONE);
                     buySelected.setVisibility(View.GONE);
-                    Toast.makeText(RecipeIngredientsInfo.this, "Nothing more to buy.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RecipeIngredientsInfo.this, "Nothing more to buy.",
+                            Toast.LENGTH_SHORT).show();
                     finish();
                 }
             }
@@ -82,11 +85,13 @@ public class RecipeIngredientsInfo extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ingredientListAdapter.removeAll();
-                Toast.makeText(RecipeIngredientsInfo.this, "Everything was added", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RecipeIngredientsInfo.this, "Everything was added",
+                        Toast.LENGTH_SHORT).show();
                 buyAll.setVisibility(View.GONE);
                 buySelected.setVisibility(View.GONE);
                 recipeIngredients.setVisibility(View.INVISIBLE);
-                Toast.makeText(RecipeIngredientsInfo.this, "Nothing more to buy.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RecipeIngredientsInfo.this, "Nothing more to buy.",
+                        Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
@@ -109,12 +114,9 @@ public class RecipeIngredientsInfo extends AppCompatActivity {
                 connection.connect();
                 InputStream is = connection.getInputStream();
                 bitmap = BitmapFactory.decodeStream(is);
-
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
             return bitmap;
         }
 

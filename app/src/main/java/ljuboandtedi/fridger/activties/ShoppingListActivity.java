@@ -34,10 +34,13 @@ public class ShoppingListActivity extends DrawerActivity {
         addSpecIngredient = (Button) findViewById(R.id.shoppingList_AddSpecIngredientButton);
         specialIngredient = (EditText) findViewById(R.id.shoppingList_SpecificIngredient);
         listOfIngredients.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new IngredientsInShoppingListAdapter(this,DatabaseHelper.getInstance(this).getUserShoppingList(DatabaseHelper.getInstance(this).getCurrentUser().getFacebookID()));
+        adapter = new IngredientsInShoppingListAdapter(this,DatabaseHelper.getInstance(this)
+                .getUserShoppingList(DatabaseHelper.getInstance(this).getCurrentUser().getFacebookID()));
         listOfIngredients.setAdapter(adapter);
 
-        final int sizeOfShoppingList = DatabaseHelper.getInstance(ShoppingListActivity.this).getUserShoppingList(DatabaseHelper.getInstance(ShoppingListActivity.this).getCurrentUser().getFacebookID()).size();
+        final int sizeOfShoppingList = DatabaseHelper.getInstance(ShoppingListActivity.this)
+                .getUserShoppingList(DatabaseHelper.getInstance(ShoppingListActivity.this)
+                        .getCurrentUser().getFacebookID()).size();
         if(sizeOfShoppingList == 0){
             addToFridgeButton.setVisibility(View.GONE);
             removeAllButton.setVisibility(View.GONE);
@@ -47,14 +50,17 @@ public class ShoppingListActivity extends DrawerActivity {
             public void onClick(View v) {
                 int numberOfAddedToFridgeProducts = adapter.removeSelectedProducts();
                 if(numberOfAddedToFridgeProducts == sizeOfShoppingList){
-                    Toast.makeText(ShoppingListActivity.this, "Everything was added", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ShoppingListActivity.this, "Everything was added",
+                            Toast.LENGTH_SHORT).show();
                     finish();
                 }
                 else if(numberOfAddedToFridgeProducts > 0){
-                    Toast.makeText(ShoppingListActivity.this, "Added some ingr. to your fridge.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ShoppingListActivity.this, "Added some ingr. to your fridge.",
+                            Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    Toast.makeText(ShoppingListActivity.this, "Nothing selected", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ShoppingListActivity.this, "Nothing selected",
+                            Toast.LENGTH_SHORT).show();
                 }
                 
             }
@@ -63,7 +69,8 @@ public class ShoppingListActivity extends DrawerActivity {
             @Override
             public void onClick(View v) {
                 adapter.removeAll();
-                Toast.makeText(ShoppingListActivity.this, "Everything was added to your fridge", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ShoppingListActivity.this, "Everything was added to your fridge",
+                        Toast.LENGTH_SHORT).show();
                 finish();
             }
         });

@@ -1,20 +1,15 @@
 package ljuboandtedi.fridger.activties;
 
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
@@ -33,17 +28,11 @@ import java.util.Scanner;
 
 
 import it.michelelacorte.elasticprogressbar.ElasticDownloadView;
-import it.michelelacorte.elasticprogressbar.OptionView;
 import ljuboandtedi.fridger.R;
 import ljuboandtedi.fridger.adapters.MealAdapter;
-import ljuboandtedi.fridger.adapters.MealRecyclerAdapter;
 import ljuboandtedi.fridger.model.IngredientValues;
 import ljuboandtedi.fridger.model.Recipe;
 import ljuboandtedi.fridger.model.RecipeManager;
-import ljuboandtedi.fridger.model.User;
-
-import static com.facebook.FacebookSdk.getApplicationContext;
-import static ljuboandtedi.fridger.model.RecipeManager.recipes;
 
 public class MainActivity extends DrawerActivity {
 
@@ -77,7 +66,10 @@ public class MainActivity extends DrawerActivity {
         flingContainer2 = (SwipeFlingAdapterView) findViewById(R.id.frame2);
         recipesByName2 = new ArrayList<>();
         mElasticDownloadView.setProgress(50);
-        new RequestTaskForRelatedMeals(recipesByName2,bitmaps2,flingContainer2).execute("http://api.yummly.com/v1/api/recipes?_"+getResources().getString(R.string.api)+"&q="+searchQuery()+user.getPreferences()+"&maxResult=20&start=10");
+        new RequestTaskForRelatedMeals(recipesByName2,bitmaps2,flingContainer2)
+                .execute("http://api.yummly.com/v1/api/recipes?_"+getResources()
+                        .getString(R.string.api)+"&q="+searchQuery()+user.getPreferences()
+                        +"&maxResult=20&start=10");
 
     }
 
@@ -91,12 +83,14 @@ public class MainActivity extends DrawerActivity {
         private ArrayList<Bitmap> bitmaps;
         private SwipeFlingAdapterView flingContainer;
         private ArrayList<String> recipeIds;
+
         RequestTaskForRelatedMeals(ArrayList<String> recipes, ArrayList<Bitmap> bitmaps ,SwipeFlingAdapterView flingContainer){
             this.recipes = recipes;
             this.bitmaps = bitmaps;
             this.flingContainer = flingContainer;
             this.recipeIds = new ArrayList<>();
         }
+
         @Override
         protected String doInBackground(String... params) {
             String address = params[0];
@@ -144,7 +138,9 @@ public class MainActivity extends DrawerActivity {
                     }
                     recipeIds.add(id);
 
-                    new RequestTaskForRecipe(recipes,bitmaps,flingContainer,recipeIds).execute("http://api.yummly.com/v1/api/recipe/" +id+ "?_"+getResources().getString(R.string.api));
+                    new RequestTaskForRecipe(recipes,bitmaps,flingContainer,recipeIds)
+                            .execute("http://api.yummly.com/v1/api/recipe/" +id+ "?_"
+                                    +getResources().getString(R.string.api));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -157,12 +153,12 @@ public class MainActivity extends DrawerActivity {
         private ArrayList<Bitmap> bitmaps;
         private ArrayList<String> recipeIds;
 
-        RequestTaskForRecipe(ArrayList<String> recipes, ArrayList<Bitmap> bitmaps ,SwipeFlingAdapterView flingContainer,ArrayList<String> recipeIds){
+        RequestTaskForRecipe(ArrayList<String> recipes, ArrayList<Bitmap> bitmaps,
+                             SwipeFlingAdapterView flingContainer,ArrayList<String> recipeIds){
             this.recipes = recipes;
             this.bitmaps = bitmaps;
             this.flingContainer = flingContainer;
             this.recipeIds = recipeIds;
-
         }
 
         @Override
@@ -228,7 +224,8 @@ public class MainActivity extends DrawerActivity {
                     if (nutrition.getString("attribute").equals("FAT_KCAL")) {
                         fatKCAL = nutrition.getDouble("value");
                     } else {
-                        IngredientValues ingrValue = new IngredientValues(nutrition.getString("description"), nutrition.getDouble("value"));
+                        IngredientValues ingrValue = new IngredientValues(nutrition
+                                .getString("description"), nutrition.getDouble("value"));
                         nutritionsValues.add(ingrValue);
                     }
                 }
@@ -254,16 +251,18 @@ public class MainActivity extends DrawerActivity {
                         coursesForTheRecipe.add(courses.getString(i));
                     }
                 }
-                Recipe recipe = new Recipe(ingredientLinesArr, flavorsMap, nutritionsValues, nameOfRecipe, servings, totalTime, rating, bigPicUrl, id, numberOfServings, coursesForTheRecipe, source, creator, fatKCAL,smallPicUrl);
+                Recipe recipe = new Recipe(ingredientLinesArr, flavorsMap, nutritionsValues,
+                        nameOfRecipe, servings, totalTime, rating, bigPicUrl, id, numberOfServings,
+                        coursesForTheRecipe, source, creator, fatKCAL,smallPicUrl);
                 RecipeManager.recipes.put(recipe.getName(),recipe);
                 recipes.add(recipe.getName());
 
-                new RequestTask(recipes,bitmaps,flingContainer,recipeIds).execute(recipe.getBigPicUrl());
+                new RequestTask(recipes,bitmaps,flingContainer,recipeIds).execute(recipe
+                        .getBigPicUrl());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             mElasticDownloadView.setProgress(100);
-
         }
 
        private class RequestTask extends AsyncTask<String, Void, Bitmap> {
@@ -273,14 +272,13 @@ public class MainActivity extends DrawerActivity {
            private ArrayList<String> recipeIds;
            private String removedRecipe = "";
            private ArrayList<Bitmap> bitmapsReplacers;
-            RequestTask( ArrayList<String> recipes, ArrayList<Bitmap> bitmaps ,SwipeFlingAdapterView flingContainer,ArrayList<String> recipeIds){
+            RequestTask( ArrayList<String> recipes, ArrayList<Bitmap> bitmaps,
+                         SwipeFlingAdapterView flingContainer,ArrayList<String> recipeIds){
                 this.recipes = recipes;
                 this.bitmaps = bitmaps;
                 this.flingContainer = flingContainer;
                 this.recipeIds = recipeIds;
                 bitmapsReplacers = new ArrayList<>();
-//                bitmapsReplacers.addAll(bitmaps);
-              //  Log.e("drugiteBitove",bitmapsReplacers.toString());
             }
             @Override
             protected void onPreExecute() {
@@ -314,14 +312,12 @@ public class MainActivity extends DrawerActivity {
                 if(bitmaps.size() == 20){
                     mElasticDownloadView.success();
                     mElasticDownloadView.setVisibility(View.GONE);
-                    Log.e("bitmapovete",bitmaps.toString());
                     final  MealAdapter mealAdapter = new MealAdapter(MainActivity.this, bitmaps);
                     flingContainer.setAdapter(mealAdapter);
                     mealAdapter.notifyDataSetChanged();
                     flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
                         @Override
                         public void removeFirstObjectInAdapter() {
-                            Log.d("LIST", "removed object!");
                             mealAdapter.remove(bitmaps.get(0));
                             recipes.remove(0);
                             removedRecipe = recipeIds.get(0);
@@ -333,29 +329,22 @@ public class MainActivity extends DrawerActivity {
                         }
 
                         @Override
-                        public void onLeftCardExit(Object dataObject) {
-
-                        }
+                        public void onLeftCardExit(Object dataObject) { }
 
                         @Override
                         public void onRightCardExit(Object dataObject) {
-                            Log.e("kvovkarvam","http://api.yummly.com/v1/api/recipe/" + removedRecipe+ "?_"+getApplicationContext().getResources().getString(R.string.api));
                             if(!user.getFavouriteMeals().contains(removedRecipe)){
-                                user.addToFavoriteMeeals(removedRecipe);
+                                user.addToFavoriteMeals(removedRecipe);
                             }
                         }
 
                         @Override
-                        public void onAdapterAboutToEmpty(int itemsInAdapter) {
-
-                        }
+                        public void onAdapterAboutToEmpty(int itemsInAdapter) {  }
 
                         @Override
-                        public void onScroll(float scrollProgressPercent) {
-                            View view = flingContainer.getSelectedView();
-//                            view.findViewById(R.id.item_swipe_right_indicator).setAlpha(scrollProgressPercent < 0 ? -scrollProgressPercent : 0);
-//                            view.findViewById(R.id.item_swipe_left_indicator).setAlpha(scrollProgressPercent > 0 ? scrollProgressPercent : 0);
-                        }
+                        public void onScroll(float v) { }
+
+
                     });
                     flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
                         @Override
@@ -370,8 +359,4 @@ public class MainActivity extends DrawerActivity {
             }
         }
     }
-
 }
-
-
-
