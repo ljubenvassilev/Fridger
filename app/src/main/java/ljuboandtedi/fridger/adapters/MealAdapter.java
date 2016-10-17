@@ -75,4 +75,9 @@ public class MealAdapter extends ArrayAdapter {
     public int getCount() {
         return bitmaps.size();
     }
+
+    @Override
+    public void addAll(Collection collection) {
+        bitmaps.addAll(collection);
+    }
 }

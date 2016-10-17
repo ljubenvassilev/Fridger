@@ -127,6 +127,7 @@ public class MainActivity extends DrawerActivity {
         protected void onPostExecute(String jsonX) {
 //            mElasticDownloadView.setProgress(20);
             try {
+
                 JSONObject json = new JSONObject(jsonX);
                 JSONArray matches = json.getJSONArray("matches");
 
@@ -163,11 +164,13 @@ public class MainActivity extends DrawerActivity {
         private SwipeFlingAdapterView flingContainer;
         private ArrayList<Bitmap> bitmaps;
         private ArrayList<String> recipeIds;
+
         RequestTaskForRecipe(ArrayList<String> recipes, ArrayList<Bitmap> bitmaps ,SwipeFlingAdapterView flingContainer,ArrayList<String> recipeIds){
             this.recipes = recipes;
             this.bitmaps = bitmaps;
             this.flingContainer = flingContainer;
             this.recipeIds = recipeIds;
+
         }
 
         @Override
@@ -278,11 +281,15 @@ public class MainActivity extends DrawerActivity {
            private ArrayList<Bitmap> bitmaps;
            private ArrayList<String> recipeIds;
            private String removedRecipe = "";
+           private ArrayList<Bitmap> bitmapsReplacers;
             RequestTask( ArrayList<String> recipes, ArrayList<Bitmap> bitmaps ,SwipeFlingAdapterView flingContainer,ArrayList<String> recipeIds){
                 this.recipes = recipes;
                 this.bitmaps = bitmaps;
                 this.flingContainer = flingContainer;
                 this.recipeIds = recipeIds;
+                bitmapsReplacers = new ArrayList<>();
+//                bitmapsReplacers.addAll(bitmaps);
+              //  Log.e("drugiteBitove",bitmapsReplacers.toString());
             }
             @Override
             protected void onPreExecute() {
@@ -312,6 +319,7 @@ public class MainActivity extends DrawerActivity {
             protected void onPostExecute(Bitmap image) {
 
                 bitmaps.add(image);
+                bitmapsReplacers.add(image);
                 if(bitmaps.size() == 20){
                     mElasticDownloadView.success();
                     mElasticDownloadView.setVisibility(View.GONE);
@@ -333,6 +341,9 @@ public class MainActivity extends DrawerActivity {
                             recipes.remove(0);
                             removedRecipe = recipeIds.get(0);
                             recipeIds.remove(0);
+                         if(bitmaps.size() < 1){
+                             startActivity(new Intent(MainActivity.this,MainActivity.class));
+                         }
                             mealAdapter.notifyDataSetChanged();
                         }
 
@@ -343,9 +354,7 @@ public class MainActivity extends DrawerActivity {
 
                         @Override
                         public void onRightCardExit(Object dataObject) {
-
                             Log.e("kvovkarvam","http://api.yummly.com/v1/api/recipe/" + removedRecipe+ "?_"+getApplicationContext().getResources().getString(R.string.api));
-
                             if(!user.getFavouriteMeals().contains(removedRecipe)){
                                 user.addToFavoriteMeeals(removedRecipe);
                             }
@@ -353,13 +362,14 @@ public class MainActivity extends DrawerActivity {
 
                         @Override
                         public void onAdapterAboutToEmpty(int itemsInAdapter) {
+
                         }
 
                         @Override
                         public void onScroll(float scrollProgressPercent) {
                             View view = flingContainer.getSelectedView();
-                            view.findViewById(R.id.item_swipe_right_indicator).setAlpha(scrollProgressPercent < 0 ? -scrollProgressPercent : 0);
-                            view.findViewById(R.id.item_swipe_left_indicator).setAlpha(scrollProgressPercent > 0 ? scrollProgressPercent : 0);
+//                            view.findViewById(R.id.item_swipe_right_indicator).setAlpha(scrollProgressPercent < 0 ? -scrollProgressPercent : 0);
+//                            view.findViewById(R.id.item_swipe_left_indicator).setAlpha(scrollProgressPercent > 0 ? scrollProgressPercent : 0);
                         }
                     });
                     flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
@@ -375,6 +385,7 @@ public class MainActivity extends DrawerActivity {
             }
         }
     }
+
 }
 
 

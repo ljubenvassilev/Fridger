@@ -38,10 +38,8 @@
                     android:textColorHint="@color/lightBlue"
                     android:gravity="center"
                     android:layout_height="match_parent"
-                    android:singleLine="true"
                     android:lines="1"
                     android:maxLines="1"
-                    android:inputType="text"
                     android:imeOptions="actionDone"/>
 
             </LinearLayout>

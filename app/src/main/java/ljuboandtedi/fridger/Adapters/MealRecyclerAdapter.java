@@ -32,6 +32,7 @@ import java.util.Scanner;
 
 import ljuboandtedi.fridger.R;
 import ljuboandtedi.fridger.activties.RecipeInfoActivity;
+import ljuboandtedi.fridger.activties.ShoppingListActivity;
 import ljuboandtedi.fridger.model.IngredientValues;
 import ljuboandtedi.fridger.model.Recipe;
 import ljuboandtedi.fridger.model.RecipeManager;
@@ -124,10 +125,11 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
         @Override
         protected void onPostExecute(String json) {
             try {
+
                 JSONObject object = new JSONObject(json);
                 JSONArray ingredientLines = object.getJSONArray("ingredientLines");
                 ArrayList<String> ingredientLinesArr = new ArrayList<>();
-
+                //object.getJSONObject("criteria");
                 for (int i = 0; i < ingredientLines.length(); i++) {
                     ingredientLinesArr.add(ingredientLines.getString(i));
                 }
@@ -196,6 +198,8 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
 
             } catch (JSONException e) {
                 e.printStackTrace();
+                Intent intent = new Intent(activity, ShoppingListActivity.class);
+                activity.startActivity(intent);
             }
         }
         private class RequestTask extends AsyncTask<String, Void, Bitmap> {

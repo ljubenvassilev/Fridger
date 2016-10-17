@@ -95,11 +95,9 @@ public class SearchingActivity extends DrawerActivity {
 
         @Override
         protected void onPostExecute(String jsonX) {
-
             try {
                 JSONObject json = new JSONObject(jsonX);
                 JSONArray matches = json.getJSONArray("matches");
-
                 for (int i = 0; i < matches.length(); i++) {
                     StringBuilder mealFlavors = new StringBuilder();
                     Log.i("matches", matches.length() + "");

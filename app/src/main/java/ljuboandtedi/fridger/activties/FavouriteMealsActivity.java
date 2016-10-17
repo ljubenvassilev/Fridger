@@ -23,5 +23,8 @@ public class FavouriteMealsActivity extends DrawerActivity {
 
         listOfMeals.setLayoutManager(new LinearLayoutManager(this));
         listOfMeals.setAdapter(new FavouriteMealsAdapter(FavouriteMealsActivity.this, DatabaseHelper.getInstance(FavouriteMealsActivity.this).getUserFavoriteMeals(DatabaseHelper.getInstance(FavouriteMealsActivity.this).getCurrentUser().getFacebookID())));
+        if(DatabaseHelper.getInstance(FavouriteMealsActivity.this).getUserFavoriteMeals(DatabaseHelper.getInstance(FavouriteMealsActivity.this).getCurrentUser().getFacebookID()).size() <1){
+            
+        }
     }
 }

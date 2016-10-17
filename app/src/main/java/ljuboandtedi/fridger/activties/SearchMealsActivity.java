@@ -53,11 +53,11 @@ public class SearchMealsActivity extends DrawerActivity {
         seekBarSour = (RangeSeekBar<Float>) findViewById(R.id.rangeSeekbarSour);
         seekBarBitter = (RangeSeekBar<Float>) findViewById(R.id.rangeSeekbarBitter);
 
-        seekBarSweet.setRangeValues(0.00f, 1.00f);
-        seekBarMeaty.setRangeValues(0.00f, 1.00f);
-        seekBarSour.setRangeValues(0.00f, 1.00f);
-        seekBarPiquant.setRangeValues(0.00f, 1.00f);
-        seekBarBitter.setRangeValues(0.00f, 1.00f);
+        seekBarSweet.setRangeValues(0.0f, 1.0f);
+        seekBarMeaty.setRangeValues(0.0f, 1.0f);
+        seekBarSour.setRangeValues(0.0f, 1.0f);
+        seekBarPiquant.setRangeValues(0.0f, 1.0f);
+        seekBarBitter.setRangeValues(0.0f, 1.0f);
 
         ArrayList<String> courses = new ArrayList<>();
         courses.add("Course");
@@ -118,10 +118,16 @@ public class SearchMealsActivity extends DrawerActivity {
                 } else {
                     course = "&allowedCourse[]=course^course-" + course.trim().replace(" ", "+");
                 }
-                seekBarBitter.getSelectedMaxValue();
-                seekBarBitter.getSelectedMinValue();
+                String bitterness = "&flavor.bitter.min="+Math.floor(seekBarBitter.getSelectedMinValue() * 100) / 1000 + "&flavor.bitter.max=" + Math.floor(seekBarBitter.getSelectedMaxValue() * 100) / 100 ;
+                Log.e("floatite",bitterness);
+                String sweetness = "&flavor.sweet.min="+Math.floor(seekBarSweet.getSelectedMinValue() * 100) / 10 + "&flavor.sweet.max=" + Math.floor(seekBarSweet.getSelectedMaxValue() * 100) / 10;
+                Log.e("floatite",sweetness);
+                String sourness = "&flavor.sour.min="+Math.floor(seekBarSour.getSelectedMinValue() * 100) / 10 + "&flavor.sour.max=" + Math.floor(seekBarSour.getSelectedMinValue() * 100) / 10;
+                String piquantness = "&flavor.piquant.min="+seekBarPiquant.getSelectedMinValue() + "&flavor.piquant.max=" + seekBarPiquant.getSelectedMinValue();
+                String meatyness = "&flavor.meaty.min="+seekBarMeaty.getSelectedMinValue() + "&flavor.meaty.max=" + seekBarMeaty.getSelectedMinValue();
+
                 final String whatToSearch = mealET.getText().toString().trim().replace(" ", "+");
-                new SearchMealsActivity.RequestTask().execute("http://api.yummly.com/v1/api/recipes?_"+getResources().getString(R.string.api)+"&q=" + whatToSearch + course + holiday + user.getPreferences() +"&maxResult=40&start=10");
+                new SearchMealsActivity.RequestTask().execute("http://api.yummly.com/v1/api/recipes?_"+getResources().getString(R.string.api)+"&q=" + whatToSearch + course + holiday + user.getPreferences()+"&maxResult=40&start=10");
             }
         });
     }
@@ -148,6 +154,12 @@ public class SearchMealsActivity extends DrawerActivity {
         }
         @Override
         protected void onPostExecute(String json) {
+            Log.e("tupiqJson",json + "blaa");
+            if(json.startsWith("No such recipe:")){
+                Intent intent = new Intent(SearchMealsActivity.this,ShoppingListActivity.class);
+                startActivity(intent);
+                finish();
+            }
             Intent intent = new Intent(SearchMealsActivity.this, ShowMealActivity.class);
             intent.putExtra("json", json);
             startActivity(intent);
