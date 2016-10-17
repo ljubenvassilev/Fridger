@@ -27,12 +27,14 @@
             >
             <TextView
                 android:gravity="center"
-                android:textSize="45sp"
+                android:textSize="40sp"
+                android:textStyle="bold"
                 android:layout_weight="0.4"
                 android:textColor="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Your Fridge"
+                android:textScaleX="1.5"
                 android:id="@+id/textView2"
                 />
             <android.support.v7.widget.RecyclerView

@@ -3,6 +3,7 @@ package ljuboandtedi.fridger.activties;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -127,7 +128,12 @@ public class SearchMealsActivity extends DrawerActivity {
                 String meatyness = "&flavor.meaty.min="+seekBarMeaty.getSelectedMinValue() + "&flavor.meaty.max=" + seekBarMeaty.getSelectedMinValue();
 
                 final String whatToSearch = mealET.getText().toString().trim().replace(" ", "+");
-                new SearchMealsActivity.RequestTask().execute("http://api.yummly.com/v1/api/recipes?_"+getResources().getString(R.string.api)+"&q=" + whatToSearch + course + holiday + user.getPreferences()+"&maxResult=40&start=10");
+                final String searchQuery = "http://api.yummly.com/v1/api/recipes?_"+getResources().getString(R.string.api)+"&q=" + whatToSearch + course + holiday + user.getPreferences()+"&maxResult=40&start=10";
+                new SearchMealsActivity.RequestTask().execute(searchQuery);
+
+                final SharedPreferences.Editor editor = SearchMealsActivity.this.
+                        getSharedPreferences("Fridger", Context.MODE_PRIVATE).edit();
+                editor.putString("lastSearch", searchQuery).apply();
             }
         });
     }

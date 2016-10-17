@@ -54,8 +54,8 @@ public class WelcomeActivity extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         if(!isNetworkAvailable()){
-            Toast.makeText(this, "Please connect to i-net,if you want ot use the app.", Toast.LENGTH_SHORT).show();
-
+            Toast.makeText(this, "Please connect to Internet, if you want ot use Fridger.",
+                    Toast.LENGTH_SHORT).show();
         }
         if(!isConnected(this)) buildDialog(this).show();
         FacebookSdk.sdkInitialize(getApplicationContext());
@@ -182,6 +182,7 @@ public class WelcomeActivity extends AppCompatActivity {
                     }
                 }
                 editor.putString("current", currentProfile.getId());
+                editor.putString("page","");
                 editor.putString("name", currentProfile.getName());
                 editor.apply();
                 startActivity(new Intent(WelcomeActivity.this, MainActivity.class));

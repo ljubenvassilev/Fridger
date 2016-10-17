@@ -1,5 +1,6 @@
 package ljuboandtedi.fridger.activties;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -71,10 +72,7 @@ public class RecipeInfoActivity extends DrawerActivity {
         iv = (ImageView) findViewById(R.id.recipe_info_Image);
         recipe = RecipeManager.recipes.get(getIntent().getStringExtra("recipe"));
         new RequestTask().execute(recipe.getBigPicUrl());
-
         relatedMeals = (RecyclerView) findViewById(R.id.recycleListForRelatedMeals);
-        new RequestTaskForRelatedMeals().execute("http://api.yummly.com/v1/api/recipes?_"+getResources().getString(R.string.api)+"&q=&maxResult=15&start=10");
-
         course1TV = (Button) findViewById(R.id.recipe_info_course1);
         course2TV = (Button) findViewById(R.id.recipe_info_course2);
         course3TV = (Button) findViewById(R.id.recipe_info_course3);
@@ -101,6 +99,13 @@ public class RecipeInfoActivity extends DrawerActivity {
         final String courseOfTV1 = "&allowedCourse[]=course^course-" + course1TV.getText().toString().trim().replace(" ","+");
         final String courseOfTV2 = "&allowedCourse[]=course^course-" + course2TV.getText().toString().trim().replace(" ","+");
         final String courseOfTV3 = "&allowedCourse[]=course^course-" + course3TV.getText().toString().trim().replace(" ","+");
+
+        String query = getSharedPreferences("Fridger", Context.MODE_PRIVATE).getString("lastSearch","");
+        if(query.isEmpty()){
+            new RequestTaskForRelatedMeals().execute("http://api.yummly.com/v1/api/recipes?_"+getResources().getString(R.string.api)+"&q=&maxResult=15&start=10");
+        } else {
+            new RequestTaskForRelatedMeals().execute(query);
+        }
 
         //set layout slide listener
         slidingLayout = (SlidingUpPanelLayout)findViewById(R.id.sliding_layout);
@@ -138,9 +143,8 @@ public class RecipeInfoActivity extends DrawerActivity {
         viewDirections.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WebView webview = new WebView(RecipeInfoActivity.this);
-                webview.loadUrl(recipe.getSource());
-                setContentView(webview);
+                startActivity(new Intent(RecipeInfoActivity.this,DirectionsActivity.class).
+                        putExtra("directions",recipe.getSource()));
             }
         });
         viewNutritions.setOnClickListener(new View.OnClickListener() {

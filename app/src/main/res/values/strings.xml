@@ -4,10 +4,12 @@
     <string name="fb_login_protocol_scheme">fb299864610395117</string>
     <string name="drawer_item_home">Home</string>
     <string name="drawer_item_profile">Profile</string>
-    <string name="drawer_item_search">Search</string>
+    <string name="drawer_item_search">Detailed Search</string>
+    <string name="drawer_item_live_search">Quick Search</string>
     <string name="drawer_item_fridge">My Fridge</string>
     <string name="drawer_item_favorite">My Meals</string>
     <string name="drawer_item_list">Shopping List</string>
     <string name="drawer_item_logout">Logout</string>
     <string name="api">app_id=f389c11f&amp;_app_key=22d636557ba55c9c9402f80a1af84b78</string>
+    <string name="title_activity_directions">DirectionsActivity</string>
 </resources>

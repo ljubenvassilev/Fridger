@@ -71,17 +71,20 @@ public class DrawerActivity extends AppCompatActivity {
             case "Search":
                 selectedItem=2;
                 break;
-            case "MyFridge":
+            case "Live Search":
                 selectedItem=3;
                 break;
-            case "Shopping List":
+            case "MyFridge":
                 selectedItem=4;
                 break;
-            case "Favorite":
+            case "Shopping List":
                 selectedItem=5;
                 break;
-            case "Profile":
+            case "Favorite":
                 selectedItem=6;
+                break;
+            case "Profile":
+                selectedItem=7;
         }
         AccountHeader headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
@@ -130,6 +133,19 @@ public class DrawerActivity extends AppCompatActivity {
                                         editor.putString("page", "Search");
                                         editor.apply();
                                         startActivity(new Intent(getApplicationContext(), SearchMealsActivity.class));
+                                        return false;
+                                    }
+                                })
+                                .withTextColorRes(R.color.md_white_1000),
+                        new PrimaryDrawerItem().withIdentifier(3).withName(R.string.
+                                drawer_item_live_search).withOnDrawerItemClickListener
+                                (new Drawer.OnDrawerItemClickListener() {
+                                    @Override
+                                    public boolean onItemClick(View view, int position,
+                                                               IDrawerItem drawerItem) {
+                                        editor.putString("page", "Live Search");
+                                        editor.apply();
+                                        startActivity(new Intent(getApplicationContext(), SearchingActivity.class));
                                         return false;
                                     }
                                 })

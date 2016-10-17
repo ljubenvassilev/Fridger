@@ -53,7 +53,7 @@ public class MainActivity extends DrawerActivity {
     private SwipeFlingAdapterView flingContainer2;
     private ElasticDownloadView mElasticDownloadView;
 
-    private String[] searches = {"soup","tomato","desert","cake","chocolate"};
+    private String[] searches = {"soup","tomato","desert","cake","chocolate","pizza","coke"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,13 +77,13 @@ public class MainActivity extends DrawerActivity {
         flingContainer2 = (SwipeFlingAdapterView) findViewById(R.id.frame2);
         recipesByName2 = new ArrayList<>();
         mElasticDownloadView.setProgress(50);
-        new RequestTaskForRelatedMeals(recipesByName2,bitmaps2,flingContainer2).execute("http://api.yummly.com/v1/api/recipes?_"+getResources().getString(R.string.api)+"&q="+searchQuery()+"&maxResult=20&start=10");
+        new RequestTaskForRelatedMeals(recipesByName2,bitmaps2,flingContainer2).execute("http://api.yummly.com/v1/api/recipes?_"+getResources().getString(R.string.api)+"&q="+searchQuery()+user.getPreferences()+"&maxResult=20&start=10");
 
     }
 
     private String searchQuery() {
         Random random = new Random();
-        return searches[random.nextInt(searches.length)];
+        return searches[random.nextInt(searches.length-1)];
     }
 
     private class RequestTaskForRelatedMeals extends AsyncTask<String, String, String> {

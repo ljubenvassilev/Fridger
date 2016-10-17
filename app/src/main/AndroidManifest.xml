@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ljuboandtedi.fridger">
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".tools.CustomApplication"
         android:allowBackup="true"
@@ -13,6 +15,7 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
+
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -48,19 +51,31 @@
         <activity android:name=".activties.NutritionsActivity" />
         <activity android:name=".activties.SearchingActivity" />
         <activity android:name=".activties.RecipeIngredientsInfo" />
+
         <receiver android:name=".widget.Widget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="ACTION.WIDGET.UPDATE.FROM.ACTIVITY"/>
-                <action android:name="ACTION_WIDGET_UPDATE_FROM_ALARM"/>
+                <action android:name="ACTION.WIDGET.UPDATE.FROM.ACTIVITY" />
+                <action android:name="ACTION_WIDGET_UPDATE_FROM_ALARM" />
             </intent-filter>
+
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/collection_widget_info" />
         </receiver>
-        <service android:name=".widget.WidgetService"
+
+        <service
+            android:name=".widget.WidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
+        <activity
+            android:name=".activties.DirectionsActivity"
+            android:label="@string/title_activity_directions"
+            android:parentActivityName=".activties.DrawerActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ljuboandtedi.fridger.activties.DrawerActivity" />
+        </activity>
     </application>
 
 </manifest>

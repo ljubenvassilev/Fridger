@@ -48,11 +48,14 @@
                                 android:maxLines="1"
                                 android:textSize="18sp"
                                 android:layout_weight="3"
+                                android:textColorHint="@color/darkBlue"
                                 android:layout_width="0dp"
+                                android:gravity="center"
                                 android:layout_height="match_parent" />
                             <Button
                                 android:id="@+id/shoppingList_AddSpecIngredientButton"
                                 android:text="ADD"
+                                android:layout_margin="5dp"
                                 android:background="@drawable/profile_confirm_button"
                                 android:layout_width="0dp"
                                 android:textSize="25sp"
