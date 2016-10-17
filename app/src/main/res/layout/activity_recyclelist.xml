@@ -8,16 +8,30 @@
         android:id="@+id/frame_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <LinearLayout
+        <RelativeLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/black">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:id="@+id/noResults"
+                android:text="No Results Found"
+                android:textScaleX="1.5"
+                android:gravity="center"
+                android:textSize="40sp"
+                android:textStyle="bold"
+                android:layout_weight="0.4"
+                android:textColor="@color/white"/>
+
             <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/recycleList">
             </android.support.v7.widget.RecyclerView>
-        </LinearLayout>
+        </RelativeLayout>
     </FrameLayout>
 </RelativeLayout>

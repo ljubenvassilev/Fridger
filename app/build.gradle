@@ -35,10 +35,8 @@ dependencies {
     compile('com.mikepenz:materialdrawer:5.6.0@aar') {
         transitive = true
     }
-//    compile 'com.github.tibolte:elasticdownload:1.0.+'
     compile  'it.michelelacorte.elasticprogressbar:library:1.0.5'
     compile 'com.yahoo.mobile.client.android.util.rangeseekbar:rangeseekbar-library:0.1.0'
-    compile 'com.uniquestudio:checkbox:1.0.1'
     compile 'com.github.bumptech.glide:glide:3.5.2'
     compile 'jp.wasabeef:recyclerview-animators:2.2.4'
     repositories {

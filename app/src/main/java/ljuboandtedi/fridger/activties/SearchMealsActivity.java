@@ -167,7 +167,6 @@ public class SearchMealsActivity extends DrawerActivity {
         protected void onPostExecute(String json) {
             Intent intent = new Intent(SearchMealsActivity.this, ShowMealActivity.class);
             intent.putExtra("json", json);
-            intent.putExtra("search",searchedInfo);
             startActivity(intent);
         }
     }
