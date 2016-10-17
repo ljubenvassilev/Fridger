@@ -69,7 +69,13 @@ public class RecipeIngredientsInfo extends AppCompatActivity {
                 } else {
                     Toast.makeText(RecipeIngredientsInfo.this, "Nothing selected", Toast.LENGTH_SHORT).show();
                 }
-                //Log.e("addedToFridge", DatabaseHelper.getInstance(RecipeIngredientsInfo.this).getUserShoppingList(DatabaseHelper.getInstance(RecipeIngredientsInfo.this).getCurrentUser().getFacebookID()).toString());
+                if(ingredientListAdapter.getItemCount() == 0){
+                    recipeIngredients.setVisibility(View.INVISIBLE);
+                    buyAll.setVisibility(View.GONE);
+                    buySelected.setVisibility(View.GONE);
+                    Toast.makeText(RecipeIngredientsInfo.this, "Nothing more to buy.", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
             }
         });
         buyAll.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +85,9 @@ public class RecipeIngredientsInfo extends AppCompatActivity {
                 Toast.makeText(RecipeIngredientsInfo.this, "Everything was added", Toast.LENGTH_SHORT).show();
                 buyAll.setVisibility(View.GONE);
                 buySelected.setVisibility(View.GONE);
+                recipeIngredients.setVisibility(View.INVISIBLE);
+                Toast.makeText(RecipeIngredientsInfo.this, "Nothing more to buy.", Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
     }

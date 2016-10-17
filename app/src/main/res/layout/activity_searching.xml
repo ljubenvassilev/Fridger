@@ -13,6 +13,8 @@
     <EditText
         android:hint="Type in search info"
         android:id="@+id/searching_ET"
+        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        android:lines="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <android.support.v7.widget.RecyclerView

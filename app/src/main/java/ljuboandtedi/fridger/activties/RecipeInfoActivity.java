@@ -64,6 +64,7 @@ public class RecipeInfoActivity extends DrawerActivity {
     private RecyclerView relatedMeals;
     private SlidingUpPanelLayout slidingLayout;
     private Recipe recipe;
+    private String searchInfo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +74,9 @@ public class RecipeInfoActivity extends DrawerActivity {
         recipe = RecipeManager.recipes.get(getIntent().getStringExtra("recipe"));
         new RequestTask().execute(recipe.getBigPicUrl());
         relatedMeals = (RecyclerView) findViewById(R.id.recycleListForRelatedMeals);
+        searchInfo = getIntent().getStringExtra("search");
+        new RequestTaskForRelatedMeals().execute("http://api.yummly.com/v1/api/recipes?_"+getResources().getString(R.string.api)+"&q="+searchInfo+"&maxResult=15&start=10");
+        Log.e("kvoTursq","http://api.yummly.com/v1/api/recipes?_"+getResources().getString(R.string.api)+"&q="+searchInfo+"&maxResult=15&start=10");
         course1TV = (Button) findViewById(R.id.recipe_info_course1);
         course2TV = (Button) findViewById(R.id.recipe_info_course2);
         course3TV = (Button) findViewById(R.id.recipe_info_course3);
@@ -109,7 +113,7 @@ public class RecipeInfoActivity extends DrawerActivity {
 
         //set layout slide listener
         slidingLayout = (SlidingUpPanelLayout)findViewById(R.id.sliding_layout);
-        slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+        slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
         ingridientsInNewActivity= (Button) findViewById(R.id.recipe_info_showIngredientsActivity);
         ingridientsInNewActivity.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,12 +132,16 @@ public class RecipeInfoActivity extends DrawerActivity {
         viewNutritions = (Button) findViewById(R.id.recipe_info_viewNutritions);
         showHideIngredients = (ImageButton) findViewById(R.id.recipe_info_ShowIngredients);
         showHideIngredients.setOnClickListener(onShowListener());
-        showHideIngredients.setVisibility(View.GONE);
+        showHideIngredients.setVisibility(View.VISIBLE);
 
         hideIngredients = (ImageButton) findViewById(R.id.recipe_info_HideButton);
         hideIngredients.setOnClickListener(onHideListener());
+        if(recipe.getFatKCAL() == 0.0){
+            caloriesTV.setText("Calories: " + "n/a");
+        }
+        else
+            caloriesTV.setText("Calories: " + recipe.getFatKCAL());
 
-        caloriesTV.setText("Calories: " + recipe.getFatKCAL());
         if (recipe.getTimeForPrepare() == null || recipe.getTimeForPrepare().equals("null")) {
             totalTime.setText("Fast & Easy");
         } else {
@@ -147,6 +155,9 @@ public class RecipeInfoActivity extends DrawerActivity {
                         putExtra("directions",recipe.getSource()));
             }
         });
+        if(recipe.getNutritions().size() == 0){
+            viewNutritions.setVisibility(View.GONE);
+        }
         viewNutritions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -188,12 +199,16 @@ public class RecipeInfoActivity extends DrawerActivity {
                     favouriteImageButton.setImageResource(R.drawable.star_dark);
                     DatabaseHelper.getInstance(RecipeInfoActivity.this).removeFromFavoriteMeals(recipe.getId());
                     isItFavourite = false;
+                    Toast.makeText(RecipeInfoActivity.this, "Removed from MyMeals", Toast.LENGTH_SHORT).show();
                 }
                  if (DatabaseHelper.getInstance(RecipeInfoActivity.this).getUserFavoriteMeals(DatabaseHelper.getInstance(RecipeInfoActivity.this).getCurrentUser().getFacebookID()).contains(recipe.getId())) {
                     DatabaseHelper.getInstance(RecipeInfoActivity.this).removeFromFavoriteMeals(recipe.getId());
                      favouriteImageButton.setImageResource(R.drawable.star_dark);
-                }
+                     Toast.makeText(RecipeInfoActivity.this, "Removed from MyMeals", Toast.LENGTH_SHORT).show();
+
+                 }
                 else{
+                     Toast.makeText(RecipeInfoActivity.this, "Added to MyMeals", Toast.LENGTH_SHORT).show();
                      favouriteImageButton.setImageResource(R.drawable.star_light);
                      DatabaseHelper.getInstance(RecipeInfoActivity.this).addToFavoriteMeals(recipe.getId());
                  }

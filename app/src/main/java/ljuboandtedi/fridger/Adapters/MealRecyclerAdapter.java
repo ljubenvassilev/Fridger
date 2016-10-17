@@ -49,11 +49,18 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
 
     private List<String> recipes;
     private Activity activity;
-
+    private String searchInfo;
     public MealRecyclerAdapter(Activity activity, List recipes) {
         this.recipes = recipes;
         this.activity = activity;
+        searchInfo = "";
     }
+    public MealRecyclerAdapter(Activity activity, String searchInfo,List recipes) {
+        this.recipes = recipes;
+        this.activity = activity;
+        this.searchInfo = searchInfo;
+    }
+
     public void add(List<String> recipes){
        List<String> newRecipes = new ArrayList<>();
         newRecipes.addAll(recipes);
@@ -72,6 +79,8 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
     public void onBindViewHolder(MealRecyclerAdapter.MyMealViewHolder holder, int position) {
         final String recipe = recipes.get(position);
         holder.mealPic.setImageDrawable(null);
+        holder.recipeNameTV.setText("");
+        holder.recipeCreator.setText("");
         new RequestTaskForRecipe(holder).execute("http://api.yummly.com/v1/api/recipe/" +recipe+ "?_"+getApplicationContext().getResources().getString(R.string.api));
     }
 
@@ -198,8 +207,7 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
 
             } catch (JSONException e) {
                 e.printStackTrace();
-                Intent intent = new Intent(activity, ShoppingListActivity.class);
-                activity.startActivity(intent);
+
             }
         }
         private class RequestTask extends AsyncTask<String, Void, Bitmap> {
@@ -246,6 +254,7 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
                     public void onClick(View v) {
                         Intent intent = new Intent(activity,RecipeInfoActivity.class);
                         intent.putExtra("recipe",recipe.getName());
+                        intent.putExtra("search",searchInfo);
                         activity.startActivity(intent);
                     }
                 });

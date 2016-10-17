@@ -32,7 +32,10 @@ public class ShowMealActivity extends DrawerActivity {
 
         List<String> recipes = new ArrayList<>();
         String info = getIntent().getStringExtra("json");
-
+        String searchInfo = "";
+        if(getIntent().getStringExtra("json") != null){
+            searchInfo = getIntent().getStringExtra("json");
+        }
         try {
             JSONObject json = new JSONObject(info);
             JSONArray matches = json.getJSONArray("matches");

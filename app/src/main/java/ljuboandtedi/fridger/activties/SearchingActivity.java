@@ -21,6 +21,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import ljuboandtedi.fridger.R;
 import ljuboandtedi.fridger.adapters.MealRecyclerAdapter;
@@ -50,6 +52,7 @@ public class SearchingActivity extends DrawerActivity {
         searchingAdapter = new SearchingAdapter(recipes,recipesSmallPics,this);
         recListIngredients.setAdapter(searchingAdapter);
         searchField = (EditText) findViewById(R.id.searching_ET);
+
         searchField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -143,7 +146,6 @@ public class SearchingActivity extends DrawerActivity {
                 while (sc.hasNextLine()) {
                     json += (sc.nextLine());
                 }
-
 
             } catch (IOException e) {
                 e.printStackTrace();

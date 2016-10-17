@@ -40,7 +40,7 @@
                     android:gravity="center"
                     android:textColor="@color/white"
                     android:layout_height="match_parent"
-                    android:singleLine="true"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                     android:lines="1"
                     android:maxLines="1"/>
 
@@ -89,9 +89,8 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="3"
-
-                        rsb:absoluteMaxValue="1"
-                        rsb:absoluteMinValue="0" />
+                        rsb:absoluteMaxValue="10"
+                        rsb:absoluteMinValue="1" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"

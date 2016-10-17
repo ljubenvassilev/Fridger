@@ -33,11 +33,11 @@ public class SearchMealsActivity extends DrawerActivity {
     private Spinner holidaySpinner;
     private Button searchButton;
     private EditText mealET;
-    private RangeSeekBar<Float> seekBarSweet;
-    private RangeSeekBar<Float> seekBarMeaty;
-    private RangeSeekBar<Float> seekBarSour;
-    private RangeSeekBar<Float> seekBarBitter;
-    private RangeSeekBar<Float> seekBarPiquant;
+    private RangeSeekBar<Integer> seekBarSweet;
+    private RangeSeekBar<Integer> seekBarMeaty;
+    private RangeSeekBar<Integer> seekBarSour;
+    private RangeSeekBar<Integer> seekBarBitter;
+    private RangeSeekBar<Integer> seekBarPiquant;
     private final HashMap<String,String> searchOptions = new HashMap<>();
 
     @Override
@@ -48,17 +48,17 @@ public class SearchMealsActivity extends DrawerActivity {
         holidaySpinner = (Spinner) findViewById(R.id.holidaySpinner);
         searchButton = (Button) findViewById(R.id.searchMeal_SearchButton);
         mealET = (EditText) findViewById(R.id.seachMeals_mealToSearch);
-        seekBarSweet = (RangeSeekBar<Float>) findViewById(R.id.rangeSeekbarSweet);
-        seekBarMeaty = (RangeSeekBar<Float>) findViewById(R.id.rangeSeekbarMeaty);
-        seekBarPiquant = (RangeSeekBar<Float>) findViewById(R.id.rangeSeekbarPiquant);
-        seekBarSour = (RangeSeekBar<Float>) findViewById(R.id.rangeSeekbarSour);
-        seekBarBitter = (RangeSeekBar<Float>) findViewById(R.id.rangeSeekbarBitter);
+        seekBarSweet = (RangeSeekBar<Integer>) findViewById(R.id.rangeSeekbarSweet);
+        seekBarMeaty = (RangeSeekBar<Integer>) findViewById(R.id.rangeSeekbarMeaty);
+        seekBarPiquant = (RangeSeekBar<Integer>) findViewById(R.id.rangeSeekbarPiquant);
+        seekBarSour = (RangeSeekBar<Integer>) findViewById(R.id.rangeSeekbarSour);
+        seekBarBitter = (RangeSeekBar<Integer>) findViewById(R.id.rangeSeekbarBitter);
 
-        seekBarSweet.setRangeValues(0.0f, 1.0f);
-        seekBarMeaty.setRangeValues(0.0f, 1.0f);
-        seekBarSour.setRangeValues(0.0f, 1.0f);
-        seekBarPiquant.setRangeValues(0.0f, 1.0f);
-        seekBarBitter.setRangeValues(0.0f, 1.0f);
+        seekBarSweet.setRangeValues(0, 10);
+        seekBarMeaty.setRangeValues(0, 10);
+        seekBarSour.setRangeValues(0, 10);
+        seekBarPiquant.setRangeValues(0, 10);
+        seekBarBitter.setRangeValues(0, 10);
 
         ArrayList<String> courses = new ArrayList<>();
         courses.add("Course");
@@ -119,12 +119,17 @@ public class SearchMealsActivity extends DrawerActivity {
                 } else {
                     course = "&allowedCourse[]=course^course-" + course.trim().replace(" ", "+");
                 }
-                String bitterness = "&flavor.bitter.min="+Math.floor(seekBarBitter.getSelectedMinValue() * 100) / 1000 + "&flavor.bitter.max=" + Math.floor(seekBarBitter.getSelectedMaxValue() * 100) / 100 ;
+                String bitterness = "&flavor.bitter.min=0."+seekBarBitter.getSelectedMinValue().toString()+ "&flavor.bitter.max=0."+seekBarBitter.getSelectedMinValue().toString();
                 Log.e("floatite",bitterness);
+
                 String sweetness = "&flavor.sweet.min="+Math.floor(seekBarSweet.getSelectedMinValue() * 100) / 10 + "&flavor.sweet.max=" + Math.floor(seekBarSweet.getSelectedMaxValue() * 100) / 10;
                 Log.e("floatite",sweetness);
+
                 String sourness = "&flavor.sour.min="+Math.floor(seekBarSour.getSelectedMinValue() * 100) / 10 + "&flavor.sour.max=" + Math.floor(seekBarSour.getSelectedMinValue() * 100) / 10;
+                Log.e("floatite",sweetness);
+
                 String piquantness = "&flavor.piquant.min="+seekBarPiquant.getSelectedMinValue() + "&flavor.piquant.max=" + seekBarPiquant.getSelectedMinValue();
+                Log.e("floatite",piquantness);
                 String meatyness = "&flavor.meaty.min="+seekBarMeaty.getSelectedMinValue() + "&flavor.meaty.max=" + seekBarMeaty.getSelectedMinValue();
 
                 final String whatToSearch = mealET.getText().toString().trim().replace(" ", "+");
@@ -160,14 +165,9 @@ public class SearchMealsActivity extends DrawerActivity {
         }
         @Override
         protected void onPostExecute(String json) {
-            Log.e("tupiqJson",json + "blaa");
-            if(json.startsWith("No such recipe:")){
-                Intent intent = new Intent(SearchMealsActivity.this,ShoppingListActivity.class);
-                startActivity(intent);
-                finish();
-            }
             Intent intent = new Intent(SearchMealsActivity.this, ShowMealActivity.class);
             intent.putExtra("json", json);
+            intent.putExtra("search",searchedInfo);
             startActivity(intent);
         }
     }
