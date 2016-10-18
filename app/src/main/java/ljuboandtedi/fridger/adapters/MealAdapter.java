@@ -50,7 +50,7 @@ public class MealAdapter extends ArrayAdapter {
     class MealViewHolder{
         ImageView image;
         MealViewHolder(View row){
-            image = (ImageView)  row.findViewById(R.id.helloText);
+            image = (ImageView)  row.findViewById(R.id.picture);
         }
     }
     @Override

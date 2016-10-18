@@ -163,8 +163,18 @@ public class FavouriteMealsAdapter extends  RecyclerView.Adapter<FavouriteMealsA
                     if(nutrition.getString("attribute").equals("Energy")){
                         fatKCAL = nutrition.getDouble("value");
                     }
-                    else if(!nutrition.getString("description").startsWith("1")){
-                        IngredientValues ingrValue = new IngredientValues(nutrition.getString("description"),nutrition.getDouble("value"));
+                    else if(!((nutrition.getString("description").startsWith("0"))
+                            ||(nutrition.getString("description").startsWith("1"))
+                            ||(nutrition.getString("description").startsWith("2"))
+                            ||(nutrition.getString("description").startsWith("3"))
+                            ||(nutrition.getString("description").startsWith("4"))
+                            ||(nutrition.getString("description").startsWith("5"))
+                            ||(nutrition.getString("description").startsWith("6"))
+                            ||(nutrition.getString("description").startsWith("7"))
+                            ||(nutrition.getString("description").startsWith("8"))
+                            ||(nutrition.getString("description").startsWith("9")))){
+                        IngredientValues ingrValue = new IngredientValues(nutrition
+                                .getString("description"),nutrition.getDouble("value"));
                         nutritionsValues.add(ingrValue);
                     }
                 }

@@ -55,11 +55,6 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
         this.activity = activity;
         searchInfo = "";
     }
-    public MealRecyclerAdapter(Activity activity, String searchInfo,List recipes) {
-        this.recipes = recipes;
-        this.activity = activity;
-        this.searchInfo = searchInfo;
-    }
 
     public void add(List<String> recipes){
        List<String> newRecipes = new ArrayList<>();
@@ -81,8 +76,8 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
         holder.mealPic.setImageDrawable(null);
         holder.recipeNameTV.setText("");
         holder.recipeCreator.setText("");
-        new RequestTaskForRecipe(holder).execute("http://api.yummly.com/v1/api/recipe/" +recipe+ "?_"+getApplicationContext().getResources().getString(R.string.api));
-        Log.e("taska","http://api.yummly.com/v1/api/recipe/" +recipe+ "?_"+getApplicationContext().getResources().getString(R.string.api));
+        new RequestTaskForRecipe(holder).execute("http://api.yummly.com/v1/api/recipe/" +recipe
+                + "?_"+getApplicationContext().getResources().getString(R.string.api));
     }
 
     @Override
@@ -103,7 +98,7 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
             overlay = (ImageView) row.findViewById(R.id.overlay);
         }
     }
-    class RequestTaskForRecipe extends AsyncTask<String, Void, String> {
+    private class RequestTaskForRecipe extends AsyncTask<String, Void, String> {
         MyMealViewHolder holder;
         RequestTaskForRecipe(MealRecyclerAdapter.MyMealViewHolder holder){
             this.holder = holder;
@@ -174,10 +169,18 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
                     if(nutrition.getString("attribute").equals("FAT_KCAL")){
                         fatKCAL = nutrition.getDouble("value");
                     }
-                    else if(!Character.isDigit(nutrition.getString("description").charAt(0))){
-                        Log.e("NQMAKAK",nutrition.getString("description"));
-                        IngredientValues ingrValue = new IngredientValues(nutrition.getString("description"),nutrition.getDouble("value"));
-                        Log.e("DESCR",ingrValue.getType()+ " " + ingrValue.getValue());
+                    else if(!((nutrition.getString("description").startsWith("0"))
+                            ||(nutrition.getString("description").startsWith("1"))
+                            ||(nutrition.getString("description").startsWith("2"))
+                            ||(nutrition.getString("description").startsWith("3"))
+                            ||(nutrition.getString("description").startsWith("4"))
+                            ||(nutrition.getString("description").startsWith("5"))
+                            ||(nutrition.getString("description").startsWith("6"))
+                            ||(nutrition.getString("description").startsWith("7"))
+                            ||(nutrition.getString("description").startsWith("8"))
+                            ||(nutrition.getString("description").startsWith("9")))){
+                        IngredientValues ingrValue = new IngredientValues(nutrition
+                                .getString("description"),nutrition.getDouble("value"));
                         nutritionsValues.add(ingrValue);
                     }
                 }
@@ -203,7 +206,9 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
                     }
                 }
                 Log.e("ccourses", coursesForTheRecipe.toString());
-                Recipe recipe = new Recipe(ingredientLinesArr, flavorsMap, nutritionsValues, nameOfRecipe, servings, totalTime, rating, bigPicUrl, id, numberOfServings, coursesForTheRecipe, source, creator, fatKCAL,smallPicUrl);
+                Recipe recipe = new Recipe(ingredientLinesArr, flavorsMap, nutritionsValues,
+                        nameOfRecipe, servings, totalTime, rating, bigPicUrl, id, numberOfServings,
+                        coursesForTheRecipe, source, creator, fatKCAL,smallPicUrl);
                 holder.recipeNameTV.setText(recipe.getName());
                 holder.recipeCreator.setText(recipe.getCreator());
                 new MealRecyclerAdapter.RequestTaskForRecipe.RequestTask(holder, recipe).execute(bigPicUrl);

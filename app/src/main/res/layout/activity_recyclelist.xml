@@ -12,7 +12,7 @@
         <RelativeLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:id="@+id/recycle_list_blabla"
+            android:id="@+id/recycle_list_fav_meals"
             android:layout_height="match_parent"
             android:background="@color/black">
 

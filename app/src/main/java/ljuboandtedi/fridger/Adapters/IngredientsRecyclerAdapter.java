@@ -57,12 +57,8 @@ public class IngredientsRecyclerAdapter extends  RecyclerView.Adapter<Ingredient
         final String ingredient = ingredients.get(position);
         boolean isitSelected = ingredientsChecker.get(ingredient);
 
-        if(isitSelected){
-            holder.cb.setChecked(true);
-        }
-        if(!isitSelected){
-            holder.cb.setChecked(false);
-        }
+        if(isitSelected){ holder.cb.setChecked(true); }
+        if(!isitSelected){ holder.cb.setChecked(false);}
         holder.cb.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

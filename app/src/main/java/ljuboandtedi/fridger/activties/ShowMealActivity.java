@@ -27,7 +27,7 @@ public class ShowMealActivity extends DrawerActivity {
         super.replaceContentLayout(R.layout.activity_recyclelist, super.CONTENT_LAYOUT_ID);
 
         listOfMeals = (RecyclerView) findViewById(R.id.recycleList);
-        rl = (RelativeLayout) findViewById(R.id.recycle_list_blabla);
+        rl = (RelativeLayout) findViewById(R.id.recycle_list_fav_meals);
         List<String> recipes = new ArrayList<>();
         String info = getIntent().getStringExtra("json");
 
@@ -37,7 +37,6 @@ public class ShowMealActivity extends DrawerActivity {
 
             for (int i = 0; i < matches.length(); i++) {
                 StringBuilder mealFlavors = new StringBuilder();
-                Log.i("matches", matches.length() + "");
                 String attributes = matches.getString(i);
                 JSONObject attributesInJson = new JSONObject(attributes);
 
@@ -65,11 +64,7 @@ public class ShowMealActivity extends DrawerActivity {
         adapter = new ljuboandtedi.fridger.adapters.MealRecyclerAdapter(this, recipes);
         listOfMeals.setLayoutManager(new LinearLayoutManager(this));
         listOfMeals.setAdapter(adapter);
-
         adapter.notifyDataSetChanged();
-        if(adapter.getItemCount() == 0){
-
-        }
     }
 }
 

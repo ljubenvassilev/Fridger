@@ -31,7 +31,7 @@
         android:layout_marginStart="74dp"
         android:layout_marginTop="30dp" />
     <ImageView
-        android:id="@+id/helloText"
+        android:id="@+id/picture"
         android:scaleType="fitXY"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

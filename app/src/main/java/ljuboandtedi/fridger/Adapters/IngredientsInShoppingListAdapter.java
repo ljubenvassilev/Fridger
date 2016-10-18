@@ -28,7 +28,8 @@ import static com.facebook.FacebookSdk.getApplicationContext;
  * Created by NoLight on 28.9.2016 г..
  */
 
-public class IngredientsInShoppingListAdapter extends  RecyclerView.Adapter<IngredientsInShoppingListAdapter.MyIngredientViewHolder>{
+public class IngredientsInShoppingListAdapter extends  RecyclerView.Adapter<IngredientsInShoppingListAdapter
+        .MyIngredientViewHolder>{
 
     private List<String> ingredients;
     private HashMap<String,Boolean> ingredientsChecker;
@@ -48,8 +49,7 @@ public class IngredientsInShoppingListAdapter extends  RecyclerView.Adapter<Ingr
 
         LayoutInflater inflater = activity.getLayoutInflater();
         View row = inflater.inflate(R.layout.ingredient_row, parent, false);
-        MyIngredientViewHolder vh = new MyIngredientViewHolder(row);
-        return vh;
+        return new MyIngredientViewHolder(row);
     }
 
     @Override
@@ -108,13 +108,10 @@ public class IngredientsInShoppingListAdapter extends  RecyclerView.Adapter<Ingr
             }
         }
         notifyDataSetChanged();
-//        updateWidgets();
         return counter;
     }
     public boolean isItAdded(String ingredient){
-        if(ingredients.contains(ingredient)){
-            return false;
-        }
+        if(ingredients.contains(ingredient)){ return false; }
         ingredients.add(ingredient);
         ingredientsChecker.put(ingredient,false);
         notifyDataSetChanged();
@@ -134,19 +131,6 @@ public class IngredientsInShoppingListAdapter extends  RecyclerView.Adapter<Ingr
         ingredients.clear();
         ingredientsChecker.clear();
         notifyDataSetChanged();
-//        updateWidgets();
     }
-
-    private void updateWidgets() {
-        Context context = getApplicationContext();
-        Intent intent = new Intent(context.getApplicationContext(), Widget.class);
-        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-        AppWidgetManager widgetManager = AppWidgetManager.getInstance(context);
-        int[] ids = widgetManager.getAppWidgetIds(new ComponentName(context, Widget.class));
-        widgetManager.notifyAppWidgetViewDataChanged(ids, android.R.id.list);
-        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
-        context.sendBroadcast(intent);
-    }
-
 }
 
