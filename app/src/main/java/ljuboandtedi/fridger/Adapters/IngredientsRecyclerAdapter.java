@@ -64,10 +64,12 @@ public class IngredientsRecyclerAdapter extends  RecyclerView.Adapter<Ingredient
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     ingredientsChecker.put(ingredient,true);
+
                 }
                 if(!isChecked){
-                        ingredientsChecker.put(ingredient,false);
-                }
+                    ingredientsChecker.put(ingredient,false);
+
+            }
             }
         });
         holder.ingredient.setText(ingredient);
@@ -106,6 +108,8 @@ public class IngredientsRecyclerAdapter extends  RecyclerView.Adapter<Ingredient
             iter.remove();
             ingredients.remove(entry.getKey());
         }
+        ingredients.clear();
+        ingredientsChecker.clear();
         notifyDataSetChanged();
     }
 

@@ -42,7 +42,7 @@ public class MainActivity extends DrawerActivity {
     private SwipeFlingAdapterView flingContainer2;
     private ElasticDownloadView mElasticDownloadView;
 
-    private String[] searches = {"soup","tomato","desert","cake","chocolate","pizza","coke"};
+    private String[] searches = {"soup","tomato","desert","chocolate","pizza","coke"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

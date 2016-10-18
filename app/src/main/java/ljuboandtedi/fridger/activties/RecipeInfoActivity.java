@@ -9,16 +9,10 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.DragEvent;
-import android.view.MotionEvent;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,13 +31,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import ljuboandtedi.fridger.R;
-import ljuboandtedi.fridger.adapters.IngredientListAdapter;
-import ljuboandtedi.fridger.adapters.IngredientsRecyclerAdapter;
 import ljuboandtedi.fridger.adapters.MealRecyclerAdapter;
 import ljuboandtedi.fridger.model.DatabaseHelper;
 import ljuboandtedi.fridger.model.Recipe;
 import ljuboandtedi.fridger.model.RecipeManager;
-import ljuboandtedi.fridger.model.User;
 
 public class RecipeInfoActivity extends DrawerActivity {
     private boolean isItFavourite;

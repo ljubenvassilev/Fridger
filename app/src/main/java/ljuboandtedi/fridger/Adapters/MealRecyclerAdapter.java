@@ -169,16 +169,19 @@ public class MealRecyclerAdapter  extends  RecyclerView.Adapter<MealRecyclerAdap
                     if(nutrition.getString("attribute").equals("FAT_KCAL")){
                         fatKCAL = nutrition.getDouble("value");
                     }
-                    else if(!((nutrition.getString("description").startsWith("0"))
-                            ||(nutrition.getString("description").startsWith("1"))
-                            ||(nutrition.getString("description").startsWith("2"))
-                            ||(nutrition.getString("description").startsWith("3"))
-                            ||(nutrition.getString("description").startsWith("4"))
-                            ||(nutrition.getString("description").startsWith("5"))
-                            ||(nutrition.getString("description").startsWith("6"))
-                            ||(nutrition.getString("description").startsWith("7"))
-                            ||(nutrition.getString("description").startsWith("8"))
-                            ||(nutrition.getString("description").startsWith("9")))){
+                    else if(Character.isDigit(nutrition.getString("description").charAt(0))
+                            ||!((nutrition.getString("description").startsWith("0"))
+                            ||!(nutrition.getString("description").startsWith("1"))
+                            ||!(nutrition.getString("description").startsWith("2"))
+                            ||!(nutrition.getString("description").startsWith("3"))
+                            ||!(nutrition.getString("description").startsWith("4"))
+                            ||!(nutrition.getString("description").startsWith("5"))
+                            ||!(nutrition.getString("description").startsWith("6"))
+                            ||!(nutrition.getString("description").startsWith("7"))
+                            ||!(nutrition.getString("description").startsWith("8"))
+                            ||!(nutrition.getString("description").startsWith("9"))
+                            ||!(nutrition.getString("description").startsWith(" "))
+                            ||!nutrition.getString("description").isEmpty())){
                         IngredientValues ingrValue = new IngredientValues(nutrition
                                 .getString("description"),nutrition.getDouble("value"));
                         nutritionsValues.add(ingrValue);

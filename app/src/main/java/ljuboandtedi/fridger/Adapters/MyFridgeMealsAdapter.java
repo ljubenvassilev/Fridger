@@ -41,8 +41,7 @@ public class MyFridgeMealsAdapter extends  RecyclerView.Adapter<MyFridgeMealsAda
     public MyIngredientViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = activity.getLayoutInflater();
         View row = inflater.inflate(R.layout.ingredient_row, parent, false);
-        MyIngredientViewHolder vh = new MyIngredientViewHolder(row);
-        return vh;
+        return new MyIngredientViewHolder(row);
     }
 
     @Override
@@ -66,9 +65,10 @@ public class MyFridgeMealsAdapter extends  RecyclerView.Adapter<MyFridgeMealsAda
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     ingredientsChecker.put(ingredient,true);
+
                 }
-                if(!isChecked){
-                    ingredientsChecker.put(ingredient,false);
+                if(!isChecked) {
+                    ingredientsChecker.put(ingredient, false);
                 }
             }
 
